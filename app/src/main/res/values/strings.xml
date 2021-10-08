@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SmartStore</string>
+    <string name="store_start_calculate">开始结算</string>
+    <string name="store_face_verify">刷脸认证</string>
+    <string name="store_goods_scan">物资扫码</string>
+    <string name="store_goods_out">物资出库</string>
+    <string name="store_select_verify_title">请选择验证方式</string>
+    <string name="store_verify_by_face">刷脸支付</string>
+    <string name="store_verify_by_code">输入领料单号</string>
+    <string name="store_operation_cancel">取消操作</string>
+</resources>

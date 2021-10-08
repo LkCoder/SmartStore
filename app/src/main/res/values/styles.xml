@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="main_action_textStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">14dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="store_verify_boxStyle">
+        <item name="android:layout_width">425dp</item>
+        <item name="android:layout_height">225dp</item>
+        <item name="android:background">@drawable/store_box_bg</item>
+    </style>
+</resources>

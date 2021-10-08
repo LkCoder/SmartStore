@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/store_home_bg"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/action_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="329dp" />
+
+    <TextView
+        android:id="@+id/start_calculate"
+        style="@style/main_action_textStyle"
+        android:text="@string/store_start_calculate"
+        app:drawableTopCompat="@drawable/ic_store_calculate"
+        app:layout_constraintBottom_toBottomOf="@id/action_guideline"
+        app:layout_constraintEnd_toStartOf="@id/verify_face"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/verify_face"
+        style="@style/main_action_textStyle"
+        android:text="@string/store_face_verify"
+        app:drawableTopCompat="@drawable/ic_store_verify"
+        app:layout_constraintBottom_toBottomOf="@id/action_guideline"
+        app:layout_constraintEnd_toStartOf="@id/goods_scan"
+        app:layout_constraintStart_toEndOf="@id/start_calculate" />
+
+    <TextView
+        android:id="@+id/goods_scan"
+        style="@style/main_action_textStyle"
+        android:text="@string/store_goods_scan"
+        app:drawableTopCompat="@drawable/ic_store_scan"
+        app:layout_constraintBottom_toBottomOf="@id/action_guideline"
+        app:layout_constraintEnd_toStartOf="@id/goods_outing"
+        app:layout_constraintStart_toEndOf="@id/verify_face" />
+
+    <TextView
+        android:id="@+id/goods_outing"
+        style="@style/main_action_textStyle"
+        android:text="@string/store_goods_out"
+        app:drawableTopCompat="@drawable/ic_store_out"
+        app:layout_constraintBottom_toBottomOf="@id/action_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/goods_scan" />
+
+    <Button
+        android:id="@+id/start_calculate_btn"
+        android:layout_width="430dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/store_calculate_bg"
+        android:text="@string/store_start_calculate"
+        android:textColor="@color/theme_blue_205"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
