@@ -4,6 +4,7 @@ import android.content.Intent
 import com.blankj.utilcode.util.ActivityUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import net.luculent.libcore.base.BaseActivity
+import net.luculent.libcore.base.WindowConfiguration
 
 class MainActivity : BaseActivity() {
 
@@ -15,6 +16,12 @@ class MainActivity : BaseActivity() {
         super.initListener()
         start_calculate_btn.setOnClickListener {
             ActivityUtils.startActivity(Intent(this, VerifyModeActivity::class.java))
+        }
+    }
+
+    override fun getWindowConfiguration(): WindowConfiguration {
+        return super.getWindowConfiguration().apply {
+            fitsSystemWindows = false
         }
     }
 }

@@ -11,4 +11,5 @@
     <color name="theme_blue">#ff4880ff</color>
     <color name="theme_blue_205">#ff205cf1</color>
     <color name="textColor_black">#ff353535</color>
+    <color name="windowBgColor_f4">#f4f4f4</color>
 </resources>

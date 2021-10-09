@@ -4,8 +4,10 @@ import android.content.res.Resources
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.BarUtils
+import com.blankj.utilcode.util.ColorUtils
 import me.jessyan.autosize.AutoSizeCompat
 import net.luculent.libcore.toast
+import net.luculent.libcore.widget.WindowViewContainer
 
 /**
  *
@@ -15,8 +17,10 @@ import net.luculent.libcore.toast
  */
 abstract class BaseActivity : AppCompatActivity(), IMWindow, ISubWindow {
 
+    private lateinit var containerView: WindowViewContainer
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        initWindow()
+        initWindow(getWindowConfiguration())
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         initView()
@@ -25,10 +29,31 @@ abstract class BaseActivity : AppCompatActivity(), IMWindow, ISubWindow {
         initData()
     }
 
-    override fun initWindow() {
-        if (enableImmersionBar()) {
-            BarUtils.transparentStatusBar(this)
+    override fun initWindow(configuration: WindowConfiguration) {
+        containerView = WindowViewContainer(this).apply {
+            initConfiguration(configuration)
         }
+        if (configuration.enableImmersionBar) {
+            val statusBarColor = ColorUtils.getColor(configuration.statusBarColor)
+            val windowColor = ColorUtils.getColor(configuration.windowBackgroundColor)
+            BarUtils.setStatusBarColor(window, statusBarColor, configuration.fitsSystemWindows)
+            val isLightMode =
+                if (configuration.fitsSystemWindows) {
+                    if (configuration.statusBarColor == android.R.color.transparent) {//状态栏是透明的，那么使用的是背景色
+                        ColorUtils.isLightColor(windowColor)
+                    } else {
+                        ColorUtils.isLightColor(statusBarColor)
+                    }
+                } else {
+                    ColorUtils.isLightColor(windowColor)
+                }
+            BarUtils.setStatusBarLightMode(this, configuration.isLightMode and isLightMode)
+        }
+    }
+
+    override fun setContentView(layoutResID: Int) {
+        containerView.setContent(layoutResID)
+        super.setContentView(containerView)
     }
 
     override fun getResources(): Resources {
@@ -44,7 +69,7 @@ abstract class BaseActivity : AppCompatActivity(), IMWindow, ISubWindow {
         toast(tip)
     }
 
-    open fun enableImmersionBar(): Boolean {
-        return true
+    open fun getWindowConfiguration(): WindowConfiguration {
+        return WindowConfiguration(true)
     }
 }

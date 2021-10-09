@@ -2,6 +2,7 @@ package net.luculent.smartstore
 
 import kotlinx.android.synthetic.main.activity_verify_mode.*
 import net.luculent.libcore.base.BaseActivity
+import net.luculent.libcore.base.WindowConfiguration
 
 /**
  *
@@ -19,6 +20,12 @@ class VerifyModeActivity : BaseActivity() {
         super.initListener()
         store_verify_cancel.setOnClickListener {
             finish()
+        }
+    }
+
+    override fun getWindowConfiguration(): WindowConfiguration {
+        return super.getWindowConfiguration().apply {
+            windowBackgroundColor = R.color.windowBgColor_f4
         }
     }
 }

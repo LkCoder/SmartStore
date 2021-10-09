@@ -10,10 +10,20 @@ interface IMWindow {
     /**
      * called before onCreate
      */
-    fun initWindow() {}
+    fun initWindow(configuration: WindowConfiguration) {}
     fun getLayoutId(): Int
     fun initView() {}
     fun initListener() {}
     fun initObserver() {}
     fun initData() {}
+}
+
+data class WindowConfiguration(
+    var enableImmersionBar: Boolean
+) {
+    var windowBackgroundColor: Int = android.R.color.transparent
+    var clipToPadding = true
+    var fitsSystemWindows = true
+    var statusBarColor: Int = android.R.color.transparent
+    var isLightMode: Boolean = true
 }

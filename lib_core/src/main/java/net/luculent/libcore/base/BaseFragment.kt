@@ -16,7 +16,7 @@ import net.luculent.libcore.toast
 abstract class BaseFragment : Fragment(), IMWindow, ISubWindow {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        initWindow()
+        initWindow(getWindowConfiguration())
         super.onCreate(savedInstanceState)
     }
 
@@ -42,5 +42,9 @@ abstract class BaseFragment : Fragment(), IMWindow, ISubWindow {
 
     override fun showToast(tip: CharSequence) {
         context?.toast(tip)
+    }
+
+    open fun getWindowConfiguration(): WindowConfiguration {
+        return WindowConfiguration(true)
     }
 }
