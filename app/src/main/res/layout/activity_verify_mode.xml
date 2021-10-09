@@ -76,13 +76,11 @@
 
     <Button
         android:id="@+id/store_verify_cancel"
-        android:layout_width="430dp"
-        android:layout_height="70dp"
+        style="@style/store_large_action_btnStyle"
         android:layout_marginBottom="80dp"
-        android:background="@drawable/store_cancel_btn_bg"
+        android:background="@drawable/store_stroke_b8_btn_bg"
         android:text="@string/store_operation_cancel"
         android:textColor="@color/textColor_black"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

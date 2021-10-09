@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleBar">
+        <attr name="barBackground" format="reference" />
+        <attr name="backIcon" format="reference" />
+        <attr name="backTextSize" format="dimension" />
+        <attr name="backTextColor" format="color" />
+        <attr name="backText" format="string" />
+
+        <attr name="titleText" format="string" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="titleTextSize" format="dimension" />
+
+        <attr name="subContent" format="reference" />
+    </declare-styleable>
+</resources>

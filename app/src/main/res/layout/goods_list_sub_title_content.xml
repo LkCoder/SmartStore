@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="92dp">
+
+    <TextView
+        android:id="@+id/ticket_id_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:textColor="#ffffffff"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="WR20210930090" />
+
+    <TextView
+        android:id="@+id/ticket_pick_state_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17.5dp"
+        android:background="@drawable/goods_pick_state_bg"
+        android:paddingStart="12.5dp"
+        android:paddingTop="1.5dp"
+        android:paddingEnd="12.5dp"
+        android:paddingBottom="1.5dp"
+        android:textColor="#ffffffff"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@id/ticket_id_tv"
+        app:layout_constraintStart_toEndOf="@id/ticket_id_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="领料中" />
+
+    <TextView
+        android:id="@+id/ticket_user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#ffffffff"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/ticket_id_tv"
+        app:layout_constraintTop_toBottomOf="@id/ticket_id_tv"
+        tools:text="王思维" />
+
+    <TextView
+        android:id="@+id/ticket_user_dept_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:textColor="#ffffffff"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/ticket_user_name_tv"
+        app:layout_constraintTop_toTopOf="@id/ticket_user_name_tv"
+        tools:text="生产技术一部" />
+
+    <TextView
+        android:id="@+id/ticket_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:textColor="#ffffffff"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/ticket_user_dept_tv"
+        app:layout_constraintTop_toTopOf="@id/ticket_user_name_tv"
+        tools:text="2021-09-12" />
+</androidx.constraintlayout.widget.ConstraintLayout>

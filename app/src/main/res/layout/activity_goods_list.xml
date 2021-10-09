@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <net.luculent.libcore.widget.TitleBar
+        android:id="@+id/goods_list_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="170.5dp"
+        app:backText="@string/store_go_back"
+        app:barBackground="@drawable/gradient_title_bar_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:subContent="@layout/goods_list_sub_title_content" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/goods_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/goods_code_entry_btn"
+        app:layout_constraintTop_toBottomOf="@id/goods_list_titlebar" />
+
+    <Button
+        android:id="@+id/goods_code_entry_btn"
+        style="@style/store_large_action_btnStyle"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/store_stroke_b8_btn_bg"
+        android:text="输入物资编码"
+        android:textColor="#ff353535"
+        app:layout_constraintBottom_toTopOf="@id/goods_outing_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/goods_outing_btn"
+        style="@style/store_large_action_btnStyle"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/goods_out_action_bg"
+        android:text="出库"
+        android:textColor="#ffffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
