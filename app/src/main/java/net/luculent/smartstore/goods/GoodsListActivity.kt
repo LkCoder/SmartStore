@@ -21,4 +21,8 @@ class GoodsListActivity : BaseActivity() {
             enableImmersionBar = false
         }
     }
+
+    override fun initView() {
+        super.initView()
+    }
 }

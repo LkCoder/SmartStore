@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:subContent="@layout/goods_list_sub_title_content" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.yanzhenjie.recyclerview.SwipeRecyclerView
         android:id="@+id/goods_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
