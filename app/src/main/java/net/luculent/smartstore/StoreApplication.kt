@@ -1,6 +1,8 @@
 package net.luculent.smartstore
 
 import android.app.Application
+import net.luculent.libapi.ApiManager
+import net.luculent.smartstore.api.ApiConfiguration
 
 /**
  *
@@ -10,4 +12,13 @@ import android.app.Application
  */
 class StoreApplication : Application() {
 
+    override fun onCreate() {
+        super.onCreate()
+        initApi()
+    }
+
+    private fun initApi() {
+        val configuration = ApiConfiguration()
+        ApiManager.init(this, configuration, configuration.getMockConfiguration())
+    }
 }

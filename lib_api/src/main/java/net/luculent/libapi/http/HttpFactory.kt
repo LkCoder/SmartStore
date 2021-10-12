@@ -3,6 +3,7 @@ package net.luculent.libapi.http
 import net.luculent.libapi.http.annotation.BaseUrl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  *
@@ -12,6 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 object HttpFactory {
 
+    private val serviceCache = ConcurrentHashMap<String, Any?>()
+
     private var mHttpConfiguration: HttpConfiguration = DefaultConfiguration()
 
     fun init(configuration: HttpConfiguration) {
@@ -19,16 +22,21 @@ object HttpFactory {
     }
 
     @JvmOverloads
-    fun <T> create(clz: Class<T>, configuration: HttpConfiguration? = null): T {
+    fun <T> getService(clz: Class<T>, configuration: HttpConfiguration? = null): T {
+        val cacheKey = clz.canonicalName!!
+        if (serviceCache[cacheKey] != null) {
+            return serviceCache[cacheKey] as T
+        }
         val wrapConfiguration = generateConfiguration(clz, configuration)
         val retrofit = Retrofit.Builder()
             .baseUrl(wrapConfiguration.baseUrl())
             .client(wrapConfiguration.httpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        return retrofit.create(clz)
+        val service = retrofit.create(clz)
+        serviceCache[cacheKey] = service
+        return service
     }
-
 
     private fun <T> generateConfiguration(
         clz: Class<T>,

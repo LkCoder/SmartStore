@@ -40,4 +40,7 @@ dependencies {
     api rootProject.ext.dependencies.autosize
     api rootProject.ext.dependencies.utilcode
     api rootProject.ext.dependencies.swipe_recyclerview
+    api rootProject.ext.dependencies.lifecycle_runtime
+    api rootProject.ext.dependencies.lifecycle_extensions
+    api rootProject.ext.dependencies.lifecycle_viewmodel
 }

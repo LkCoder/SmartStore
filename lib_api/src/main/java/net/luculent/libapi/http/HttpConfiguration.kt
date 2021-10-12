@@ -1,5 +1,6 @@
 package net.luculent.libapi.http
 
+import net.luculent.libapi.mock.MockInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.security.KeyStore
@@ -15,21 +16,32 @@ import javax.net.ssl.*
  * @Author:         yanlei.xia
  * @CreateDate:     2021/10/11 10:31
  */
-abstract class HttpConfiguration {
-    open fun baseUrl(): String = ""
-    abstract fun httpClient(): OkHttpClient
-
-    companion object {
-        const val OKHTTP_READ_TIMEOUT = 60L
-        const val OKHTTP_WRITE_TIMEOUT = 60L
-        const val OKHTTP_CONNECT_TIMEOUT = 60L
-    }
+interface HttpConfiguration {
+    fun baseUrl(): String = ""
+    fun httpClient(): OkHttpClient
+    fun logger(): HttpLogger? = null
 }
 
-class DefaultConfiguration : HttpConfiguration() {
+const val OKHTTP_READ_TIMEOUT = 60L
+const val OKHTTP_WRITE_TIMEOUT = 60L
+const val OKHTTP_CONNECT_TIMEOUT = 60L
+
+open class DefaultConfiguration : HttpConfiguration {
+
+    private val httpLoggingInterceptor by lazy {
+        val httpLogger = logger()
+        if (httpLogger == null) {
+            HttpLoggingInterceptor()
+        } else {
+            HttpLoggingInterceptor {
+                httpLogger.log(it)
+            }
+        }
+    }
+
     override fun httpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY))
             .readTimeout(OKHTTP_READ_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(OKHTTP_WRITE_TIMEOUT, TimeUnit.SECONDS)
             .connectTimeout(OKHTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS)
@@ -80,13 +92,13 @@ class DefaultConfiguration : HttpConfiguration() {
 }
 
 class WrapConfiguration(private val baseUrl: String, private val client: OkHttpClient) :
-    HttpConfiguration() {
+    HttpConfiguration {
 
     override fun baseUrl(): String {
         return baseUrl
     }
 
     override fun httpClient(): OkHttpClient {
-        return client
+        return client.newBuilder().addInterceptor(MockInterceptor()).build()
     }
 }
