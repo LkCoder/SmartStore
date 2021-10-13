@@ -1,7 +1,11 @@
 package net.luculent.smartstore.api
 
 import net.luculent.libapi.http.HttpFactory
+import net.luculent.smartstore.api.request.GoodsListReq
 import net.luculent.smartstore.api.request.LoginReq
+import net.luculent.smartstore.api.request.PickListReq
+import net.luculent.smartstore.api.response.PickDetailResp
+import net.luculent.smartstore.api.response.PickListResp
 import net.luculent.smartstore.api.response.UserInfo
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -24,5 +28,8 @@ interface ApiService {
     suspend fun login(@Body req: LoginReq): UserInfo
 
     @POST("getJSTPickList")
-    suspend fun pickList()
+    suspend fun pickList(@Body req: PickListReq): PickListResp
+
+    @POST("getJSTPickDetail")
+    suspend fun goodsList(@Body req: GoodsListReq): PickDetailResp
 }

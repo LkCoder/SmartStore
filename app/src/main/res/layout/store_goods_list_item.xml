@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="128dp">
+
+    <ImageView
+        android:id="@+id/goods_photo_iv"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/goods_name_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:singleLine="true"
+        android:textColor="#ff282828"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/goods_photo_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="接近开关" />
+
+    <TextView
+        android:id="@+id/goods_id_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="7dp"
+        android:text="物资编号："
+        android:textColor="#ff9d9d9d"
+        android:textSize="19sp"
+        app:layout_constraintStart_toEndOf="@id/goods_photo_iv"
+        app:layout_constraintTop_toBottomOf="@id/goods_name_tv" />
+
+    <TextView
+        android:id="@+id/goods_id_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="#ff585858"
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/goods_id_label"
+        app:layout_constraintTop_toTopOf="@id/goods_id_label"
+        tools:text="1004700" />
+
+    <TextView
+        android:id="@+id/goods_num_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="领用数量："
+        android:textColor="#ff9d9d9d"
+        android:textSize="19sp"
+        app:layout_constraintStart_toStartOf="@id/goods_id_label"
+        app:layout_constraintTop_toBottomOf="@id/goods_id_tv" />
+
+    <TextView
+        android:id="@+id/goods_num_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="#ff585858"
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/goods_num_label"
+        app:layout_constraintTop_toTopOf="@id/goods_num_label"
+        tools:text="10" />
+</androidx.constraintlayout.widget.ConstraintLayout>

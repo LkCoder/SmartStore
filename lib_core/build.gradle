@@ -43,6 +43,8 @@ dependencies {
     api rootProject.ext.dependencies.lifecycle_runtime
     api rootProject.ext.dependencies.lifecycle_extensions
     api rootProject.ext.dependencies.lifecycle_viewmodel
-
+    api rootProject.ext.dependencies.baserecyclerviewadapterhelper
     api rootProject.ext.dependencies.mmkv
+    api rootProject.ext.dependencies.glide_runtime
+    api rootProject.ext.dependencies.glide_compiler
 }

@@ -1,8 +1,21 @@
 package net.luculent.smartstore.goods
 
+import android.content.Context
+import android.content.Intent
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.ConvertUtils
+import com.yanzhenjie.recyclerview.SwipeMenuCreator
+import com.yanzhenjie.recyclerview.SwipeMenuItem
+import kotlinx.android.synthetic.main.activity_goods_list.*
+import kotlinx.android.synthetic.main.goods_list_sub_title_content.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
+import net.luculent.libcore.mvvm.BindViewModel
 import net.luculent.smartstore.R
+import net.luculent.smartstore.api.response.PickDetailResp
 
 /**
  *
@@ -11,6 +24,11 @@ import net.luculent.smartstore.R
  * @CreateDate:     2021/10/9 10:50
  */
 class GoodsListActivity : BaseActivity() {
+
+    @BindViewModel
+    lateinit var goodsViewModel: GoodsViewModel
+
+    private var goodsListAdapter: GoodsListAdapter? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_goods_list
@@ -24,5 +42,70 @@ class GoodsListActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
+        goodsListAdapter = GoodsListAdapter()
+        val swipeCreator = SwipeMenuCreator { leftMenu, rightMenu, position ->
+            val addItem: SwipeMenuItem =
+                SwipeMenuItem(this@GoodsListActivity)
+                    .setBackgroundColor(resources.getColor(R.color.menu_delete_color))
+                    .setWidth(ConvertUtils.dp2px(105f))
+                    .setText("删除")
+                    .setTextSize(19)
+                    .setTextColorResource(R.color.white)
+                    .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
+            rightMenu?.addMenuItem(addItem) // 添加菜单到左侧。
+        }
+        goods_recyclerview.apply {
+            layoutManager = LinearLayoutManager(context)
+            setSwipeMenuCreator(swipeCreator)
+            setOnItemMenuClickListener { menuBridge, adapterPosition ->
+
+            }
+            adapter = goodsListAdapter
+            val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(resources.getDrawable(R.drawable.goods_item_divider))
+            addItemDecoration(divider)
+        }
+    }
+
+    override fun initListener() {
+        super.initListener()
+        goods_code_entry_btn.setOnClickListener {
+
+        }
+        goods_outing_btn.setOnClickListener {
+
+        }
+    }
+
+    override fun initObserver() {
+        super.initObserver()
+        goodsViewModel.pickDetailResp.observe(this, Observer {
+            updateView(it)
+        })
+    }
+
+    override fun initData() {
+        super.initData()
+        goodsViewModel.getGoodsList(intent.getStringExtra(PICK_NO) ?: "")
+    }
+
+    private fun updateView(pickDetailResp: PickDetailResp) {
+        ticket_id_tv.text = pickDetailResp.pickId
+        ticket_pick_state_tv.text = pickDetailResp.statusNam
+        ticket_user_name_tv.text = pickDetailResp.userNam
+        ticket_user_dept_tv.text = pickDetailResp.deptNam
+        ticket_date_tv.text = pickDetailResp.date
+        goodsListAdapter?.setNewData(pickDetailResp.rows?.toMutableList())
+    }
+
+    companion object {
+
+        private const val PICK_NO = "pickNo"
+
+        fun start(context: Context, pickNo: String) {
+            val intent = Intent(context, GoodsListActivity::class.java)
+            intent.putExtra(PICK_NO, pickNo)
+            context.startActivity(intent)
+        }
     }
 }
