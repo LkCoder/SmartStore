@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="net.luculent.libcore"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.luculent.libcore">
 
     <application>
         <!-- 适配全面屏 Android O vivo&oppo -->
@@ -19,5 +19,10 @@
         <meta-data
             android:name="android.vendor.full_screen"
             android:value="true" />
+
+        <provider
+            android:name=".LibCoreContentProvider"
+            android:authorities="${applicationId}.lib-core-provider"
+            android:exported="false" />
     </application>
 </manifest>

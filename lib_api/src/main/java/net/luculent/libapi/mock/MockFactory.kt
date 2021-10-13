@@ -3,6 +3,7 @@ package net.luculent.libapi.mock
 import android.annotation.SuppressLint
 import android.content.Context
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import net.luculent.libapi.mock.utils.AssetsUtil
 
@@ -57,9 +58,11 @@ object MockFactory {
                 val gson = Gson()
                 configuration?.assetPaths?.map {
                     val json = AssetsUtil.readAsString(this, it)
-                    val type = object : TypeToken<Map<String, String?>>() {}.type
-                    val apiMap = gson.fromJson<Map<String, String?>>(json, type)
-                    mockApi.putAll(apiMap)
+                    val type = object : TypeToken<Map<String, JsonObject?>>() {}.type
+                    val apiMap = gson.fromJson<Map<String, JsonObject?>>(json, type)
+                    apiMap.map { entry ->
+                        mockApi.put(entry.key, entry.value.toString())
+                    }
                 }
                 isMockApiLoaded = true
             }

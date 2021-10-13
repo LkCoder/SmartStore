@@ -1,5 +1,6 @@
 package net.luculent.smartstore.api
 
+import com.blankj.utilcode.util.LogUtils
 import net.luculent.libapi.http.DefaultConfiguration
 import net.luculent.libapi.http.HttpLogger
 import net.luculent.libapi.mock.MockConfiguration
@@ -13,9 +14,13 @@ import net.luculent.smartstore.BuildConfig
  */
 class ApiConfiguration : DefaultConfiguration() {
 
+    override fun baseUrl(): String { // TODO: 2021/10/13 修改成正式的地址
+        return "http://api.mock.com"
+    }
+
     private var httpLogger: HttpLogger = object : HttpLogger {
         override fun log(info: String) {
-
+            LogUtils.i(info)
         }
     }
 
@@ -24,6 +29,10 @@ class ApiConfiguration : DefaultConfiguration() {
     }
 
     fun getMockConfiguration(): MockConfiguration {
-        return MockConfiguration(BuildConfig.DEBUG, arrayListOf())
+        return MockConfiguration(
+            BuildConfig.DEBUG, arrayListOf(
+                "api.json"
+            )
+        )
     }
 }

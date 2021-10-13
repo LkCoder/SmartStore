@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ColorUtils
 import me.jessyan.autosize.AutoSizeCompat
+import net.luculent.libcore.mvvm.ViewModelFactory
 import net.luculent.libcore.toast
 import net.luculent.libcore.widget.WindowViewContainer
 
@@ -20,6 +21,7 @@ abstract class BaseActivity : AppCompatActivity(), IMWindow, ISubWindow {
     private lateinit var containerView: WindowViewContainer
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ViewModelFactory.inject(this)
         initWindow(getWindowConfiguration())
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())

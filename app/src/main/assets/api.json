@@ -1,5 +1,5 @@
 {
-  "loginJST": {
+  "/loginJST": {
     "result": "success",
     "message": "错误信息",
     "userNam": "用户名称",

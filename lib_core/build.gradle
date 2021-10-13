@@ -43,4 +43,6 @@ dependencies {
     api rootProject.ext.dependencies.lifecycle_runtime
     api rootProject.ext.dependencies.lifecycle_extensions
     api rootProject.ext.dependencies.lifecycle_viewmodel
+
+    api rootProject.ext.dependencies.mmkv
 }

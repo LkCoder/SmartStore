@@ -5,6 +5,7 @@ import com.blankj.utilcode.util.ActivityUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
+import net.luculent.smartstore.verify.VerifyModeActivity
 
 class MainActivity : BaseActivity() {
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import net.luculent.libcore.mvvm.ViewModelFactory
 import net.luculent.libcore.toast
 
 /**
@@ -16,6 +17,7 @@ import net.luculent.libcore.toast
 abstract class BaseFragment : Fragment(), IMWindow, ISubWindow {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ViewModelFactory.inject(this)
         initWindow(getWindowConfiguration())
         super.onCreate(savedInstanceState)
     }

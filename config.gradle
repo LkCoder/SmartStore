@@ -28,5 +28,6 @@ ext {
             lifecycle_java8           : 'androidx.lifecycle:lifecycle-common-java8:2.2.0',
             lifecycle_compiler        : 'androidx.lifecycle:lifecycle-compiler:2.2.0',
             lifecycle_viewmodel       : 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0',
+            mmkv                      : 'com.tencent:mmkv-static:1.2.10',
     ]
 }
