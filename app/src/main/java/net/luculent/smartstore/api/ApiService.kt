@@ -1,12 +1,8 @@
 package net.luculent.smartstore.api
 
 import net.luculent.libapi.http.HttpFactory
-import net.luculent.smartstore.api.request.GoodsListReq
-import net.luculent.smartstore.api.request.LoginReq
-import net.luculent.smartstore.api.request.PickListReq
-import net.luculent.smartstore.api.response.PickDetailResp
-import net.luculent.smartstore.api.response.PickListResp
-import net.luculent.smartstore.api.response.UserInfo
+import net.luculent.smartstore.api.request.*
+import net.luculent.smartstore.api.response.*
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -32,4 +28,10 @@ interface ApiService {
 
     @POST("getJSTPickDetail")
     suspend fun goodsList(@Body req: GoodsListReq): PickDetailResp
+
+    @POST("getScanWZDetailJST")
+    suspend fun goodsScanResult(@Body req: GoodsScanReq): GoodsScanResp
+
+    @POST("executeOutStorage")
+    suspend fun outStore(@Body req: OutStoreReq): BaseResp
 }

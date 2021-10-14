@@ -21,4 +21,21 @@ class GoodsListAdapter : BaseRvAdapter<Goods, BaseRvHolder>(R.layout.store_goods
             .setText(R.id.goods_num_tv, item.storecount)
         ImageLoader.load("", holder.getView(R.id.goods_photo_iv))
     }
+
+    fun addOrReplace(goods: Goods) {
+        var preIndex = -1
+        run outside@{
+            data.forEachIndexed { index, item ->
+                if (item.no == goods.no) {
+                    preIndex = index
+                    return@outside
+                }
+            }
+        }
+        if (preIndex == -1) {
+            addData(goods)
+        } else {
+            setData(preIndex, goods)
+        }
+    }
 }

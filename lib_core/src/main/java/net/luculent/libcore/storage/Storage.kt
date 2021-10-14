@@ -39,6 +39,10 @@ class Storage private constructor(uniqueId: String?) {
         storage.encode(key, json)
     }
 
+    fun remove(key: String) {
+        storage.removeValueForKey(key)
+    }
+
     companion object {
 
         private val storageMap = ConcurrentHashMap<String, Storage>()

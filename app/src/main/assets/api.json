@@ -58,5 +58,15 @@
         "storecount": "数量"
       }
     ]
+  },
+  "/getScanWZDetailJST": {
+    "result": "success|fail",
+    "message": "错误信息",
+    "childno": "12"
+  },
+  "/executeOutStorage": {
+    "result": "success|fail",
+    "message": "错误信息",
+    "tblnam": "WORECMST"
   }
 }

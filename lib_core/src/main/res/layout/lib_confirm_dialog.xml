@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="375dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/lib_common_dialog_bg"
+    android:minHeight="195dp">
+
+    <TextView
+        android:id="@+id/confirm_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:textColor="#ff000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginTop="24dp"
+        tools:text="标题" />
+
+    <TextView
+        android:id="@+id/confirm_dialog_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:textColor="#ff888888"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirm_dialog_title"
+        app:layout_goneMarginTop="43dp"
+        tools:text="321321" />
+
+    <View
+        android:id="@+id/confirm_dialog_h_line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="65.5dp"
+        android:background="@drawable/lib_dialog_divider"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/confirm_dialog_v_line1"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/lib_dialog_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirm_dialog_h_line1" />
+
+    <TextView
+        android:id="@+id/confirm_dialog_cancel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@android:string/cancel"
+        android:textColor="#ff000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/confirm_dialog_v_line1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirm_dialog_h_line1" />
+
+
+    <TextView
+        android:id="@+id/confirm_dialog_ok"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@android:string/ok"
+        android:textColor="#ff4880ff"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/confirm_dialog_v_line1"
+        app:layout_constraintTop_toBottomOf="@id/confirm_dialog_h_line1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="138dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/pick_item_user_photo_iv"
+            android:layout_width="88dp"
+            android:layout_height="116dp"
+            android:layout_marginStart="15dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/pick_item_id_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:textColor="#ff333333"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pick_item_user_photo_iv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="WR2021108130001" />
+
+        <TextView
+            android:id="@+id/pick_item_state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/goods_pick_state_bg"
+            android:paddingStart="7dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="7dp"
+            android:paddingBottom="2dp"
+            android:textColor="#ffe2651d"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="@id/pick_item_id_tv"
+            app:layout_constraintTop_toBottomOf="@id/pick_item_id_tv"
+            tools:text="领料中" />
+
+        <TextView
+            android:id="@+id/pick_item_user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#ff999999"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/pick_item_id_tv"
+            app:layout_constraintTop_toBottomOf="@id/pick_item_state_tv"
+            tools:text="温国栋" />
+
+        <TextView
+            android:id="@+id/pick_item_user_dept_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:singleLine="true"
+            android:textColor="#ff999999"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pick_item_user_name_tv"
+            app:layout_constraintTop_toTopOf="@id/pick_item_user_name_tv"
+            tools:text="生产技术一部" />
+
+        <TextView
+            android:id="@+id/pick_item_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="#ff999999"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/pick_item_id_tv"
+            app:layout_constraintTop_toBottomOf="@id/pick_item_user_dept_tv"
+            tools:text="2021-03-12" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

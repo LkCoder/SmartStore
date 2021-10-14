@@ -1,6 +1,7 @@
 package net.luculent.smartstore.verify
 
 import android.content.Intent
+import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ActivityUtils
 import kotlinx.android.synthetic.main.activity_verify_mode.*
 import net.luculent.libcore.base.BaseActivity
@@ -8,6 +9,8 @@ import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.mvvm.BindViewModel
 import net.luculent.smartstore.R
 import net.luculent.smartstore.goods.GoodsListActivity
+import net.luculent.smartstore.pick.PickListActivity
+import net.luculent.smartstore.pick.PickViewModel
 
 /**
  *
@@ -19,6 +22,9 @@ class VerifyModeActivity : BaseActivity() {
 
     @BindViewModel
     lateinit var loginViewModel: LoginViewModel
+
+    @BindViewModel
+    lateinit var pickViewModel: PickViewModel
 
     override fun getLayoutId(): Int {
         return R.layout.activity_verify_mode
@@ -35,6 +41,21 @@ class VerifyModeActivity : BaseActivity() {
         store_verify_cancel.setOnClickListener {
             finish()
         }
+    }
+
+    override fun initObserver() {
+        super.initObserver()
+        loginViewModel.loginLiveData.observe(this, Observer {
+            pickViewModel.getPickList()
+        })
+        pickViewModel.pickListLiveData.observe(this, Observer {
+            if (it?.rows?.size == 1) {//只有一个，跳转到物资扫描页面
+                val pickNo = it.rows[0].pickNo
+                GoodsListActivity.start(this, pickNo)
+            } else {//跳转到领料单列表页面
+                ActivityUtils.startActivity(Intent(this, PickListActivity::class.java))
+            }
+        })
     }
 
     override fun getWindowConfiguration(): WindowConfiguration {

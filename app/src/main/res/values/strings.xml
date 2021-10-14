@@ -8,4 +8,8 @@
     <string name="store_verify_by_face">刷脸支付</string>
     <string name="store_verify_by_code">输入领料单号</string>
     <string name="store_operation_cancel">取消操作</string>
+    <string name="store_delete">删除</string>
+    <string name="store_out_title_tip">确认出库吗？</string>
+    <string name="store_prompt_title">提示</string>
+    <string name="store_goods_invalid_tip">该物资不在领料单范围内，请归还至原货架库位。</string>
 </resources>

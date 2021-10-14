@@ -15,4 +15,5 @@
     <color name="title_bar_start_color">#ff4880ff</color>
     <color name="title_bar_end_color">#ff5d8fff</color>
     <color name="menu_delete_color">#fff65857</color>
+    <color name="color_gray_888">#ff888888</color>
 </resources>

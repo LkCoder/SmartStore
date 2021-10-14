@@ -16,7 +16,7 @@ data class PickSheet(
     val orgNam: String?, // 公司名称
     val photo: String?, // 领料人照片
     val pickId: String?, // 领料单编号
-    val pickNo: String?, // 领料单主键
+    val pickNo: String, // 领料单主键
     val statusNam: String?, // 状态名称
     val statusNo: String?, // 状态值
     val userId: String?, // 领料人Id

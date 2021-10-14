@@ -1,9 +1,9 @@
 package net.luculent.smartstore.verify
 
+import androidx.lifecycle.MutableLiveData
 import net.luculent.libcore.mvvm.BaseViewModel
-import net.luculent.libcore.storage.Storage
-import net.luculent.smartstore.api.ApiService
-import net.luculent.smartstore.api.request.LoginReq
+import net.luculent.smartstore.api.response.UserInfo
+import net.luculent.smartstore.service.LoginService
 
 /**
  *
@@ -13,13 +13,13 @@ import net.luculent.smartstore.api.request.LoginReq
  */
 class LoginViewModel : BaseViewModel() {
 
+    val loginLiveData by lazy { MutableLiveData<UserInfo>() }
+
     fun login(userId: String, password: String) {
         launch({
-            ApiService.get().login(
-                LoginReq(userId, password)
-            )
+            LoginService.login(userId, password)
         }, {
-            Storage.getInstance().put("user", it)
+            loginLiveData.postValue(it)
         })
     }
 }

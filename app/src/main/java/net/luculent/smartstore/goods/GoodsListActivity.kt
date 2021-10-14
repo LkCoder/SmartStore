@@ -2,11 +2,12 @@ package net.luculent.smartstore.goods
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ConvertUtils.dp2px
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.activity_goods_list.*
@@ -14,7 +15,11 @@ import kotlinx.android.synthetic.main.goods_list_sub_title_content.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.mvvm.BindViewModel
+import net.luculent.libcore.popup.DialogCallBack
+import net.luculent.libcore.popup.DialogConfiguration
+import net.luculent.libcore.showConfirmDialog
 import net.luculent.smartstore.R
+import net.luculent.smartstore.api.response.Goods
 import net.luculent.smartstore.api.response.PickDetailResp
 
 /**
@@ -47,8 +52,8 @@ class GoodsListActivity : BaseActivity() {
             val addItem: SwipeMenuItem =
                 SwipeMenuItem(this@GoodsListActivity)
                     .setBackgroundColor(resources.getColor(R.color.menu_delete_color))
-                    .setWidth(ConvertUtils.dp2px(105f))
-                    .setText("删除")
+                    .setWidth(dp2px(105f))
+                    .setText(getString(R.string.store_delete))
                     .setTextSize(19)
                     .setTextColorResource(R.color.white)
                     .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
@@ -58,7 +63,7 @@ class GoodsListActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(context)
             setSwipeMenuCreator(swipeCreator)
             setOnItemMenuClickListener { menuBridge, adapterPosition ->
-
+                doDelGoods(adapterPosition)
             }
             adapter = goodsListAdapter
             val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
@@ -70,10 +75,10 @@ class GoodsListActivity : BaseActivity() {
     override fun initListener() {
         super.initListener()
         goods_code_entry_btn.setOnClickListener {
-
+            doEnterCode()
         }
         goods_outing_btn.setOnClickListener {
-
+            doOutStore()
         }
     }
 
@@ -82,11 +87,36 @@ class GoodsListActivity : BaseActivity() {
         goodsViewModel.pickDetailResp.observe(this, Observer {
             updateView(it)
         })
+        goodsViewModel.scanResultData.observe(this, Observer {
+            onGoodsScanned(it)
+        })
     }
 
     override fun initData() {
         super.initData()
-        goodsViewModel.getGoodsList(intent.getStringExtra(PICK_NO) ?: "")
+        goodsViewModel.initPick(intent.getStringExtra(PICK_NO) ?: "")
+        goodsViewModel.getGoodsList()
+    }
+
+    private fun doEnterCode() {
+        goodsViewModel.scanGoodsCode("")
+    }
+
+    private fun doDelGoods(adapterPosition: Int) {
+        val goods = goodsListAdapter?.getItem(adapterPosition)
+        goods ?: return
+    }
+
+    private fun doOutStore() {
+        val configuration = DialogConfiguration().apply {
+            content = getString(R.string.store_out_title_tip)
+            contentSize = 24f
+        }
+        showConfirmDialog(configuration, object : DialogCallBack {
+            override fun onConfirm() {
+                goodsViewModel.outStore()
+            }
+        })
     }
 
     private fun updateView(pickDetailResp: PickDetailResp) {
@@ -95,7 +125,29 @@ class GoodsListActivity : BaseActivity() {
         ticket_user_name_tv.text = pickDetailResp.userNam
         ticket_user_dept_tv.text = pickDetailResp.deptNam
         ticket_date_tv.text = pickDetailResp.date
-        goodsListAdapter?.setNewData(pickDetailResp.rows?.toMutableList())
+        goods_outing_btn.visibility = View.VISIBLE
+        goods_code_entry_btn.visibility = View.VISIBLE
+    }
+
+    private fun onGoodsScanned(goods: Goods?) {
+        if (goods == null) {//物资不在当前领料单内
+            inValidGoods()
+        } else {
+            goodsListAdapter?.addOrReplace(goods)
+        }
+    }
+
+    private fun inValidGoods() {
+        val configuration = DialogConfiguration().apply {
+            title = getString(R.string.store_prompt_title)
+            content = getString(R.string.store_goods_invalid_tip)
+            contentColor = resources.getColor(R.color.color_gray_888)
+        }
+        showConfirmDialog(configuration, object : DialogCallBack {
+            override fun onConfirm() {
+                goodsViewModel.outStore()
+            }
+        })
     }
 
     companion object {

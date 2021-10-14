@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/pick_content"
+        layout="@layout/store_pick_list_content" />
+
+    <include
+        android:id="@+id/pick_empty"
+        layout="@layout/store_pick_sheet_empty"
+        android:visibility="gone" />
+</androidx.constraintlayout.widget.ConstraintLayout>
