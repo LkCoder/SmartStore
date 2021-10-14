@@ -1,10 +1,6 @@
 package net.luculent.libcore.popup
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.lib_confirm_dialog.*
 import net.luculent.libcore.R
 
@@ -14,20 +10,14 @@ import net.luculent.libcore.R
  * @Author:         yanlei.xia
  * @CreateDate:     2021/10/14 16:09
  */
-class ConfirmDialog(private val configuration: DialogConfiguration? = null) : DialogFragment() {
+class ConfirmDialog(private val configuration: DialogConfiguration? = null) : BaseXDialog() {
 
-    var callBack: DialogCallBack? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.lib_confirm_dialog, container, false)
+    override fun getLayoutId(): Int {
+        return R.layout.lib_confirm_dialog
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initView(view: View) {
+        super.initView(view)
         confirm_dialog_cancel.setOnClickListener {
             callBack?.onCancel()
             dismiss()
