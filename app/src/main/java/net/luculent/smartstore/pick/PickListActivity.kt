@@ -51,6 +51,8 @@ class PickListActivity : BaseActivity() {
             if (it == null || it.rows.isNullOrEmpty()) {
                 pick_content.visibility = View.GONE
                 pick_empty.visibility = View.VISIBLE
+            } else {
+                pickListAdapter?.setNewData(it.rows.toMutableList())
             }
         })
     }

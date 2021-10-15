@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:subContent="@layout/goods_list_sub_title_content" />
 
-    <com.yanzhenjie.recyclerview.SwipeRecyclerView
+    <net.luculent.libcore.recyclerview.MxRecyclerView
         android:id="@+id/goods_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"

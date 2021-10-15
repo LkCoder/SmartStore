@@ -20,6 +20,17 @@
         "deptNam": "部门",
         "orgNam": "公司名称",
         "date": "领料日期"
+      },{
+        "photo": "领料人照片",
+        "pickNo": "领料单主键",
+        "pickId": "领料单编号",
+        "userId": "领料人Id",
+        "userNam": "领料人姓名",
+        "statusNo": "状态值",
+        "statusNam": "状态名称",
+        "deptNam": "部门",
+        "orgNam": "公司名称",
+        "date": "领料日期"
       }
     ]
   },

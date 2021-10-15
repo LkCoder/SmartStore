@@ -42,7 +42,11 @@ abstract class BaseActivity : AppCompatActivity(), IMWindow, ISubWindow {
             val isLightMode =
                 if (configuration.fitsSystemWindows) {
                     if (configuration.statusBarColor == android.R.color.transparent) {//状态栏是透明的，那么使用的是背景色
-                        ColorUtils.isLightColor(windowColor)
+                        if (configuration.windowBackgroundColor == android.R.color.transparent) {
+                            true
+                        } else {
+                            ColorUtils.isLightColor(windowColor)
+                        }
                     } else {
                         ColorUtils.isLightColor(statusBarColor)
                     }

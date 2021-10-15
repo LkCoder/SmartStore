@@ -17,6 +17,7 @@ import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.mvvm.BindViewModel
 import net.luculent.libcore.popup.DialogCallBack
 import net.luculent.libcore.popup.DialogConfiguration
+import net.luculent.libcore.recyclerview.SimpleRvEmptyView
 import net.luculent.libcore.showConfirmDialog
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.Goods
@@ -60,15 +61,16 @@ class GoodsListActivity : BaseActivity() {
             rightMenu?.addMenuItem(addItem) // 添加菜单到左侧。
         }
         goods_recyclerview.apply {
-            layoutManager = LinearLayoutManager(context)
+            setLayoutManager(LinearLayoutManager(context))
             setSwipeMenuCreator(swipeCreator)
             setOnItemMenuClickListener { menuBridge, adapterPosition ->
                 doDelGoods(adapterPosition)
             }
-            adapter = goodsListAdapter
+            setAdapter(goodsListAdapter)
             val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             divider.setDrawable(resources.getDrawable(R.drawable.goods_item_divider))
             addItemDecoration(divider)
+            setEmptyView(SimpleRvEmptyView(context, "请扫物资二维码"))
         }
     }
 
@@ -125,6 +127,7 @@ class GoodsListActivity : BaseActivity() {
         ticket_user_name_tv.text = pickDetailResp.userNam
         ticket_user_dept_tv.text = pickDetailResp.deptNam
         ticket_date_tv.text = pickDetailResp.date
+        goodsListAdapter?.notifyDataSetChanged()
         goods_outing_btn.visibility = View.VISIBLE
         goods_code_entry_btn.visibility = View.VISIBLE
     }

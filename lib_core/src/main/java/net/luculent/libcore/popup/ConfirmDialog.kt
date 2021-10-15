@@ -1,6 +1,8 @@
 package net.luculent.libcore.popup
 
 import android.view.View
+import android.view.ViewGroup
+import com.blankj.utilcode.util.ScreenUtils
 import kotlinx.android.synthetic.main.lib_confirm_dialog.*
 import net.luculent.libcore.R
 
@@ -14,6 +16,12 @@ class ConfirmDialog(private val configuration: DialogConfiguration? = null) : Ba
 
     override fun getLayoutId(): Int {
         return R.layout.lib_confirm_dialog
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val width = ScreenUtils.getAppScreenWidth() * 375 / 540
+        dialog?.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     override fun initView(view: View) {
