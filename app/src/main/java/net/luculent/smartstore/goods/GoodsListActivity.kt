@@ -19,9 +19,13 @@ import net.luculent.libcore.popup.DialogCallBack
 import net.luculent.libcore.popup.DialogConfiguration
 import net.luculent.libcore.recyclerview.SimpleRvEmptyView
 import net.luculent.libcore.showConfirmDialog
+import net.luculent.libcore.showXDialog
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.Goods
 import net.luculent.smartstore.api.response.PickDetailResp
+import net.luculent.smartstore.api.response.UserInfo
+import net.luculent.smartstore.dialog.InputDialog
+import net.luculent.smartstore.dialog.LoginDialog
 
 /**
  *
@@ -35,6 +39,8 @@ class GoodsListActivity : BaseActivity() {
     lateinit var goodsViewModel: GoodsViewModel
 
     private var goodsListAdapter: GoodsListAdapter? = null
+
+    private var codeDialog: InputDialog? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_goods_list
@@ -101,12 +107,26 @@ class GoodsListActivity : BaseActivity() {
     }
 
     private fun doEnterCode() {
-        goodsViewModel.scanGoodsCode("")
+        codeDialog = InputDialog().apply {
+            callBack = object : InputDialog.CodeInputCallBack {
+                override fun onConfirm(code: String) {
+                    goodsViewModel.scanGoodsCode(code)
+                }
+            }
+        }
+        showXDialog(codeDialog!!)
     }
 
     private fun doDelGoods(adapterPosition: Int) {
         val goods = goodsListAdapter?.getItem(adapterPosition)
         goods ?: return
+        LoginDialog.start(this, object : LoginDialog.LoginCallBack {
+            override fun onLogin(user: UserInfo?) {
+                if (user != null) {
+                    goodsListAdapter?.removeAt(adapterPosition)
+                }
+            }
+        })
     }
 
     private fun doOutStore() {

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="389dp"
+    android:layout_height="316dp"
+    android:background="@drawable/lib_input_dialog_bg">
+
+    <ImageView
+        android:id="@+id/login_dialog_close_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:src="@drawable/ic_lib_dialog_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/login_dialog_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:text="删除物资授权"
+        android:textColor="#ff353535"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/login_dialog_account_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_40"
+        android:layout_marginTop="38dp"
+        android:text="账号："
+        android:textColor="#ff585858"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_dialog_title_tv" />
+
+    <EditText
+        android:id="@+id/login_dialog_account_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_40"
+        android:background="@drawable/input_edit_bg"
+        android:padding="6dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@id/login_dialog_account_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/login_dialog_account_label"
+        app:layout_constraintTop_toTopOf="@id/login_dialog_account_label"
+        tools:text="321321" />
+
+    <TextView
+        android:id="@+id/login_dialog_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_40"
+        android:layout_marginTop="28dp"
+        android:text="密码："
+        android:textColor="#ff585858"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_dialog_account_et" />
+
+    <EditText
+        android:id="@+id/login_dialog_password_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_40"
+        android:background="@drawable/input_edit_bg"
+        android:inputType="textPassword"
+        android:padding="6dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@id/login_dialog_password_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/login_dialog_password_label"
+        app:layout_constraintTop_toTopOf="@id/login_dialog_password_label"
+        tools:text="321321" />
+
+    <Button
+        android:id="@+id/input_dialog_confirm_btn"
+        android:layout_width="225dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/input_dialog_bn_bg"
+        android:text="@android:string/ok"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package net.luculent.libcore
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ToastUtils
+import net.luculent.libcore.popup.BaseXDialog
 import net.luculent.libcore.popup.ConfirmDialog
 import net.luculent.libcore.popup.DialogCallBack
 import net.luculent.libcore.popup.DialogConfiguration
@@ -24,5 +25,9 @@ fun FragmentActivity.showConfirmDialog(
 ) {
     val dialog = ConfirmDialog(configuration)
     dialog.callBack = callBack
-    dialog.show(supportFragmentManager, ConfirmDialog::class.simpleName)
+    showXDialog(dialog)
+}
+
+fun <T : BaseXDialog> FragmentActivity.showXDialog(dialog: T) {
+    dialog.show(supportFragmentManager, dialog::class.simpleName)
 }

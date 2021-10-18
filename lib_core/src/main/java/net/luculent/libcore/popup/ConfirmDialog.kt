@@ -14,6 +14,8 @@ import net.luculent.libcore.R
  */
 class ConfirmDialog(private val configuration: DialogConfiguration? = null) : BaseXDialog() {
 
+    var callBack: DialogCallBack? = null
+
     override fun getLayoutId(): Int {
         return R.layout.lib_confirm_dialog
     }

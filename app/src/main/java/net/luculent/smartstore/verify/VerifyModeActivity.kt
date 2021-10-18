@@ -8,6 +8,8 @@ import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.mvvm.BindViewModel
 import net.luculent.smartstore.R
+import net.luculent.smartstore.api.response.UserInfo
+import net.luculent.smartstore.dialog.LoginDialog
 import net.luculent.smartstore.goods.GoodsListActivity
 import net.luculent.smartstore.pick.PickListActivity
 import net.luculent.smartstore.pick.PickViewModel
@@ -33,7 +35,7 @@ class VerifyModeActivity : BaseActivity() {
     override fun initListener() {
         super.initListener()
         store_verify_by_face_lt.setOnClickListener {
-            loginViewModel.login("", "")
+            doLogin()
         }
         store_verify_by_code_lt.setOnClickListener {
             ActivityUtils.startActivity(Intent(this, GoodsListActivity::class.java))
@@ -45,15 +47,23 @@ class VerifyModeActivity : BaseActivity() {
 
     override fun initObserver() {
         super.initObserver()
-        loginViewModel.loginLiveData.observe(this, Observer {
-            pickViewModel.getPickList()
-        })
         pickViewModel.pickListLiveData.observe(this, Observer {
             if (it?.rows?.size == 1) {//只有一个，跳转到物资扫描页面
                 val pickNo = it.rows[0].pickNo
                 GoodsListActivity.start(this, pickNo)
             } else {//跳转到领料单列表页面
                 ActivityUtils.startActivity(Intent(this, PickListActivity::class.java))
+            }
+        })
+    }
+
+    private fun doLogin() {
+        LoginDialog.start(this, object : LoginDialog.LoginCallBack {
+            override fun onLogin(user: UserInfo?) {
+                if (user != null) {
+                    loginViewModel.saveUser(user)
+                    pickViewModel.getPickList()
+                }
             }
         })
     }

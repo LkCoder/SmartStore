@@ -1,46 +1,35 @@
-package net.luculent.libapi.mock;
+package net.luculent.libapi.mock
 
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import okio.BufferedSource;
-import okio.Okio;
+import okhttp3.MediaType
+import okhttp3.ResponseBody
+import okio.BufferedSource
+import okio.Okio
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 /**
- *
- * @Description:     mock数据拦截器
- * @Author:         yanlei.xia
- * @CreateDate:     2021/10/12 13:31
+ * @Description: mock数据拦截器
+ * @Author: yanlei.xia
+ * @CreateDate: 2021/10/12 13:31
  */
-public class MockResponseBody extends ResponseBody {
-
-    private static final MediaType DEFAULT_MEDIA_TYPE = MediaType.parse("application/json;charset=UTF-8");
-
-    private final String response;
-
-    public MockResponseBody(String response) {
-        this.response = response;
+class MockResponseBody(private val response: String) : ResponseBody() {
+    override fun contentType(): MediaType? {
+        return DEFAULT_MEDIA_TYPE
     }
 
-    @Override
-    public MediaType contentType() {
-        return DEFAULT_MEDIA_TYPE;
+    override fun contentLength(): Long {
+        return response.length.toLong()
     }
 
-    @Override
-    public long contentLength() {
-        return 0;
+    override fun source(): BufferedSource {
+        return Okio.buffer(Okio.source(inputStream()))
     }
 
-    @Override
-    public BufferedSource source() {
-        return Okio.buffer(Okio.source(inputStream()));
+    private fun inputStream(): InputStream {
+        return ByteArrayInputStream(response.toByteArray())
     }
 
-    private InputStream inputStream() {
-        return new ByteArrayInputStream(response.getBytes());
+    companion object {
+        private val DEFAULT_MEDIA_TYPE = MediaType.parse("application/json;charset=UTF-8")
     }
 }

@@ -12,4 +12,6 @@
     <string name="store_out_title_tip">确认出库吗？</string>
     <string name="store_prompt_title">提示</string>
     <string name="store_goods_invalid_tip">该物资不在领料单范围内，请归还至原货架库位。</string>
+    <string name="store_input_code_title">请输入物资编码</string>
+    <string name="store_input_code_tip">物资编码输入错误</string>
 </resources>

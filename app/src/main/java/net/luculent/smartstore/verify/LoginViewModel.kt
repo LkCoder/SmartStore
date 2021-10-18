@@ -2,8 +2,11 @@ package net.luculent.smartstore.verify
 
 import androidx.lifecycle.MutableLiveData
 import net.luculent.libcore.mvvm.BaseViewModel
+import net.luculent.libcore.storage.Storage
+import net.luculent.smartstore.api.ApiService
+import net.luculent.smartstore.api.request.LoginReq
 import net.luculent.smartstore.api.response.UserInfo
-import net.luculent.smartstore.service.LoginService
+import net.luculent.smartstore.service.Constants
 
 /**
  *
@@ -17,9 +20,15 @@ class LoginViewModel : BaseViewModel() {
 
     fun login(userId: String, password: String) {
         launch({
-            LoginService.login(userId, password)
+            ApiService.get().login(
+                LoginReq(userId, password)
+            )
         }, {
             loginLiveData.postValue(it)
         })
+    }
+
+    fun saveUser(user: UserInfo) {
+        Storage.getInstance().put(Constants.USER, user)
     }
 }

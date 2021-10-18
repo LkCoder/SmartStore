@@ -5,19 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import net.luculent.libcore.widget.WindowViewContainer
 
 /**
  * Created by xiayanlei on 2021/10/14
  */
 abstract class BaseXDialog : DialogFragment() {
-    var callBack: DialogCallBack? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(getLayoutId(), container, false)
+        val windowViewContainer = WindowViewContainer(inflater.context)
+        windowViewContainer.setContent(getLayoutId())
+        return windowViewContainer
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
