@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ConvertUtils
 import kotlinx.android.synthetic.main.title_bar_layout.view.*
 import net.luculent.libcore.R
@@ -62,6 +63,10 @@ class TitleBar @JvmOverloads constructor(
             bar_sub_content.addView(
                 LayoutInflater.from(context).inflate(subContent, bar_sub_content, false)
             )
+        }
+        bar_back_tv.setOnClickListener {
+            val topActivity = ActivityUtils.getTopActivity()
+            topActivity?.onBackPressed()
         }
     }
 

@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/login_dialog_close_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:scaleType="center"
         android:src="@drawable/ic_lib_dialog_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="29dp"
-        android:text="删除物资授权"
+        android:text="@string/goods_delete_auth_title"
         android:textColor="#ff353535"
         android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="parent"

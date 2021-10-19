@@ -58,7 +58,7 @@ class VerifyModeActivity : BaseActivity() {
     }
 
     private fun doLogin() {
-        LoginDialog.start(this, object : LoginDialog.LoginCallBack {
+        LoginDialog.start(this, getString(R.string.account_login_title), object : LoginDialog.LoginCallBack {
             override fun onLogin(user: UserInfo?) {
                 if (user != null) {
                     loginViewModel.saveUser(user)

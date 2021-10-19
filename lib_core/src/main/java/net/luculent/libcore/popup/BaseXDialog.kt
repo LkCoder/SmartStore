@@ -1,6 +1,7 @@
 package net.luculent.libcore.popup
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ abstract class BaseXDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val windowViewContainer = WindowViewContainer(inflater.context)
-        windowViewContainer.setContent(getLayoutId())
+        windowViewContainer.setContent(getLayoutId(), Gravity.CENTER)
         return windowViewContainer
     }
 

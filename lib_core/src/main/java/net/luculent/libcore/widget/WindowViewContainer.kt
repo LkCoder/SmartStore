@@ -2,6 +2,7 @@ package net.luculent.libcore.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.blankj.utilcode.util.ColorUtils
@@ -35,9 +36,12 @@ class WindowViewContainer @JvmOverloads constructor(
         }
     }
 
-    fun setContent(layoutResID: Int) {
+    fun setContent(layoutResID: Int, gravity: Int = Gravity.NO_GRAVITY) {
         removeAllViewsInLayout()
         val view = LayoutInflater.from(context).inflate(layoutResID, this, false)
         addView(view)
+        if (gravity != Gravity.NO_GRAVITY) {
+            (view.layoutParams as LayoutParams).gravity = gravity
+        }
     }
 }

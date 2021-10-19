@@ -19,7 +19,7 @@ import net.luculent.smartstore.verify.LoginViewModel
  * @Author:         yanlei.xia
  * @CreateDate:     2021/10/18 15:20
  */
-class LoginDialog : BaseXDialog() {
+class LoginDialog(private val title: String) : BaseXDialog() {
 
     private val loginViewModel by lazy {
         ViewModelFactory.create(LoginViewModel::class.java, this)
@@ -35,7 +35,7 @@ class LoginDialog : BaseXDialog() {
                 dismiss()
             } else {
                 callBack?.onLogin(null)
-                context?.toast("账号或密码错误")
+                context?.toast(getString(R.string.account_user_invalid_tip))
             }
         })
     }
@@ -46,6 +46,7 @@ class LoginDialog : BaseXDialog() {
 
     override fun initView(view: View) {
         super.initView(view)
+        login_dialog_title_tv.text = title
         login_dialog_close_iv.setOnClickListener {
             dismiss()
         }
@@ -59,15 +60,15 @@ class LoginDialog : BaseXDialog() {
         val userid = login_dialog_account_et.text.toString()
         val password = login_dialog_password_et.text.toString()
         if (userid.isEmpty() || password.isEmpty()) {
-            context?.toast("请输入账号或密码")
+            context?.toast(getString(R.string.account_user_empty_tip))
             return
         }
         loginViewModel.login(userid, password)
     }
 
     companion object {
-        fun start(activity: FragmentActivity, callBack: LoginCallBack? = null) {
-            val dialog = LoginDialog()
+        fun start(activity: FragmentActivity, title: String, callBack: LoginCallBack? = null) {
+            val dialog = LoginDialog(title)
             dialog.callBack = callBack
             activity.showXDialog(dialog)
         }

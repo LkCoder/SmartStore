@@ -20,6 +20,7 @@ import net.luculent.libcore.popup.DialogConfiguration
 import net.luculent.libcore.recyclerview.SimpleRvEmptyView
 import net.luculent.libcore.showConfirmDialog
 import net.luculent.libcore.showXDialog
+import net.luculent.libusb.scan.ICodeScan
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.Goods
 import net.luculent.smartstore.api.response.PickDetailResp
@@ -33,7 +34,7 @@ import net.luculent.smartstore.dialog.LoginDialog
  * @Author:         yanlei.xia
  * @CreateDate:     2021/10/9 10:50
  */
-class GoodsListActivity : BaseActivity() {
+class GoodsListActivity : BaseActivity(), ICodeScan {
 
     @BindViewModel
     lateinit var goodsViewModel: GoodsViewModel
@@ -106,6 +107,10 @@ class GoodsListActivity : BaseActivity() {
         goodsViewModel.getGoodsList()
     }
 
+    override fun onScanResult(value: String) {
+        goodsViewModel.scanGoodsCode(value)
+    }
+
     private fun doEnterCode() {
         codeDialog = InputDialog().apply {
             callBack = object : InputDialog.CodeInputCallBack {
@@ -120,13 +125,16 @@ class GoodsListActivity : BaseActivity() {
     private fun doDelGoods(adapterPosition: Int) {
         val goods = goodsListAdapter?.getItem(adapterPosition)
         goods ?: return
-        LoginDialog.start(this, object : LoginDialog.LoginCallBack {
-            override fun onLogin(user: UserInfo?) {
-                if (user != null) {
-                    goodsListAdapter?.removeAt(adapterPosition)
+        LoginDialog.start(
+            this,
+            getString(R.string.goods_delete_auth_title),
+            object : LoginDialog.LoginCallBack {
+                override fun onLogin(user: UserInfo?) {
+                    if (user != null) {
+                        goodsListAdapter?.removeAt(adapterPosition)
+                    }
                 }
-            }
-        })
+            })
     }
 
     private fun doOutStore() {
