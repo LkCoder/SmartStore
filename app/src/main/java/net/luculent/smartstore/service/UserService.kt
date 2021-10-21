@@ -1,6 +1,6 @@
 package net.luculent.smartstore.service
 
-import net.luculent.libcore.storage.Storage
+import net.luculent.libcore.storage.mkv.Storage
 import net.luculent.smartstore.api.response.UserInfo
 
 /**

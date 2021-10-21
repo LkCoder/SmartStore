@@ -47,4 +47,6 @@ dependencies {
     api rootProject.ext.dependencies.mmkv
     api rootProject.ext.dependencies.glide_runtime
     api rootProject.ext.dependencies.glide_compiler
+    implementation rootProject.ext.dependencies.xCrash
+
 }

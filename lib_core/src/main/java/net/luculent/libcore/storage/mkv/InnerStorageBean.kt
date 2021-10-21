@@ -1,4 +1,4 @@
-package net.luculent.libcore.storage
+package net.luculent.libcore.storage.mkv
 
 import java.io.Serializable
 

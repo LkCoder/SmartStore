@@ -2,9 +2,12 @@ package net.luculent.libcore
 
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import net.luculent.libcore.storage.Storage
+import net.luculent.libcore.storage.file.FileManager
+import net.luculent.libcore.storage.mkv.Storage
+import xcrash.XCrash
 
 /**
  *
@@ -15,9 +18,17 @@ import net.luculent.libcore.storage.Storage
 class LibCoreContentProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         context?.apply {
-            Storage.init(this)
+            init(this)
         }
         return true
+    }
+
+    private fun init(context: Context) {
+        FileManager.init(context)
+        XCrash.init(context, XCrash.InitParameters().apply {
+            setLogDir(FileManager.getAppNewDir("xCrash").absolutePath)
+        })
+        Storage.init(context)
     }
 
     override fun query(

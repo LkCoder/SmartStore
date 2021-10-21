@@ -2,7 +2,7 @@ package net.luculent.smartstore.pick
 
 import androidx.lifecycle.MutableLiveData
 import net.luculent.libcore.mvvm.BaseViewModel
-import net.luculent.libcore.storage.Storage
+import net.luculent.libcore.storage.mkv.Storage
 import net.luculent.smartstore.api.ApiService
 import net.luculent.smartstore.api.request.PickListReq
 import net.luculent.smartstore.api.response.PickListResp

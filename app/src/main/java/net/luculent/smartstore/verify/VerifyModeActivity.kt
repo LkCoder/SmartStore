@@ -38,7 +38,7 @@ class VerifyModeActivity : BaseActivity() {
             doLogin()
         }
         store_verify_by_code_lt.setOnClickListener {
-            ActivityUtils.startActivity(Intent(this, GoodsListActivity::class.java))
+            doLogin()
         }
         store_verify_cancel.setOnClickListener {
             finish()

@@ -14,8 +14,8 @@ import net.luculent.smartstore.BuildConfig
  */
 class ApiConfiguration : DefaultConfiguration() {
 
-    override fun baseUrl(): String { // TODO: 2021/10/13 修改成正式的地址
-        return "http://api.mock.com"
+    override fun baseUrl(): String {
+        return "http://47.97.105.118:8041/Liems/webservice"
     }
 
     private var httpLogger: HttpLogger = object : HttpLogger {
