@@ -1,9 +1,9 @@
 package net.luculent.smartstore.api
 
 import net.luculent.libapi.http.HttpFactory
-import net.luculent.smartstore.api.request.*
 import net.luculent.smartstore.api.response.*
-import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 /**
@@ -21,17 +21,41 @@ interface ApiService {
     }
 
     @POST("loginJST")
-    suspend fun login(@Body req: LoginReq): UserInfo
+    @FormUrlEncoded
+    suspend fun login(
+        @Field("userid") userid: String,
+        @Field("password") password: String
+    ): UserInfo
 
     @POST("getJSTPickList")
-    suspend fun pickList(@Body req: PickListReq): PickListResp
+    @FormUrlEncoded
+    suspend fun pickList(
+        @Field("userid") userid: String,
+        @Field("orgno") orgno: String = ""
+    ): PickListResp
 
     @POST("getJSTPickDetail")
-    suspend fun goodsList(@Body req: GoodsListReq): PickDetailResp
+    @FormUrlEncoded
+    suspend fun goodsList(
+        @Field("pickNo") pickNo: String,
+        @Field("orgno") orgno: String = ""
+    ): PickDetailResp
 
     @POST("getScanWZDetailJST")
-    suspend fun goodsScanResult(@Body req: GoodsScanReq): GoodsScanResp
+    @FormUrlEncoded
+    suspend fun goodsScanResult(
+        @Field("userid") userid: String,
+        @Field("pkvalue") pkvalue: String,
+        @Field("codestr") codestr: String,
+        @Field("orgno") orgno: String = ""
+    ): GoodsScanResp
 
     @POST("executeOutStorage")
-    suspend fun outStore(@Body req: OutStoreReq): BaseResp
+    @FormUrlEncoded
+    suspend fun outStore(
+        @Field("userid") userid: String,
+        @Field("pkvalue") pkvalue: String,
+        @Field("rows") rows: String,
+        @Field("orgno") orgno: String = ""
+    ): BaseResp
 }

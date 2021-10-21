@@ -3,9 +3,6 @@ package net.luculent.smartstore.goods
 import androidx.lifecycle.MutableLiveData
 import net.luculent.libcore.mvvm.BaseViewModel
 import net.luculent.smartstore.api.ApiService
-import net.luculent.smartstore.api.request.GoodsListReq
-import net.luculent.smartstore.api.request.GoodsScanReq
-import net.luculent.smartstore.api.request.OutStoreReq
 import net.luculent.smartstore.api.response.Goods
 import net.luculent.smartstore.api.response.PickDetailResp
 import net.luculent.smartstore.service.UserService
@@ -31,7 +28,7 @@ class GoodsViewModel : BaseViewModel() {
 
     fun getGoodsList() {
         launch({
-            ApiService.get().goodsList(GoodsListReq(pickNo))
+            ApiService.get().goodsList(pickNo)
         }, { resp ->
             pickDetailResp.postValue(resp)
             goodsList.apply {
@@ -46,10 +43,8 @@ class GoodsViewModel : BaseViewModel() {
     fun scanGoodsCode(codeStr: String) {
         launch({
             val resp = ApiService.get().goodsScanResult(
-                GoodsScanReq(
-                    UserService.getUser()?.userId.toString(),
-                    pickNo, codeStr
-                )
+                UserService.getUser()?.userId.toString(),
+                pickNo, codeStr
             )
             goodsList.find { it.no == resp.childno }
         }, {
@@ -67,11 +62,9 @@ class GoodsViewModel : BaseViewModel() {
     fun outStore() {
         launch({
             ApiService.get().outStore(
-                OutStoreReq(
-                    UserService.getUser()?.userId.toString(),
-                    pickNo,
-                    arrayListOf()
-                )
+                UserService.getUser()?.userId.toString(),
+                pickNo,
+                ""
             )
         })
     }

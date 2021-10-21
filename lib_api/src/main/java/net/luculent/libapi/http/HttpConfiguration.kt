@@ -28,20 +28,8 @@ const val OKHTTP_CONNECT_TIMEOUT = 60L
 
 open class DefaultConfiguration : HttpConfiguration {
 
-    private val httpLoggingInterceptor by lazy {
-        val httpLogger = logger()
-        if (httpLogger == null) {
-            HttpLoggingInterceptor()
-        } else {
-            HttpLoggingInterceptor {
-                httpLogger.log(it)
-            }
-        }
-    }
-
     override fun httpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY))
             .readTimeout(OKHTTP_READ_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(OKHTTP_WRITE_TIMEOUT, TimeUnit.SECONDS)
             .connectTimeout(OKHTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS)
@@ -94,11 +82,25 @@ open class DefaultConfiguration : HttpConfiguration {
 class WrapConfiguration(private val baseUrl: String, private val client: OkHttpClient) :
     HttpConfiguration {
 
+    private val httpLoggingInterceptor by lazy {
+        val httpLogger = logger()
+        if (httpLogger == null) {
+            HttpLoggingInterceptor()
+        } else {
+            HttpLoggingInterceptor {
+                httpLogger.log(it)
+            }
+        }
+    }
+
     override fun baseUrl(): String {
         return baseUrl
     }
 
     override fun httpClient(): OkHttpClient {
-        return client.newBuilder().addInterceptor(MockInterceptor()).build()
+        return client.newBuilder()
+            .addInterceptor(MockInterceptor())
+            .addInterceptor(httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
     }
 }

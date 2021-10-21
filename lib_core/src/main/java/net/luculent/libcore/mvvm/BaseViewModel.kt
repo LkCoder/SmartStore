@@ -12,12 +12,21 @@ import kotlinx.coroutines.*
  */
 abstract class BaseViewModel : ViewModel() {
 
-    fun <T> launch(block: suspend CoroutineScope.() -> T, callback: ((T) -> Unit)? = null) {
+    fun <T> launch(
+        block: suspend CoroutineScope.() -> T,
+        onSuccess: ((T) -> Unit)? = null,
+        onFailure: ((Exception) -> Unit)? = null
+    ) {
         viewModelScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                block.invoke(this)
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    block.invoke(this)
+                }
+                onSuccess?.invoke(response)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onFailure?.invoke(e)
             }
-            callback?.invoke(response)
         }
     }
 

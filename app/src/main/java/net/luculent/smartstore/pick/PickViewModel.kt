@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import net.luculent.libcore.mvvm.BaseViewModel
 import net.luculent.libcore.storage.mkv.Storage
 import net.luculent.smartstore.api.ApiService
-import net.luculent.smartstore.api.request.PickListReq
 import net.luculent.smartstore.api.response.PickListResp
 import net.luculent.smartstore.service.Constants
 import net.luculent.smartstore.service.UserService
@@ -25,7 +24,7 @@ class PickViewModel : BaseViewModel() {
     fun getPickList() {
         launch({
             val pickListResp = ApiService.get().pickList(
-                PickListReq(UserService.getUser()?.userId ?: "")
+                UserService.getUser()?.userId ?: ""
             )
             Storage.getInstance().put(Constants.PICK_LIST, pickListResp)
             pickListResp

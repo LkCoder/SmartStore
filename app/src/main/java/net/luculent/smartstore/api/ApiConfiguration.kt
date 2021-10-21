@@ -1,10 +1,8 @@
 package net.luculent.smartstore.api
 
-import com.blankj.utilcode.util.LogUtils
 import net.luculent.libapi.http.DefaultConfiguration
-import net.luculent.libapi.http.HttpLogger
 import net.luculent.libapi.mock.MockConfiguration
-import net.luculent.smartstore.BuildConfig
+import okhttp3.OkHttpClient
 
 /**
  *
@@ -15,22 +13,18 @@ import net.luculent.smartstore.BuildConfig
 class ApiConfiguration : DefaultConfiguration() {
 
     override fun baseUrl(): String {
-        return "http://47.97.105.118:8041/Liems/webservice"
+        return "http://47.97.105.118:8041/Liems/webservice/"
     }
 
-    private var httpLogger: HttpLogger = object : HttpLogger {
-        override fun log(info: String) {
-            LogUtils.i(info)
-        }
-    }
-
-    override fun logger(): HttpLogger? {
-        return httpLogger
+    override fun httpClient(): OkHttpClient {
+        return super.httpClient().newBuilder()
+            .addInterceptor(UrlInterceptor())
+            .build()
     }
 
     fun getMockConfiguration(): MockConfiguration {
         return MockConfiguration(
-            BuildConfig.DEBUG, arrayListOf(
+            false, arrayListOf(
                 "api.json"
             )
         )

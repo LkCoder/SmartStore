@@ -174,11 +174,7 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
             content = getString(R.string.store_goods_invalid_tip)
             contentColor = resources.getColor(R.color.color_gray_888)
         }
-        showConfirmDialog(configuration, object : DialogCallBack {
-            override fun onConfirm() {
-                goodsViewModel.outStore()
-            }
-        })
+        showConfirmDialog(configuration)
     }
 
     companion object {
