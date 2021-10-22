@@ -20,8 +20,10 @@ class LoginViewModel : BaseViewModel() {
 
     fun login(userId: String, password: String) {
         launch({
+            val realUser = userId.toUpperCase()
+            val realPass = EncryptUtils.encryptMD5ToString(realUser + password).toLowerCase()
             ApiService.get().login(
-                userId, password
+                realUser, realPass
             )
         }, {
             loginLiveData.postValue(it)

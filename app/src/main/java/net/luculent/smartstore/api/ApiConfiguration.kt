@@ -2,6 +2,7 @@ package net.luculent.smartstore.api
 
 import net.luculent.libapi.http.DefaultConfiguration
 import net.luculent.libapi.mock.MockConfiguration
+import net.luculent.libcore.utils.ServerManager
 import okhttp3.OkHttpClient
 
 /**
@@ -13,12 +14,11 @@ import okhttp3.OkHttpClient
 class ApiConfiguration : DefaultConfiguration() {
 
     override fun baseUrl(): String {
-        return "http://47.97.105.118:8041/Liems/webservice/"
+        return ServerManager.getServer()
     }
 
     override fun httpClient(): OkHttpClient {
         return super.httpClient().newBuilder()
-            .addInterceptor(UrlInterceptor())
             .build()
     }
 

@@ -2,7 +2,9 @@ package net.luculent.smartstore
 
 import androidx.multidex.MultiDexApplication
 import net.luculent.libapi.ApiManager
+import net.luculent.libcore.utils.ServerManager
 import net.luculent.smartstore.api.ApiConfiguration
+import net.luculent.smartstore.api.ApiService
 
 /**
  *
@@ -18,6 +20,7 @@ class StoreApplication : MultiDexApplication() {
     }
 
     private fun initApi() {
+        ServerManager.init(ApiService.SERVER)
         val configuration = ApiConfiguration()
         ApiManager.init(this, configuration, configuration.getMockConfiguration())
     }

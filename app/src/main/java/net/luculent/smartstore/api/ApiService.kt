@@ -15,6 +15,9 @@ import retrofit2.http.POST
 interface ApiService {
 
     companion object {
+
+        const val SERVER = "http://47.97.105.118:8041/Liems/webservice/"
+
         fun get(): ApiService {
             return HttpFactory.getService(ApiService::class.java)
         }

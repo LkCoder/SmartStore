@@ -22,6 +22,7 @@ data class Goods(
     val id: String?, // 物资编号
     val name: String?, // 物资名称
     val no: String, // 物资主键
+    val photo: String?,//物资图片
     val spec: String?, // 规格
     val statusNam: String?, // 状态名称
     val statusNo: String?, // 状态值

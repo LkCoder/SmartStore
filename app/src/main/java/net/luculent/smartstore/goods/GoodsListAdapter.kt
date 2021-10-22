@@ -3,6 +3,7 @@ package net.luculent.smartstore.goods
 import net.luculent.libcore.image.ImageLoader
 import net.luculent.libcore.recyclerview.BaseRvAdapter
 import net.luculent.libcore.recyclerview.BaseRvHolder
+import net.luculent.libcore.utils.ServerManager
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.Goods
 
@@ -19,7 +20,10 @@ class GoodsListAdapter : BaseRvAdapter<Goods, BaseRvHolder>(R.layout.store_goods
         holder.setText(R.id.goods_name_tv, item.name)
             .setText(R.id.goods_id_tv, item.id)
             .setText(R.id.goods_num_tv, item.storecount)
-        ImageLoader.load("", holder.getView(R.id.goods_photo_iv))
+        ImageLoader.load(
+            ServerManager.getServerExcludePath() + item.photo,
+            holder.getView(R.id.goods_photo_iv)
+        )
     }
 
     fun addOrReplace(goods: Goods) {
