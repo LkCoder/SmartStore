@@ -16,4 +16,7 @@
     <color name="title_bar_end_color">#ff5d8fff</color>
     <color name="menu_delete_color">#fff65857</color>
     <color name="color_gray_888">#ff888888</color>
+    <color name="green_pick">#2CBD28</color>
+    <color name="red_pick">#D51414</color>
+    <color name="orange_pick">#E2651D</color>
 </resources>

@@ -21,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17.5dp"
-        android:background="@drawable/goods_pick_state_bg"
         android:paddingStart="12.5dp"
         android:paddingTop="1.5dp"
         android:paddingEnd="12.5dp"
@@ -31,6 +30,7 @@
         app:layout_constraintBottom_toBottomOf="@id/ticket_id_tv"
         app:layout_constraintStart_toEndOf="@id/ticket_id_tv"
         app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/goods_pick_state_green_bg"
         tools:text="领料中" />
 
     <TextView

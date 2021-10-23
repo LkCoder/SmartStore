@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.dialog_login.*
 import net.luculent.libcore.mvvm.ViewModelFactory
 import net.luculent.libcore.popup.BaseXDialog
+import net.luculent.libcore.popup.DesignPopSize
 import net.luculent.libcore.showXDialog
 import net.luculent.libcore.toast
 import net.luculent.smartstore.R
@@ -42,6 +43,10 @@ class LoginDialog(private val title: String) : BaseXDialog() {
 
     override fun getLayoutId(): Int {
         return R.layout.dialog_login
+    }
+
+    override fun getDesignSize(): DesignPopSize {
+        return DesignPopSize(540, 389)
     }
 
     override fun initView(view: View) {

@@ -4,6 +4,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import kotlinx.android.synthetic.main.store_code_input_dialog.*
 import net.luculent.libcore.popup.BaseXDialog
+import net.luculent.libcore.popup.DesignPopSize
 import net.luculent.smartstore.R
 
 /**
@@ -15,6 +16,10 @@ class InputDialog : BaseXDialog() {
 
     override fun getLayoutId(): Int {
         return R.layout.store_code_input_dialog
+    }
+
+    override fun getDesignSize(): DesignPopSize {
+        return DesignPopSize(540, 389)
     }
 
     override fun initView(view: View) {

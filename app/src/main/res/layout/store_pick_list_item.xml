@@ -45,16 +45,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:background="@drawable/goods_pick_state_bg"
             android:paddingStart="7dp"
             android:paddingTop="2dp"
             android:paddingEnd="7dp"
             android:paddingBottom="2dp"
-            android:textColor="#ffe2651d"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@id/pick_item_id_tv"
             app:layout_constraintTop_toBottomOf="@id/pick_item_id_tv"
-            tools:text="领料中" />
+            tools:background="@drawable/goods_pick_state_green_bg"
+            tools:text="领料中"
+            tools:textColor="#ffe2651d" />
 
         <TextView
             android:id="@+id/pick_item_user_name_tv"

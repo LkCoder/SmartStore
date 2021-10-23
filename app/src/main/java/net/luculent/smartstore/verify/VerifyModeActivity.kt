@@ -51,8 +51,10 @@ class VerifyModeActivity : BaseActivity() {
             if (it?.rows?.size == 1) {//只有一个，跳转到物资扫描页面
                 val pickNo = it.rows[0].pickNo
                 GoodsListActivity.start(this, pickNo)
+                finish()
             } else {//跳转到领料单列表页面
                 ActivityUtils.startActivity(Intent(this, PickListActivity::class.java))
+                finish()
             }
         })
     }

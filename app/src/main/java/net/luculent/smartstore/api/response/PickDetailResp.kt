@@ -28,5 +28,7 @@ data class Goods(
     val statusNo: String?, // 状态值
     var storecount: String?, // 数量
     val storeloc: String?, // 库位
+    val ckno: String?,//
+    val kwno: String,//
     val unit: String? // 单位
 )

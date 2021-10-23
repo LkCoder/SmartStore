@@ -11,7 +11,9 @@ import com.blankj.utilcode.util.ConvertUtils.dp2px
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.activity_goods_list.*
+import kotlinx.android.synthetic.main.goods_list_content.*
 import kotlinx.android.synthetic.main.goods_list_sub_title_content.*
+import kotlinx.android.synthetic.main.out_store_state_layout.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.mvvm.BindViewModel
@@ -21,12 +23,14 @@ import net.luculent.libcore.recyclerview.SimpleRvEmptyView
 import net.luculent.libcore.showConfirmDialog
 import net.luculent.libcore.showXDialog
 import net.luculent.libusb.scan.ICodeScan
+import net.luculent.smartstore.MainActivity
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.Goods
 import net.luculent.smartstore.api.response.PickDetailResp
 import net.luculent.smartstore.api.response.UserInfo
 import net.luculent.smartstore.dialog.InputDialog
 import net.luculent.smartstore.dialog.LoginDialog
+import net.luculent.smartstore.utils.StateColorUtils
 
 /**
  *
@@ -77,7 +81,7 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
             val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             divider.setDrawable(resources.getDrawable(R.drawable.goods_item_divider))
             addItemDecoration(divider)
-            setEmptyView(SimpleRvEmptyView(context, "请扫物资二维码"))
+            setEmptyView(SimpleRvEmptyView(context, context.getString(R.string.scan_code_hint)))
         }
     }
 
@@ -89,6 +93,11 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
         goods_outing_btn.setOnClickListener {
             doOutStore()
         }
+        out_store_success_btn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun initObserver() {
@@ -98,6 +107,14 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
         })
         goodsViewModel.scanResultData.observe(this, Observer {
             onGoodsScanned(it)
+        })
+        goodsViewModel.outStoreData.observe(this, Observer {
+            if (it.isSuccess()) {
+                out_store_success_lt.visibility = View.VISIBLE
+                out_store_content_lt.visibility = View.GONE
+            } else {
+                showToast(it.message ?: getString(R.string.out_store_failed))
+            }
         })
     }
 
@@ -144,7 +161,7 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
         }
         showConfirmDialog(configuration, object : DialogCallBack {
             override fun onConfirm() {
-                goodsViewModel.outStore()
+                goodsViewModel.outStore(goodsListAdapter?.data ?: arrayListOf())
             }
         })
     }
@@ -152,6 +169,11 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
     private fun updateView(pickDetailResp: PickDetailResp) {
         ticket_id_tv.text = pickDetailResp.pickId
         ticket_pick_state_tv.text = pickDetailResp.statusNam
+        ticket_pick_state_tv.setBackgroundResource(
+            StateColorUtils.getStateBg(
+                pickDetailResp.statusNo ?: ""
+            )
+        )
         ticket_user_name_tv.text = pickDetailResp.userNam
         ticket_user_dept_tv.text = pickDetailResp.deptNam
         ticket_date_tv.text = pickDetailResp.date

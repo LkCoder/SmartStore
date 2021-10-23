@@ -3,9 +3,12 @@ package net.luculent.smartstore.goods
 import androidx.lifecycle.MutableLiveData
 import net.luculent.libcore.mvvm.BaseViewModel
 import net.luculent.smartstore.api.ApiService
+import net.luculent.smartstore.api.response.BaseResp
 import net.luculent.smartstore.api.response.Goods
 import net.luculent.smartstore.api.response.PickDetailResp
 import net.luculent.smartstore.service.UserService
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  *
@@ -17,6 +20,7 @@ class GoodsViewModel : BaseViewModel() {
 
     val pickDetailResp by lazy { MutableLiveData<PickDetailResp>() }
     val scanResultData by lazy { MutableLiveData<Goods?>() }
+    val outStoreData by lazy { MutableLiveData<BaseResp>() }
 
     private lateinit var pickNo: String
     private val goodsList = mutableListOf<Goods>()
@@ -59,13 +63,27 @@ class GoodsViewModel : BaseViewModel() {
         })
     }
 
-    fun outStore() {
+    fun outStore(goodsList: MutableList<Goods>) {
         launch({
+            val json = JSONObject().apply {
+                val aar = JSONArray()
+                for (goods in goodsList) {
+                    aar.put(JSONObject().apply {
+                        put("childno", goods.no)
+                        put("number", goods.storecount)
+                        put("ckno", goods.ckno)
+                        put("kwno", goods.kwno)
+                    })
+                }
+                put("rows", aar)
+            }
             ApiService.get().outStore(
                 UserService.getUser()?.userId.toString(),
                 pickNo,
-                ""
+                json.toString()
             )
+        }, {
+            outStoreData.postValue(it)
         })
     }
 

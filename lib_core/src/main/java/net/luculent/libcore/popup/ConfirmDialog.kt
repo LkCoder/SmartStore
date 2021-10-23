@@ -18,6 +18,10 @@ class ConfirmDialog(private val configuration: DialogConfiguration? = null) : Ba
         return R.layout.lib_confirm_dialog
     }
 
+    override fun getDesignSize(): DesignPopSize {
+        return DesignPopSize(540, 375)
+    }
+
     override fun initView(view: View) {
         super.initView(view)
         confirm_dialog_cancel.setOnClickListener {
