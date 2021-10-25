@@ -9,8 +9,8 @@ import java.io.Serializable
  * @CreateDate:     2021/10/12 16:59
  */
 open class BaseResp : Serializable {
-    val result: String? = null
-    val message: String? = null
+    var result: String? = null
+    var message: String? = null
 
     fun isSuccess(): Boolean {
         return result?.equals("success") ?: false

@@ -1,11 +1,11 @@
 {
-  "/loginJST": {
+  "/Liems/webservice/loginJST": {
     "result": "success",
     "message": "错误信息",
     "userNam": "用户名称",
     "userId": "001"
   },
-  "/getJSTPickList": {
+  "/Liems/webservice/getJSTPickList": {
     "result": "success|fail",
     "message": "错误信息",
     "rows": [
@@ -34,7 +34,7 @@
       }
     ]
   },
-  "/getJSTPickDetail": {
+  "/Liems/webservice/getJSTPickDetail": {
     "result": "success|fail",
     "message": "错误信息",
     "photo": "领料人照片",
@@ -70,12 +70,12 @@
       }
     ]
   },
-  "/getScanWZDetailJST": {
+  "/Liems/webservice/getScanWZDetailJST": {
     "result": "success|fail",
     "message": "错误信息",
     "childno": "12"
   },
-  "/executeOutStorage": {
+  "/Liems/webservice/executeOutStorage": {
     "result": "success|fail",
     "message": "错误信息",
     "tblnam": "WORECMST"

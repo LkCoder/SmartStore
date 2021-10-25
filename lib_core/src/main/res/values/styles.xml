@@ -13,4 +13,9 @@
 
         <attr name="subContent" format="reference" />
     </declare-styleable>
+    <declare-styleable name="ClearEditText">
+        <attr name="leftDrawableSize" format="dimension" />
+        <attr name="disableClear" format="boolean" />
+        <attr name="rightDrawableSize" format="dimension" />
+    </declare-styleable>
 </resources>

@@ -27,9 +27,7 @@ import net.luculent.smartstore.MainActivity
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.Goods
 import net.luculent.smartstore.api.response.PickDetailResp
-import net.luculent.smartstore.api.response.UserInfo
 import net.luculent.smartstore.dialog.InputDialog
-import net.luculent.smartstore.dialog.LoginDialog
 import net.luculent.smartstore.utils.StateColorUtils
 
 /**
@@ -94,9 +92,7 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
             doOutStore()
         }
         out_store_success_btn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+            goHome()
         }
     }
 
@@ -142,16 +138,15 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
     private fun doDelGoods(adapterPosition: Int) {
         val goods = goodsListAdapter?.getItem(adapterPosition)
         goods ?: return
-        LoginDialog.start(
-            this,
-            getString(R.string.goods_delete_auth_title),
-            object : LoginDialog.LoginCallBack {
-                override fun onLogin(user: UserInfo?) {
-                    if (user != null) {
-                        goodsListAdapter?.removeAt(adapterPosition)
-                    }
-                }
-            })
+        val configuration = DialogConfiguration().apply {
+            content = getString(R.string.goods_delete_title_tip)
+            contentSize = 24f
+        }
+        showConfirmDialog(configuration, object : DialogCallBack {
+            override fun onConfirm() {
+                goodsListAdapter?.removeAt(adapterPosition)
+            }
+        })
     }
 
     private fun doOutStore() {
@@ -166,9 +161,23 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
         })
     }
 
+    private fun goHome() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
+    }
+
     private fun updateView(pickDetailResp: PickDetailResp) {
         ticket_id_tv.text = pickDetailResp.pickId
         ticket_pick_state_tv.text = pickDetailResp.statusNam
+        ticket_pick_state_tv.setTextColor(
+            resources.getColor(
+                StateColorUtils.getTextColor(
+                    pickDetailResp.statusNo ?: ""
+                )
+            )
+        )
         ticket_pick_state_tv.setBackgroundResource(
             StateColorUtils.getStateBg(
                 pickDetailResp.statusNo ?: ""

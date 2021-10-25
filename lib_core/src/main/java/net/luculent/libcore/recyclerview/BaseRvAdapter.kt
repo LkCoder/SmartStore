@@ -1,6 +1,7 @@
 package net.luculent.libcore.recyclerview
 
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.yanzhenjie.recyclerview.SwipeMenuLayout
 
 /**
  *
@@ -10,4 +11,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter
  */
 abstract class BaseRvAdapter<T, H : BaseRvHolder>(layoutId: Int) :
     BaseQuickAdapter<T, H>(layoutId) {
+    override fun onBindViewHolder(holder: H, position: Int, payloads: MutableList<Any>) {
+        if (holder.itemView is SwipeMenuLayout) {
+            holder.itemView.smoothCloseMenu(0)
+        }
+        super.onBindViewHolder(holder, position, payloads)
+    }
 }

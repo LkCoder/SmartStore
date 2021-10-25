@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <net.luculent.libcore.widget.TitleBar
+        android:id="@+id/server_setting_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backIcon="@drawable/ic_title_back"
+        app:backText="@string/store_go_back"
+        app:barBackground="@drawable/gradient_title_bar_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleText="配置" />
+
+    <TextView
+        android:id="@+id/server_ip_label_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="@string/server_ip"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/server_ip_et"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/server_ip_et" />
+
+    <net.luculent.libcore.widget.ClearEditText
+        android:id="@+id/server_ip_et"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/textColor_black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/server_ip_label_tv"
+        app:layout_constraintTop_toBottomOf="@id/server_setting_titlebar" />
+
+
+    <TextView
+        android:id="@+id/server_port_label_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/server_port"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/server_port_et"
+        app:layout_constraintStart_toStartOf="@id/server_ip_label_tv"
+        app:layout_constraintTop_toTopOf="@id/server_port_et" />
+
+    <net.luculent.libcore.widget.ClearEditText
+        android:id="@+id/server_port_et"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/textColor_black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/server_port_label_tv"
+        app:layout_constraintTop_toBottomOf="@id/server_ip_et" />
+
+    <Button
+        android:id="@+id/server_save_btn"
+        style="@style/store_large_action_btnStyle"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/goods_out_action_bg"
+        android:text="保存"
+        android:textColor="#ffffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/server_port_et" />
+</androidx.constraintlayout.widget.ConstraintLayout>

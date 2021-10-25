@@ -20,7 +20,9 @@ class StoreApplication : MultiDexApplication() {
     }
 
     private fun initApi() {
-        ServerManager.init(ApiService.SERVER)
+        if (ServerManager.getServer().isEmpty()) {
+            ServerManager.init(ApiService.SERVER)
+        }
         val configuration = ApiConfiguration()
         ApiManager.init(this, configuration, configuration.getMockConfiguration())
     }

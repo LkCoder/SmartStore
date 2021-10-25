@@ -5,6 +5,7 @@ import net.luculent.libcore.recyclerview.BaseRvAdapter
 import net.luculent.libcore.recyclerview.BaseRvHolder
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.PickSheet
+import net.luculent.smartstore.utils.NetFileUtil
 import net.luculent.smartstore.utils.StateColorUtils
 
 /**
@@ -29,7 +30,10 @@ class PickListAdapter : BaseRvAdapter<PickSheet, BaseRvHolder>(R.layout.store_pi
                 R.id.pick_item_state_tv,
                 StateColorUtils.getStateBg(item.statusNo ?: "")
             )
-        ImageLoader.load(item.photo ?: "", holder.getView(R.id.pick_item_user_photo_iv))
+        ImageLoader.load(
+            NetFileUtil.getUrlForBreakpointDownload(item.photo),
+            holder.getView(R.id.pick_item_user_photo_iv)
+        )
     }
 
 }

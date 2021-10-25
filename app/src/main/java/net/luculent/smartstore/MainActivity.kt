@@ -5,6 +5,7 @@ import com.blankj.utilcode.util.ActivityUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
+import net.luculent.smartstore.settings.ServerSettingActivity
 import net.luculent.smartstore.verify.VerifyModeActivity
 
 class MainActivity : BaseActivity() {
@@ -17,6 +18,9 @@ class MainActivity : BaseActivity() {
         super.initListener()
         start_calculate_btn.setOnClickListener {
             ActivityUtils.startActivity(Intent(this, VerifyModeActivity::class.java))
+        }
+        server_info_iv.setOnClickListener {
+            ActivityUtils.startActivity(Intent(this, ServerSettingActivity::class.java))
         }
     }
 

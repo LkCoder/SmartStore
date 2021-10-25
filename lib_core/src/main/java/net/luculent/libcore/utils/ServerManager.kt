@@ -21,11 +21,22 @@ object ServerManager {
         return Storage.getInstance().get<String>(SERVER) ?: ""
     }
 
-    fun getServerExcludePath(): String {
+    fun getHost(): String? {
         val url = getServer()
         return try {
             val uri = Uri.parse(url)
-            uri.scheme + "://" + uri.host + ":" + uri.port
+            return uri.host
+        } catch (e: Exception) {
+            e.printStackTrace()
+            url
+        }
+    }
+
+    fun getPort(): String {
+        val url = getServer()
+        return try {
+            val uri = Uri.parse(url)
+            return uri.port.toString()
         } catch (e: Exception) {
             e.printStackTrace()
             url

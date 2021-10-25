@@ -38,6 +38,10 @@ object HttpFactory {
         return service
     }
 
+    fun clearCache() {
+        serviceCache.clear()
+    }
+
     private fun <T> generateConfiguration(
         clz: Class<T>,
         configuration: HttpConfiguration?

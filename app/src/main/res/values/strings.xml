@@ -18,9 +18,12 @@
     <string name="account_user_invalid_tip">账号或密码错误</string>
     <string name="account_user_empty_tip">请输入账号或密码</string>
     <string name="goods_delete_auth_title">删除物资授权</string>
+    <string name="goods_delete_title_tip">确定删除物资吗？</string>
     <string name="scan_code_hint">请扫物资二维码</string>
     <string name="out_store_success">出库成功</string>
     <string name="out_store_failed">出库失败</string>
     <string name="no_pick_hint">抱歉，您当前并无待领料单</string>
     <string name="go_home">返回首页</string>
+    <string name="server_ip">IP地址：</string>
+    <string name="server_port">端口号：</string>
 </resources>

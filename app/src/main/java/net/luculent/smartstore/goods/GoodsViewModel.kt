@@ -24,7 +24,6 @@ class GoodsViewModel : BaseViewModel() {
 
     private lateinit var pickNo: String
     private val goodsList = mutableListOf<Goods>()
-    private val goodsCountMap = mutableMapOf<String, Int>()
 
     fun initPick(pickNo: String) {
         this.pickNo = pickNo
@@ -53,10 +52,7 @@ class GoodsViewModel : BaseViewModel() {
             goodsList.find { it.no == resp.childno }
         }, {
             if (it != null) {
-                var count = goodsCountMap[it.no] ?: 0
-                count++
-                goodsCountMap[it.no] = count
-                scanResultData.postValue(it.copy(storecount = count.toString()))
+                scanResultData.postValue(it.copy())
             } else {
                 scanResultData.postValue(it)
             }
@@ -65,17 +61,15 @@ class GoodsViewModel : BaseViewModel() {
 
     fun outStore(goodsList: MutableList<Goods>) {
         launch({
-            val json = JSONObject().apply {
-                val aar = JSONArray()
+            val json = JSONArray().apply {
                 for (goods in goodsList) {
-                    aar.put(JSONObject().apply {
+                    put(JSONObject().apply {
                         put("childno", goods.no)
                         put("number", goods.storecount)
                         put("ckno", goods.ckno)
                         put("kwno", goods.kwno)
                     })
                 }
-                put("rows", aar)
             }
             ApiService.get().outStore(
                 UserService.getUser()?.userId.toString(),
@@ -85,10 +79,5 @@ class GoodsViewModel : BaseViewModel() {
         }, {
             outStoreData.postValue(it)
         })
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        goodsCountMap.clear()
     }
 }

@@ -16,35 +16,35 @@ interface ApiService {
 
     companion object {
 
-        const val SERVER = "http://47.97.105.118:8041/Liems/webservice/"
+        const val SERVER = "http://47.97.105.118:8041/"
 
         fun get(): ApiService {
             return HttpFactory.getService(ApiService::class.java)
         }
     }
 
-    @POST("loginJST")
+    @POST("Liems/webservice/loginJST")
     @FormUrlEncoded
     suspend fun login(
         @Field("userid") userid: String,
         @Field("password") password: String
     ): UserInfo
 
-    @POST("getJSTPickList")
+    @POST("Liems/webservice/getJSTPickList")
     @FormUrlEncoded
     suspend fun pickList(
         @Field("userid") userid: String,
         @Field("orgno") orgno: String = ""
     ): PickListResp
 
-    @POST("getJSTPickDetail")
+    @POST("Liems/webservice/getJSTPickDetail")
     @FormUrlEncoded
     suspend fun goodsList(
         @Field("pickNo") pickNo: String,
         @Field("orgno") orgno: String = ""
     ): PickDetailResp
 
-    @POST("getScanWZDetailJST")
+    @POST("Liems/webservice/getScanWZDetailJST")
     @FormUrlEncoded
     suspend fun goodsScanResult(
         @Field("userid") userid: String,
@@ -53,7 +53,7 @@ interface ApiService {
         @Field("orgno") orgno: String = ""
     ): GoodsScanResp
 
-    @POST("executeOutStorage")
+    @POST("Liems/webservice/executeOutStorage")
     @FormUrlEncoded
     suspend fun outStore(
         @Field("userid") userid: String,

@@ -21,7 +21,7 @@ class GoodsListAdapter : BaseRvAdapter<Goods, BaseRvHolder>(R.layout.store_goods
             .setText(R.id.goods_id_tv, item.id)
             .setText(R.id.goods_num_tv, item.storecount)
         ImageLoader.load(
-            ServerManager.getServerExcludePath() + item.photo,
+            ServerManager.getServer() + item.photo,
             holder.getView(R.id.goods_photo_iv)
         )
     }
