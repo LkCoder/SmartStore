@@ -26,7 +26,8 @@ data class Goods(
     val spec: String?, // 规格
     val statusNam: String?, // 状态名称
     val statusNo: String?, // 状态值
-    var storecount: String?, // 数量
+    val storecount: String?, // 数量
+    val recQty: String?,//领用数量
     val storeloc: String?, // 库位
     val ckno: String?,//
     val kwno: String,//

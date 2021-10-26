@@ -16,7 +16,14 @@ import net.luculent.libcore.popup.DialogConfiguration
  * @CreateDate:     2021/10/8 14:35
  */
 fun Context.toast(charSequence: CharSequence) {
-    ToastUtils.getDefaultMaker().setGravity(Gravity.TOP, 0, 0)
+    appToast(charSequence)
+}
+
+fun appToast(charSequence: CharSequence) {
+    ToastUtils.getDefaultMaker().apply {
+        setGravity(Gravity.TOP, 0, 50)
+        setTextSize(16)
+    }
     ToastUtils.showShort(charSequence)
 }
 

@@ -19,10 +19,9 @@ class GoodsListAdapter : BaseRvAdapter<Goods, BaseRvHolder>(R.layout.store_goods
         holder.itemView.setBackgroundResource(R.drawable.goods_item_bg)
         holder.setText(R.id.goods_name_tv, item.name)
             .setText(R.id.goods_id_tv, item.id)
-            .setText(R.id.goods_num_tv, item.storecount)
+            .setText(R.id.goods_num_tv, item.recQty)
         ImageLoader.load(
-            ServerManager.getServer() + item.photo,
-            holder.getView(R.id.goods_photo_iv)
+            item.photo.toString(), holder.getView(R.id.goods_photo_iv)
         )
     }
 

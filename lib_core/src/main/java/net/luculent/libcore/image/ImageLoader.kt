@@ -1,6 +1,7 @@
 package net.luculent.libcore.image
 
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.blankj.utilcode.util.AppUtils
 import com.bumptech.glide.Glide
 
@@ -14,9 +15,15 @@ object ImageLoader {
 
     @JvmStatic
     fun load(url: String, target: ImageView) {
+        load(url, target, AppUtils.getAppIconId())
+    }
+
+    @JvmStatic
+    fun load(url: String, target: ImageView, @DrawableRes defaultRes: Int) {
         Glide.with(target)
             .load(url)
-            .error(AppUtils.getAppIconId())
+            .placeholder(defaultRes)
+            .error(defaultRes)
             .into(target)
     }
 }

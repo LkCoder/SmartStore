@@ -3,6 +3,7 @@ package net.luculent.libcore.mvvm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
+import net.luculent.libcore.appToast
 
 /**
  *
@@ -15,7 +16,7 @@ abstract class BaseViewModel : ViewModel() {
     fun <T> launch(
         block: suspend CoroutineScope.() -> T,
         onSuccess: ((T) -> Unit)? = null,
-        onFailure: ((Exception) -> Unit)? = null
+        onFailure: ((Exception) -> Unit)? = { appToast("操作异常") }
     ) {
         viewModelScope.launch {
             try {

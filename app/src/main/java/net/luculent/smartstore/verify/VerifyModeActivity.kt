@@ -50,8 +50,7 @@ class VerifyModeActivity : BaseActivity() {
         pickViewModel.pickListLiveData.observe(this, Observer {
             if (it?.rows?.size == 1) {//只有一个，跳转到物资扫描页面
                 val pickNo = it.rows[0].pickNo
-//                GoodsListActivity.start(this, pickNo)
-                ActivityUtils.startActivity(Intent(this, PickListActivity::class.java))
+                GoodsListActivity.start(this, pickNo)
                 finish()
             } else {//跳转到领料单列表页面
                 ActivityUtils.startActivity(Intent(this, PickListActivity::class.java))
@@ -61,14 +60,17 @@ class VerifyModeActivity : BaseActivity() {
     }
 
     private fun doLogin() {
-        LoginDialog.start(this, getString(R.string.account_login_title), object : LoginDialog.LoginCallBack {
-            override fun onLogin(user: UserInfo?) {
-                if (user != null) {
-                    loginViewModel.saveUser(user)
-                    pickViewModel.getPickList()
+        LoginDialog.start(
+            this,
+            getString(R.string.account_login_title),
+            object : LoginDialog.LoginCallBack {
+                override fun onLogin(user: UserInfo?) {
+                    if (user != null) {
+                        loginViewModel.saveUser(user)
+                        pickViewModel.getPickList()
+                    }
                 }
-            }
-        })
+            })
     }
 
     override fun getWindowConfiguration(): WindowConfiguration {
