@@ -65,7 +65,7 @@ class GoodsViewModel : BaseViewModel() {
                 for (goods in goodsList) {
                     put(JSONObject().apply {
                         put("childno", goods.no)
-                        put("number", goods.storecount)
+                        put("number", goods.recQty)
                         put("ckno", goods.ckno)
                         put("kwno", goods.kwno)
                     })
