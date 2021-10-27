@@ -1,6 +1,8 @@
 package net.luculent.smartstore.api
 
+import com.blankj.utilcode.util.LogUtils
 import net.luculent.libapi.http.DefaultConfiguration
+import net.luculent.libapi.http.HttpLogger
 import net.luculent.libapi.mock.MockConfiguration
 import net.luculent.libcore.utils.ServerManager
 import okhttp3.OkHttpClient
@@ -15,6 +17,14 @@ class ApiConfiguration : DefaultConfiguration() {
 
     override fun baseUrl(): String {
         return ServerManager.getServer()
+    }
+
+    override fun logger(): HttpLogger {
+        return object : HttpLogger {
+            override fun log(info: String) {
+                LogUtils.iTag("OK-Http", info)
+            }
+        }
     }
 
     override fun httpClient(): OkHttpClient {

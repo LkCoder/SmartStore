@@ -17,7 +17,7 @@ import net.luculent.smartstore.utils.StateColorUtils
 class PickListAdapter : BaseRvAdapter<PickSheet, BaseRvHolder>(R.layout.store_pick_list_item) {
 
     override fun convert(holder: BaseRvHolder, item: PickSheet) {
-        holder.setText(R.id.pick_item_id_tv, item.userId)
+        holder.setText(R.id.pick_item_id_tv, item.pickId)
             .setText(R.id.pick_item_state_tv, item.statusNam)
             .setText(R.id.pick_item_user_name_tv, item.userNam)
             .setText(R.id.pick_item_user_dept_tv, item.deptNam)

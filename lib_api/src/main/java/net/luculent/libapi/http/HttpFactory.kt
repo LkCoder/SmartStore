@@ -57,6 +57,7 @@ object HttpFactory {
             throw IllegalArgumentException("${clz.canonicalName} base url is null")
         }
         val client = configuration?.httpClient() ?: mHttpConfiguration.httpClient()
-        return WrapConfiguration(baseUrl, client)
+        val logger = configuration?.logger() ?: mHttpConfiguration.logger()
+        return WrapConfiguration(baseUrl, client, logger)
     }
 }

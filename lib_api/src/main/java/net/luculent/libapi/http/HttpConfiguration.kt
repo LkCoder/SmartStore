@@ -79,11 +79,14 @@ open class DefaultConfiguration : HttpConfiguration {
         }
 }
 
-class WrapConfiguration(private val baseUrl: String, private val client: OkHttpClient) :
-    HttpConfiguration {
+class WrapConfiguration(
+    private val baseUrl: String,
+    private val client: OkHttpClient,
+    private val logger: HttpLogger?
+) : HttpConfiguration {
 
     private val httpLoggingInterceptor by lazy {
-        val httpLogger = logger()
+        val httpLogger = logger
         if (httpLogger == null) {
             HttpLoggingInterceptor()
         } else {
