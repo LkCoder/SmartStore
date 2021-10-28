@@ -15,6 +15,8 @@
             <option value="$PROJECT_DIR$/lib_api" />
             <option value="$PROJECT_DIR$/lib_core" />
             <option value="$PROJECT_DIR$/lib_usb" />
+            <option value="$PROJECT_DIR$/libuvccamera" />
+            <option value="$PROJECT_DIR$/usbCameraCommon" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

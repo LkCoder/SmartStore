@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartStore</string>
+    <string name="app_name">结算台</string>
     <string name="store_start_calculate">开始结算</string>
     <string name="store_face_verify">刷脸认证</string>
     <string name="store_goods_scan">物资扫码</string>

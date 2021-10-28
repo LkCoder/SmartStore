@@ -32,7 +32,8 @@ class PickListAdapter : BaseRvAdapter<PickSheet, BaseRvHolder>(R.layout.store_pi
             )
         ImageLoader.load(
             NetFileUtil.getUrlForBreakpointDownload(item.photo),
-            holder.getView(R.id.pick_item_user_photo_iv)
+            holder.getView(R.id.pick_item_user_photo_iv),
+            R.drawable.store_default_user_photo
         )
     }
 

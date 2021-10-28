@@ -3,6 +3,8 @@ package net.luculent.libusb.lifecycle
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import net.luculent.libusb.face.IUsbMonitor
+import net.luculent.libusb.face.USBMonitorProxy
 import net.luculent.libusb.scan.ICodeScan
 import net.luculent.libusb.scan.ScannerProxy
 
@@ -16,7 +18,10 @@ class UsbLifeCycleCallBacksImpl : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         if (activity is ICodeScan) {
-            ScannerProxy().install(activity)
+            ScannerProxy(activity).install()
+        }
+        if (activity is IUsbMonitor) {
+            USBMonitorProxy(activity).install()
         }
     }
 

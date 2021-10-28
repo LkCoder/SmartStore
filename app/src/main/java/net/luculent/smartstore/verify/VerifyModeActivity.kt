@@ -35,7 +35,7 @@ class VerifyModeActivity : BaseActivity() {
     override fun initListener() {
         super.initListener()
         store_verify_by_face_lt.setOnClickListener {
-            doLogin()
+            ActivityUtils.startActivity(Intent(this, VerifyByFaceActivity::class.java))
         }
         store_verify_by_code_lt.setOnClickListener {
             doLogin()

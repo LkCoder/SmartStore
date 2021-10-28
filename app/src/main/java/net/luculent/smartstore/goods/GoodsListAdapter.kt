@@ -21,7 +21,9 @@ class GoodsListAdapter : BaseRvAdapter<Goods, BaseRvHolder>(R.layout.store_goods
             .setText(R.id.goods_id_tv, item.id)
             .setText(R.id.goods_num_tv, item.recQty)
         ImageLoader.load(
-            item.photo.toString(), holder.getView(R.id.goods_photo_iv)
+            item.photo.toString(),
+            holder.getView(R.id.goods_photo_iv),
+            R.drawable.store_default_goods_photo
         )
     }
 

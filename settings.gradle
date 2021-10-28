@@ -1,5 +1,7 @@
-include ':lib_usb'
-include ':lib_api'
-include ':lib_core'
 include ':app'
+include ':lib_core'
+include ':lib_api'
+include ':lib_usb'
+include ':libuvccamera'
+include ':usbCameraCommon'
 rootProject.name = "SmartStore"
