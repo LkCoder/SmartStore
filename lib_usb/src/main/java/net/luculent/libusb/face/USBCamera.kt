@@ -57,13 +57,12 @@ class USBCamera(
         val previewWidth = cameraConfiguration?.previewWidth ?: getConfiguration().previewWidth
         val previewHeight = cameraConfiguration?.previewHeight ?: getConfiguration().previewHeight
         mCameraViewInterface?.setAspectRatio(previewWidth, previewHeight)
-        this.mUVCCameraHandler =
-            UVCCameraHandler.createHandler(
-                activity,
-                cameraViewInterface,
-                previewWidth,
-                previewHeight
-            )
+        this.mUVCCameraHandler = UVCCameraHandler.createHandler(
+            activity,
+            cameraViewInterface,
+            previewWidth,
+            previewHeight
+        )
     }
 
     /**
@@ -132,5 +131,12 @@ class USBCamera(
 
     override fun onFrame(frame: ByteBuffer?) {
         iFrameCallback?.onFrame(frame)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is USBCamera) {
+            return false
+        }
+        return device?.deviceId == other.device?.deviceId
     }
 }

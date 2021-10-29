@@ -5,7 +5,6 @@ import android.hardware.usb.UsbDevice
 import com.blankj.utilcode.util.LogUtils
 import com.serenegiant.usb.USBMonitor
 import net.luculent.libusb.AbsUsbWindowProxy
-import net.luculent.libusb.util.Cfg
 
 /**
  *
@@ -51,7 +50,7 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
         createNew: Boolean
     ) {
         LogUtils.iTag(TAG, "onConnect: $device")
-        getUsbInterface().onUSBCameraAttached(USBCamera(activity, device, ctrlBlock))
+        getUsbInterface().onUSBCameraConnected(USBCamera(activity, device, ctrlBlock))
     }
 
     override fun onDisconnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?) {
@@ -63,9 +62,7 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
     }
 
     private fun requestPermission(device: UsbDevice) {
-        if (device.vendorId == Cfg.OB_DEVICE_VID
-            && (Cfg.RGB_LIST.contains(device.productId) || Cfg.IR_LIST.contains(device.productId))
-        ) {
+        if (getUsbInterface().isSupport(device)) {
             mUSBMonitor?.requestPermission(device)
         }
     }
