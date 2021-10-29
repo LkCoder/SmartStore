@@ -7,7 +7,7 @@ import com.serenegiant.usb.USBMonitor
 import net.luculent.libusb.AbsUsbWindowProxy
 
 /**
- *
+ * 需要注意，usb的回调是在异步线程，处理ui相关的逻辑，需要切回到主线程
  * @Description:     usb监听代理类，activity启动的时候，自动初始化
  * @Author:         yanlei.xia
  * @CreateDate:     2021/10/28 15:23
@@ -25,18 +25,20 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
         super.install()
         mUSBMonitor = USBMonitor(activity, this, 0)
         mUSBMonitor?.register()
-        mUSBMonitor = null
     }
 
     override fun onDetachedFromWindow() {
         mUSBMonitor?.destroy()
+        mUSBMonitor = null
         super.onDetachedFromWindow()
     }
 
     override fun onAttach(device: UsbDevice?) {
         LogUtils.iTag(TAG, "onAttach: $device")
-        device?.let {
-            requestPermission(it)
+        activity.runOnUiThread {
+            device?.let {
+                requestPermission(it)
+            }
         }
     }
 
@@ -50,7 +52,9 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
         createNew: Boolean
     ) {
         LogUtils.iTag(TAG, "onConnect: $device")
-        getUsbInterface().onUSBCameraConnected(USBCamera(activity, device, ctrlBlock))
+        activity.runOnUiThread {
+            getUsbInterface().onUSBCameraConnected(USBCamera(activity, device, ctrlBlock))
+        }
     }
 
     override fun onDisconnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?) {
