@@ -18,7 +18,7 @@ class UVCFaceCameraView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : UVCCameraTextureView(context, attrs, defStyleAttr) {
 
-    private var radius = 0f
+    private var radius = 0
 
     init {
         if (isLOLLIPOPAbove()) {
@@ -32,7 +32,7 @@ class UVCFaceCameraView @JvmOverloads constructor(
         }
     }
 
-    fun setRadius(radius: Float) {
+    fun setRadius(radius: Int) {
         this.radius = radius
         if (isLOLLIPOPAbove()) {
             invalidateOutline()

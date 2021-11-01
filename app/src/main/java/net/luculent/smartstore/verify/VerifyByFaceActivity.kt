@@ -1,15 +1,14 @@
 package net.luculent.smartstore.verify
 
 import android.view.Surface
-import android.view.View
+import android.view.ViewTreeObserver
 import com.serenegiant.widget.CameraViewInterface
-import com.serenegiant.widget.UVCCameraTextureView
-import kotlinx.android.synthetic.main.activity_verify_face.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libusb.face.IUsbMonitor
 import net.luculent.libusb.face.SimpleSurfaceCallback
 import net.luculent.libusb.face.USBCamera
+import net.luculent.libusb.face.widget.UVCFaceCameraView
 import net.luculent.smartstore.R
 
 /**
@@ -21,8 +20,7 @@ import net.luculent.smartstore.R
 class VerifyByFaceActivity : BaseActivity(), IUsbMonitor {
 
     private var mUsbCamera: USBCamera? = null
-    private var facePreview: UVCCameraTextureView? = null
-    private var isInitialed = false
+    private var facePreview: UVCFaceCameraView? = null
     private val surfaceCallback by lazy {
         object : SimpleSurfaceCallback() {
             override fun onSurfaceCreated(view: CameraViewInterface?, surface: Surface?) {
@@ -38,7 +36,16 @@ class VerifyByFaceActivity : BaseActivity(), IUsbMonitor {
     override fun initView() {
         super.initView()
         facePreview = findViewById(R.id.face_camera_view)
-        facePreview?.setCallback(surfaceCallback)
+        facePreview?.apply {
+            setCallback(surfaceCallback)
+            viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    setRadius(width)
+                }
+            })
+        }
         initCamera()
     }
 
@@ -49,13 +56,9 @@ class VerifyByFaceActivity : BaseActivity(), IUsbMonitor {
 
     private fun initCamera() {
         facePreview?.let {
-            if (!isInitialed) {
-                mUsbCamera?.apply {
-                    face_outline_view.visibility = View.VISIBLE
-                    isInitialed = true
-                    init(it)
-                    startPreview()
-                }
+            mUsbCamera?.apply {
+                init(it)
+                startPreview()
             }
         }
     }

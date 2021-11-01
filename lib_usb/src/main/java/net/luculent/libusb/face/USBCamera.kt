@@ -50,13 +50,12 @@ class USBCamera(
         cameraViewInterface: CameraViewInterface,
         cameraConfiguration: CameraConfiguration? = null
     ) {
-        if (mUVCCameraHandler?.isOpened == true) {
-            mUVCCameraHandler?.close()
+        if (mUVCCameraHandler != null) {
+            return
         }
         this.mCameraViewInterface = cameraViewInterface
         val previewWidth = cameraConfiguration?.previewWidth ?: getConfiguration().previewWidth
         val previewHeight = cameraConfiguration?.previewHeight ?: getConfiguration().previewHeight
-        mCameraViewInterface?.setAspectRatio(previewWidth, previewHeight)
         this.mUVCCameraHandler = UVCCameraHandler.createHandler(
             activity,
             cameraViewInterface,
