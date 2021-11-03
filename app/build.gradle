@@ -34,6 +34,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.contains("release")) {
+            variant.outputs.all { output ->
+                String time = new Date().format("yyyyMMdd-HHmm")
+                outputFileName = "结算台_${variant.mergedFlavor.versionName}_${time}.apk"
+            }
+        }
+    }
 }
 
 dependencies {
