@@ -25,6 +25,7 @@ class XProgressDialog(context: Context) : AlertDialog(context) {
 
     override fun onStart() {//因为onCreate第一次的调用时机在show之后，但是onStart每次show都会执行，所以在onStart的地方处理ui
         super.onStart()
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
         if (content.isNullOrEmpty()) {
             x_progress_tv.visibility = View.GONE
         } else {

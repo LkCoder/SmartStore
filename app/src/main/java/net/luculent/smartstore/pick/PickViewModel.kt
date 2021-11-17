@@ -30,7 +30,7 @@ class PickViewModel : BaseViewModel() {
             pickListResp
         }, {
             pickListLiveData.postValue(it)
-        })
+        }, { pickListLiveData.postValue(null) })
     }
 
     /**

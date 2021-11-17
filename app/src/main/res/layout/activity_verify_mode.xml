@@ -57,7 +57,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="42.5dp"
-            android:src="@drawable/ic_verify_by_code"
+            android:src="@drawable/ic_verify_by_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
-            android:text="@string/store_verify_by_code"
+            android:text="@string/store_verify_by_account"
             android:textColor="@color/theme_blue"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"

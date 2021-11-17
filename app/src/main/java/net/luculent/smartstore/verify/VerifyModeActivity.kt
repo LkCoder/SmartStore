@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_verify_mode.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.mvvm.BindViewModel
+import net.luculent.libcore.popup.progress.ProgressDialogManager
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.UserInfo
 import net.luculent.smartstore.dialog.LoginDialog
@@ -49,6 +50,7 @@ class VerifyModeActivity : BaseActivity() {
     override fun initObserver() {
         super.initObserver()
         pickViewModel.pickListLiveData.observe(this, Observer {
+            ProgressDialogManager.get(this@VerifyModeActivity).dismiss()
             if (it?.rows?.size == 1) {//只有一个，跳转到物资扫描页面
                 val pickNo = it.rows[0].pickNo
                 GoodsListActivity.start(this, pickNo)
@@ -69,10 +71,16 @@ class VerifyModeActivity : BaseActivity() {
             this,
             getString(R.string.account_login_title),
             object : LoginDialog.LoginCallBack {
-                override fun onLogin(user: UserInfo?) {
+                override fun onLoginStart() {
+                    ProgressDialogManager.get(this@VerifyModeActivity).show()
+                }
+
+                override fun onLoginResult(user: UserInfo?) {
                     if (user != null) {
                         loginViewModel.saveUser(user)
                         pickViewModel.getPickList()
+                    } else {
+                        ProgressDialogManager.get(this@VerifyModeActivity).dismiss()
                     }
                 }
             })

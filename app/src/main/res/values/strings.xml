@@ -5,7 +5,7 @@
     <string name="store_goods_scan">物资扫码</string>
     <string name="store_goods_out">物资出库</string>
     <string name="store_select_verify_title">请选择验证方式</string>
-    <string name="store_verify_by_face">刷脸支付</string>
+    <string name="store_verify_by_face">刷脸登录</string>
     <string name="store_verify_by_code">输入领料单号</string>
     <string name="store_operation_cancel">取消操作</string>
     <string name="store_delete">删除</string>
@@ -26,4 +26,5 @@
     <string name="go_home">返回首页</string>
     <string name="server_ip">IP地址：</string>
     <string name="server_port">端口号：</string>
+    <string name="store_verify_by_account">账户登录</string>
 </resources>

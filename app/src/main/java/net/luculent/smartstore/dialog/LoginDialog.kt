@@ -32,10 +32,10 @@ class LoginDialog(private val title: String) : BaseXDialog() {
         super.onCreate(savedInstanceState)
         loginViewModel.loginLiveData.observe(this, Observer {
             if (it.isSuccess()) {
-                callBack?.onLogin(it)
+                callBack?.onLoginResult(it)
                 dismiss()
             } else {
-                callBack?.onLogin(null)
+                callBack?.onLoginResult(null)
                 context?.toast(getString(R.string.account_user_invalid_tip))
             }
         })
@@ -68,6 +68,7 @@ class LoginDialog(private val title: String) : BaseXDialog() {
             context?.toast(getString(R.string.account_user_empty_tip))
             return
         }
+        callBack?.onLoginStart()
         loginViewModel.login(userid, password)
     }
 
@@ -80,6 +81,7 @@ class LoginDialog(private val title: String) : BaseXDialog() {
     }
 
     interface LoginCallBack {
-        fun onLogin(user: UserInfo?)
+        fun onLoginStart()
+        fun onLoginResult(user: UserInfo?)
     }
 }
