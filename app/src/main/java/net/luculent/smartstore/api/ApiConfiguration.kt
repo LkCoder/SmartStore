@@ -5,7 +5,6 @@ import net.luculent.libapi.http.DefaultConfiguration
 import net.luculent.libapi.http.HttpLogger
 import net.luculent.libapi.mock.MockConfiguration
 import net.luculent.libcore.utils.ServerManager
-import okhttp3.OkHttpClient
 
 /**
  *
@@ -25,11 +24,6 @@ class ApiConfiguration : DefaultConfiguration() {
                 LogUtils.iTag("OK-Http", info)
             }
         }
-    }
-
-    override fun httpClient(): OkHttpClient {
-        return super.httpClient().newBuilder()
-            .build()
     }
 
     fun getMockConfiguration(): MockConfiguration {

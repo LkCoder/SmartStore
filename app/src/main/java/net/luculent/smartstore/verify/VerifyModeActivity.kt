@@ -1,8 +1,10 @@
 package net.luculent.smartstore.verify
 
+import android.Manifest
 import android.content.Intent
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.PermissionUtils
 import kotlinx.android.synthetic.main.activity_verify_mode.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
@@ -36,8 +38,7 @@ class VerifyModeActivity : BaseActivity() {
     override fun initListener() {
         super.initListener()
         store_verify_by_face_lt.setOnClickListener {
-//            doFaceVerify()
-            doLogin()
+            doFaceVerify()
         }
         store_verify_by_code_lt.setOnClickListener {
             doLogin()
@@ -49,6 +50,9 @@ class VerifyModeActivity : BaseActivity() {
 
     override fun initObserver() {
         super.initObserver()
+        loginViewModel.faceUserData.observe(this, Observer {
+
+        })
         pickViewModel.pickListLiveData.observe(this, Observer {
             ProgressDialogManager.get(this@VerifyModeActivity).dismiss()
             if (it?.rows?.size == 1) {//只有一个，跳转到物资扫描页面
@@ -63,7 +67,18 @@ class VerifyModeActivity : BaseActivity() {
     }
 
     private fun doFaceVerify() {
-        ActivityUtils.startActivity(Intent(this, VerifyByFaceActivity::class.java))
+        PermissionUtils.permission(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ).rationale { activity, shouldRequest -> shouldRequest.again(true) }
+            .callback { isAllGranted, granted, deniedForever, denied ->
+                if (isAllGranted) {
+                    loginViewModel.faceVerify(this)
+                } else {
+                    showToast("缺少相关权限，请确保已经允许相机和存储权限")
+                }
+            }.request()
     }
 
     private fun doLogin() {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="face_collect_time_out">人脸采集超时</string>
+    <string name="face_collect_again">重新采集</string>
+    <string name="face_collect_back">返回</string>
+</resources>

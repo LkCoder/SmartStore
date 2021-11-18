@@ -17,9 +17,13 @@ object ApiManager {
     fun init(
         context: Context,
         httpConfiguration: HttpConfiguration,
-        mockConfiguration: MockConfiguration
+        mockConfiguration: MockConfiguration? = null
     ) {
         HttpFactory.init(httpConfiguration)
         MockFactory.init(context, mockConfiguration)
+    }
+
+    fun reset() {
+        HttpFactory.clearCache()
     }
 }

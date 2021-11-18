@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.baidu.vis.unified.license.** {*;}
+
+-keep class com.baidu.liantian.** {*;}
+
+-keep class com.baidu.baidusec.** {*;}
+
+-keep class com.baidu.idl.main.facesdk.** {*;}

@@ -30,7 +30,7 @@ object MockFactory {
      *       }
      *   }
      */
-    fun init(context: Context, configuration: MockConfiguration) {
+    fun init(context: Context, configuration: MockConfiguration?) {
         this.mContext = context.applicationContext
         this.configuration = configuration
     }

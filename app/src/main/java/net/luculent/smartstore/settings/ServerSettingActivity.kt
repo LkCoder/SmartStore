@@ -1,7 +1,7 @@
 package net.luculent.smartstore.settings
 
 import kotlinx.android.synthetic.main.activity_server_setting.*
-import net.luculent.libapi.http.HttpFactory
+import net.luculent.libapi.ApiManager
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.utils.ServerManager
@@ -39,7 +39,7 @@ class ServerSettingActivity : BaseActivity() {
             return
         }
         ServerManager.init("http://$host:$port")
-        HttpFactory.clearCache()
+        ApiManager.reset()
         finish()
     }
 

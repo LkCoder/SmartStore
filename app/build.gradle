@@ -21,16 +21,43 @@ android {
         }
     }
 
-    buildTypes {
+    signingConfigs {
+        debug {
+            storeFile file("../smart_store.jks") // 需要修改成您的签名文件路径
+            storePassword 'luculent1!'        // 需要修改成您的签名文件密码
+            keyAlias 'smart_store'     // 需要修改成您的签名文件别名
+            keyPassword 'luculent1!'          // 需要修改成您的签名文件别名密码
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            storeFile file("../smart_store.jks") // 需要修改成您的签名文件路径
+            storePassword 'luculent1!'        // 需要修改成您的签名文件密码
+            keyAlias 'smart_store'     // 需要修改成您的签名文件别名
+            keyPassword 'luculent1!'          // 需要修改成您的签名文件别名密码
         }
     }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            debuggable true
+            jniDebuggable true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            debuggable false
+            jniDebuggable false
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -49,4 +76,5 @@ dependencies {
     implementation project(":lib_core")
     implementation project(":lib_api")
     implementation project(":lib_usb")
+    implementation project(":lib_face")
 }

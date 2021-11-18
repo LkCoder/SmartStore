@@ -6,6 +6,7 @@ import net.luculent.libapi.ApiManager
 import net.luculent.libcore.utils.ServerManager
 import net.luculent.smartstore.api.ApiConfiguration
 import net.luculent.smartstore.api.ApiService
+import net.luculent.smartstore.starter.BdSDKStarter
 
 /**
  *
@@ -19,6 +20,7 @@ class StoreApplication : MultiDexApplication() {
         super.onCreate()
         initLogger()
         initApi()
+        BdSDKStarter.initialize(this)
     }
 
     private fun initLogger() {
