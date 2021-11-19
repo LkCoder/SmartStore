@@ -3,6 +3,7 @@ package net.luculent.libusb.lifecycle
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.blankj.utilcode.util.LogUtils
 import net.luculent.libusb.face.IUsbMonitor
 import net.luculent.libusb.face.USBMonitorProxy
 import net.luculent.libusb.scan.ICodeScan
@@ -16,7 +17,12 @@ import net.luculent.libusb.scan.ScannerProxy
  */
 class UsbLifeCycleCallBacksImpl : Application.ActivityLifecycleCallbacks {
 
+    companion object {
+        private const val TAG = "lib-usb"
+    }
+
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        LogUtils.iTag(TAG, "onActivityCreated= ${activity.localClassName}")
         if (activity is ICodeScan) {
             ScannerProxy(activity).install()
         }
@@ -46,6 +52,6 @@ class UsbLifeCycleCallBacksImpl : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-
+        LogUtils.iTag(TAG, "onActivityDestroyed= ${activity.localClassName}")
     }
 }

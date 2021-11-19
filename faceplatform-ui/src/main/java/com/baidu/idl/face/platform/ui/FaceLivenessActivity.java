@@ -25,6 +25,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -119,6 +120,11 @@ public class FaceLivenessActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setScreenBright();
+        // 设置为无标题(去掉Android自带的标题栏)，(全屏功能与此无关)
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 设置为全屏模式
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_face_liveness_v3100);
         mContext = FaceLivenessActivity.this;
@@ -226,8 +232,13 @@ public class FaceLivenessActivity extends Activity implements
         mVolumeReceiver = VolumeUtils.registerVolumeReceiver(this, this);
         if (mFaceDetectRoundView != null) {
             mFaceDetectRoundView.setTipTopText("请将脸移入取景框");
+            mFaceDetectRoundView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startPreview();
+                }
+            },100);
         }
-        startPreview();
     }
 
     @Override
@@ -393,7 +404,7 @@ public class FaceLivenessActivity extends Activity implements
         }
     }
 
-    private int displayOrientation(Context context) {
+    protected int displayOrientation(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int rotation = windowManager.getDefaultDisplay().getRotation();
         int degrees = 0;

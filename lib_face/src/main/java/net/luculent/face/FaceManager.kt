@@ -23,6 +23,7 @@ object FaceManager {
 
     private lateinit var faceConfig: FaceConfig
     private var mIsInitSuccess = false
+    private var isUvcCamera = false //是否是uvc摄像头
 
     private val faceVerifyCallBacks = mutableListOf<FaceCallBack<FaceUser>>()
 
@@ -116,6 +117,15 @@ object FaceManager {
 
     fun getFaceConfig(): FaceConfig {
         return faceConfig
+    }
+
+    fun setUvcCamera(uvcCamera: Boolean) {
+        this.isUvcCamera = uvcCamera
+    }
+
+    @JvmStatic
+    fun isUvcCamera(): Boolean {
+        return isUvcCamera
     }
 
     @JvmStatic

@@ -1,5 +1,6 @@
 package net.luculent.face.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -30,6 +31,13 @@ public class FaceLivenessExpActivity extends FaceLivenessActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FaceManager.registerFaceVerifyCallBack(this);
+    }
+
+    @Override
+    protected int displayOrientation(Context context) {
+        int degree = FaceManager.isUvcCamera() ? 270 : super.displayOrientation(context);
+        FaceLogger.i("displayOrientation= " + degree);
+        return degree;
     }
 
     @Override
