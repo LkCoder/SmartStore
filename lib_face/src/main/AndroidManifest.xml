@@ -19,6 +19,9 @@
             android:name=".ui.FaceLivenessExpActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.FaceLivenessUvcActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.baidu.liantian.LiantianActivity"
             android:excludeFromRecents="true"
             android:exported="true"

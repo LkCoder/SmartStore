@@ -34,5 +34,6 @@ dependencies {
     implementation rootProject.ext.dependencies.coroutines_android
     implementation rootProject.ext.dependencies.coroutines_core
     implementation project(":lib_api")
+    implementation project(":lib_usb")
     api project(':faceplatform-ui')
 }

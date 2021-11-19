@@ -1,12 +1,11 @@
 package net.luculent.face.ui;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.baidu.idl.face.platform.FaceStatusNewEnum;
 import com.baidu.idl.face.platform.model.ImageInfo;
-import com.baidu.idl.face.platform.ui.FaceLivenessActivity;
 
 import net.luculent.face.FaceCallBack;
 import net.luculent.face.FaceLogger;
@@ -34,10 +33,11 @@ public class FaceLivenessExpActivity extends FaceLivenessActivity implements
     }
 
     @Override
-    protected int displayOrientation(Context context) {
-        int degree = FaceManager.isUvcCamera() ? 270 : super.displayOrientation(context);
-        FaceLogger.i("displayOrientation= " + degree);
-        return degree;
+    public void surfaceCreated(SurfaceHolder holder) {
+        super.surfaceCreated(holder);
+        if (FaceManager.isUvcCamera()) {
+            mSurfaceView.setRotation(-90);
+        }
     }
 
     @Override
