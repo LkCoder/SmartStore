@@ -1,9 +1,10 @@
 package net.luculent.libcore.mvvm
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.LogUtils
 import kotlinx.coroutines.*
-import net.luculent.libcore.appToast
 
 /**
  *
@@ -13,20 +14,31 @@ import net.luculent.libcore.appToast
  */
 abstract class BaseViewModel : ViewModel() {
 
+    val launchLiveData by lazy { MutableLiveData<Boolean>() }
+
     fun <T> launch(
         block: suspend CoroutineScope.() -> T,
         onSuccess: ((T) -> Unit)? = null,
-        onFailure: ((Exception) -> Unit)? = { appToast("操作异常") }
+        onFailure: ((Exception) -> Unit)? = null
     ) {
         viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
                     block.invoke(this)
                 }
-                onSuccess?.invoke(response)
+                if (onSuccess != null) {
+                    onSuccess.invoke(response)
+                } else {
+                    launchLiveData.postValue(true)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
-                onFailure?.invoke(e)
+                LogUtils.e("launch exception= ${e.message}")
+                if (onFailure != null) {
+                    onFailure.invoke(e)
+                } else {
+                    launchLiveData.postValue(false)
+                }
             }
         }
     }

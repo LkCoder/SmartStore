@@ -9,4 +9,6 @@ package net.luculent.libcore.base
 interface ISubWindow {
     fun showToast(resId: Int) {}
     fun showToast(tip: CharSequence) {}
+    fun showLoading() {}
+    fun hideLoading() {}
 }

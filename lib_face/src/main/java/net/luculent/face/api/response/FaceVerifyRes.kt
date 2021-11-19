@@ -7,9 +7,18 @@ package net.luculent.face.api.response
  * @CreateDate:     2021/11/18 15:56
  */
 data class FaceVerifyRes(
+    val cached: Int?, // 0
+    val error_code: Int?, // 0
+    val error_msg: String?, // SUCCESS
+    val log_id: Long?, // 9935101759920
+    val result: Result?,
+    val timestamp: Int? // 1637288570
+)
+
+data class Result(
     val face_token: String?, // fid
     val user_list: List<FaceUser>?
-) : FaceBaseResp()
+)
 
 data class FaceUser(
     val group_id: String?, // test1

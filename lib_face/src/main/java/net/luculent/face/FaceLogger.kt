@@ -17,18 +17,22 @@ object FaceLogger {
         this.logger = logger
     }
 
+    @JvmStatic
     fun d(msg: String?) {
         logger?.d(TAG, msg)
     }
 
+    @JvmStatic
     fun i(msg: String?) {
         logger?.i(TAG, msg)
     }
 
+    @JvmStatic
     fun w(msg: String?) {
         logger?.w(TAG, msg)
     }
 
+    @JvmStatic
     fun e(msg: String?) {
         logger?.e(TAG, msg)
     }

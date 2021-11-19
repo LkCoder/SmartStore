@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.dialog_login.*
+import net.luculent.libcore.appToast
 import net.luculent.libcore.mvvm.ViewModelFactory
 import net.luculent.libcore.popup.BaseXDialog
 import net.luculent.libcore.popup.DesignPopSize
@@ -37,6 +38,12 @@ class LoginDialog(private val title: String) : BaseXDialog() {
             } else {
                 callBack?.onLoginResult(null)
                 context?.toast(getString(R.string.account_user_invalid_tip))
+            }
+        })
+        loginViewModel.launchLiveData.observe(this, Observer {
+            if (!it) {
+                appToast(getString(R.string.store_server_exception))
+                callBack?.onLoginResult(null)
             }
         })
     }

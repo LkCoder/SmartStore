@@ -8,6 +8,7 @@ import com.baidu.idl.face.platform.model.ImageInfo;
 import com.baidu.idl.face.platform.ui.FaceLivenessActivity;
 
 import net.luculent.face.FaceCallBack;
+import net.luculent.face.FaceLogger;
 import net.luculent.face.FaceManager;
 import net.luculent.face.api.FaceException;
 import net.luculent.face.api.response.FaceUser;
@@ -111,6 +112,7 @@ public class FaceLivenessExpActivity extends FaceLivenessActivity implements
 
     @Override
     public void onError(@NotNull FaceException exception) {
+        FaceLogger.e("face verify error= " + exception.toString());
         finish();
     }
 }

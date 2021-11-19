@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.activity_verify_mode.*
 import net.luculent.libcore.base.BaseActivity
 import net.luculent.libcore.base.WindowConfiguration
 import net.luculent.libcore.mvvm.BindViewModel
-import net.luculent.libcore.popup.progress.ProgressDialogManager
 import net.luculent.smartstore.R
 import net.luculent.smartstore.api.response.UserInfo
 import net.luculent.smartstore.dialog.LoginDialog
@@ -51,10 +50,14 @@ class VerifyModeActivity : BaseActivity() {
     override fun initObserver() {
         super.initObserver()
         loginViewModel.faceUserData.observe(this, Observer {
-
+            if (it == null) {
+                showToast(R.string.face_verify_failed)
+            } else {
+                onLoginSuccess(UserInfo(it.user_id, ""))
+            }
         })
         pickViewModel.pickListLiveData.observe(this, Observer {
-            ProgressDialogManager.get(this@VerifyModeActivity).dismiss()
+            hideLoading()
             if (it?.rows?.size == 1) {//只有一个，跳转到物资扫描页面
                 val pickNo = it.rows[0].pickNo
                 GoodsListActivity.start(this, pickNo)
@@ -87,18 +90,23 @@ class VerifyModeActivity : BaseActivity() {
             getString(R.string.account_login_title),
             object : LoginDialog.LoginCallBack {
                 override fun onLoginStart() {
-                    ProgressDialogManager.get(this@VerifyModeActivity).show()
+                    showLoading()
                 }
 
                 override fun onLoginResult(user: UserInfo?) {
                     if (user != null) {
-                        loginViewModel.saveUser(user)
-                        pickViewModel.getPickList()
+                        onLoginSuccess(user)
                     } else {
-                        ProgressDialogManager.get(this@VerifyModeActivity).dismiss()
+                        hideLoading()
                     }
                 }
             })
+    }
+
+    private fun onLoginSuccess(user: UserInfo) {
+        showLoading()
+        loginViewModel.saveUser(user)
+        pickViewModel.getPickList()
     }
 
     override fun getWindowConfiguration(): WindowConfiguration {

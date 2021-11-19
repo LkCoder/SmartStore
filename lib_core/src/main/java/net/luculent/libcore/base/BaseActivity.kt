@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ColorUtils
 import me.jessyan.autosize.AutoSizeCompat
 import net.luculent.libcore.mvvm.ViewModelFactory
+import net.luculent.libcore.popup.progress.ProgressDialogManager
 import net.luculent.libcore.toast
 import net.luculent.libcore.widget.WindowViewContainer
 
@@ -73,6 +74,14 @@ abstract class BaseActivity : AppCompatActivity(), IMWindow, ISubWindow {
 
     override fun showToast(tip: CharSequence) {
         toast(tip)
+    }
+
+    override fun showLoading() {
+        ProgressDialogManager.get(this).show()
+    }
+
+    override fun hideLoading() {
+        ProgressDialogManager.get(this).dismiss()
     }
 
     open fun getWindowConfiguration(): WindowConfiguration {

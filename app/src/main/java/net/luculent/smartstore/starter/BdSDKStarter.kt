@@ -36,7 +36,7 @@ object BdSDKStarter {
 
     private fun initFaceSdk(context: Context) {
         val apiConfig = ApiConfig(
-            FACE_APPID, FACE_API_KEY, FACE_SECRET_KEY, arrayListOf("test")
+            FACE_APPID, FACE_API_KEY, FACE_SECRET_KEY, arrayListOf("gdhb", "test")
         )
         val license = FaceLicense(FACE_LICENSE_ID, FACE_LICENSE_NAME)
         FaceManager.init(context, FaceConfig(apiConfig, license, QualityConfig().apply {

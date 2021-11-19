@@ -112,15 +112,23 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
                 showToast(it.message ?: getString(R.string.out_store_failed))
             }
         })
+        goodsViewModel.launchLiveData.observe(this, Observer {
+            if (!it) {
+                hideLoading()
+                showToast(R.string.store_server_exception)
+            }
+        })
     }
 
     override fun initData() {
         super.initData()
         goodsViewModel.initPick(intent.getStringExtra(PICK_NO) ?: "")
+        showLoading()
         goodsViewModel.getGoodsList()
     }
 
     override fun onScanResult(value: String) {
+        showLoading()
         goodsViewModel.scanGoodsCode(value)
     }
 
@@ -128,7 +136,7 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
         codeDialog = InputDialog().apply {
             callBack = object : InputDialog.CodeInputCallBack {
                 override fun onConfirm(code: String) {
-                    goodsViewModel.scanGoodsCode(code)
+                    onScanResult(code)
                 }
             }
         }
@@ -156,6 +164,7 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
         }
         showConfirmDialog(configuration, object : DialogCallBack {
             override fun onConfirm() {
+                showLoading()
                 goodsViewModel.outStore(goodsListAdapter?.data ?: arrayListOf())
             }
         })

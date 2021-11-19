@@ -47,10 +47,11 @@ class FaceService private constructor() {
                 )
             )
         }, {
-            if (it.user_list.isNullOrEmpty()) {
-                callBack.onError(FaceException(it.error, it.error_description))
+            val userList = it.result?.user_list
+            if (userList.isNullOrEmpty()) {
+                callBack.onError(FaceException(it.error_code?.toString(), it.error_msg))
             } else {
-                callBack.onSuccess(it.user_list[0])
+                callBack.onSuccess(userList[0])
             }
         })
     }

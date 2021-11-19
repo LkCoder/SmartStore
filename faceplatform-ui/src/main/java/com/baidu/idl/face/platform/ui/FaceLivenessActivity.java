@@ -398,9 +398,6 @@ public class FaceLivenessActivity extends Activity implements
         int rotation = windowManager.getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
             case Surface.ROTATION_90:
                 degrees = 90;
                 break;
@@ -410,19 +407,16 @@ public class FaceLivenessActivity extends Activity implements
             case Surface.ROTATION_270:
                 degrees = 270;
                 break;
-            default:
-                degrees = 0;
-                break;
         }
-        int result = (0 - degrees + 360) % 360;
+        int result = (-degrees + 360) % 360;
         if (APIUtils.hasGingerbread()) {
             Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(mCameraId, info);
-            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                result = (info.orientation - degrees + 360) % 360;
+            } else {
                 result = (info.orientation + degrees) % 360;
                 result = (360 - result) % 360;
-            } else {
-                result = (info.orientation - degrees + 360) % 360;
             }
         }
         return result;
