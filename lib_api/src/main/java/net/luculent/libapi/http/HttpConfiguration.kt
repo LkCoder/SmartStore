@@ -18,21 +18,19 @@ import javax.net.ssl.*
  */
 interface HttpConfiguration {
     fun baseUrl(): String = ""
+    fun timeOutSeconds(): Long = 60
     fun httpClient(): OkHttpClient
     fun logger(): HttpLogger? = null
 }
 
-const val OKHTTP_READ_TIMEOUT = 60L
-const val OKHTTP_WRITE_TIMEOUT = 60L
-const val OKHTTP_CONNECT_TIMEOUT = 60L
-
 open class DefaultConfiguration : HttpConfiguration {
 
     override fun httpClient(): OkHttpClient {
+        val timeOut = timeOutSeconds()
         return OkHttpClient.Builder()
-            .readTimeout(OKHTTP_READ_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(OKHTTP_WRITE_TIMEOUT, TimeUnit.SECONDS)
-            .connectTimeout(OKHTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(timeOut, TimeUnit.SECONDS)
+            .writeTimeout(timeOut, TimeUnit.SECONDS)
+            .connectTimeout(timeOut, TimeUnit.SECONDS)
             .hostnameVerifier { _, _ -> true }
             .sslSocketFactory(sslSocketFactory, trustManager[0] as X509TrustManager)
             .build()

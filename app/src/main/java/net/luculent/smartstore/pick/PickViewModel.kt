@@ -30,7 +30,7 @@ class PickViewModel : BaseViewModel() {
             pickListResp
         }, {
             pickListLiveData.postValue(it)
-        }, { pickListLiveData.postValue(null) })
+        })
     }
 
     /**
@@ -42,6 +42,6 @@ class PickViewModel : BaseViewModel() {
         }, {
             Storage.getInstance().remove(Constants.PICK_LIST)
             pickListLiveData.postValue(it)
-        })
+        }, {})
     }
 }

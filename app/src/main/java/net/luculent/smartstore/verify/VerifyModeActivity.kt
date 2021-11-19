@@ -67,6 +67,12 @@ class VerifyModeActivity : BaseActivity() {
                 finish()
             }
         })
+        pickViewModel.launchLiveData.observe(this, Observer {
+            if (!it) {
+                hideLoading()
+                showToast(R.string.store_server_exception)
+            }
+        })
     }
 
     private fun doFaceVerify() {

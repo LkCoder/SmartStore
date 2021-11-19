@@ -18,6 +18,10 @@ class ApiConfiguration : DefaultConfiguration() {
         return ServerManager.getServer()
     }
 
+    override fun timeOutSeconds(): Long {
+        return 60 * 3L
+    }
+
     override fun logger(): HttpLogger {
         return object : HttpLogger {
             override fun log(info: String) {
