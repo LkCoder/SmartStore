@@ -1,6 +1,7 @@
 package net.luculent.smartstore
 
 import android.content.Intent
+import android.hardware.usb.UsbDevice
 import com.blankj.utilcode.util.ActivityUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import net.luculent.face.FaceManager
@@ -33,7 +34,12 @@ class MainActivity : BaseActivity(), IUsbMonitor {
         }
     }
 
-    override fun onUSBCameraConnected(usbCamera: USBCamera) {
+    override fun isSupport(device: UsbDevice): Boolean {
         FaceManager.setUvcCamera(true)
+        return false
+    }
+
+    override fun onUSBCameraConnected(usbCamera: USBCamera) {
+
     }
 }

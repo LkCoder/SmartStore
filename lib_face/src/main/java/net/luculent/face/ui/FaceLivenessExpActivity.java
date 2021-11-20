@@ -1,7 +1,6 @@
 package net.luculent.face.ui;
 
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.baidu.idl.face.platform.FaceStatusNewEnum;
@@ -30,14 +29,6 @@ public class FaceLivenessExpActivity extends FaceLivenessActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FaceManager.registerFaceVerifyCallBack(this);
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        super.surfaceCreated(holder);
-        if (FaceManager.isUvcCamera()) {
-            mSurfaceView.setRotation(-90);
-        }
     }
 
     @Override

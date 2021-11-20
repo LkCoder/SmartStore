@@ -9,9 +9,9 @@ import com.serenegiant.widget.CameraViewInterface
 import com.serenegiant.widget.UVCCameraTextureView
 import net.luculent.face.FaceCallBack
 import net.luculent.face.FaceLogger
+import net.luculent.face.FaceManager
 import net.luculent.face.FaceManager.registerFaceVerifyCallBack
 import net.luculent.face.FaceManager.unregisterFaceVerifyCallBack
-import net.luculent.face.FaceManager.verify
 import net.luculent.face.api.FaceException
 import net.luculent.face.api.response.FaceUser
 import net.luculent.face.ui.TimeoutDialog.OnTimeoutDialogClickListener
@@ -125,9 +125,7 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
             // 获取最优图片
             getBestImage(base64ImageSrcMap)
         } else if (status == FaceStatusNewEnum.DetectRemindCodeTimeout) {
-            if (mViewBg != null) {
-                mViewBg!!.visibility = View.VISIBLE
-            }
+            mViewBg?.visibility = View.VISIBLE
             showMessageDialog()
         }
     }
@@ -155,7 +153,7 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
             }
             faceBase64 = sourceList[0].value.base64
         }
-        verify(faceBase64)
+        FaceManager.verify(faceBase64)
     }
 
     private fun showMessageDialog() {

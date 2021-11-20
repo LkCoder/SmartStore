@@ -12,6 +12,7 @@ import net.luculent.face.config.FaceConfig
 import net.luculent.face.config.QualityConfig
 import net.luculent.face.logger.ILogger
 import net.luculent.face.ui.FaceLivenessExpActivity
+import net.luculent.face.ui.FaceLivenessUvcActivity
 
 /**
  *
@@ -111,7 +112,11 @@ object FaceManager {
     }
 
     fun startFaceVerify(context: Context) {
-        val intent = Intent(context, FaceLivenessExpActivity::class.java)
+        val intent = if (isUvcCamera) {
+            Intent(context, FaceLivenessUvcActivity::class.java)
+        } else {
+            Intent(context, FaceLivenessExpActivity::class.java)
+        }
         context.startActivity(intent)
     }
 
