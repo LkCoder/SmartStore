@@ -21,6 +21,7 @@ import com.baidu.idl.face.platform.ui.utils.BrightnessUtils
 import com.baidu.idl.face.platform.ui.utils.VolumeUtils
 import com.baidu.idl.face.platform.ui.widget.FaceDetectRoundView
 import com.baidu.idl.face.platform.utils.DensityUtils
+import net.luculent.face.FaceManager
 import net.luculent.face.R
 import java.util.*
 
@@ -112,6 +113,9 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
         mViewBg = findViewById(R.id.view_live_bg)
         mSoundView?.setImageResource(if (mIsEnableSound) R.mipmap.icon_titlebar_voice2 else R.drawable.collect_image_voice_selector)
         mFaceDetectRoundView?.setIsActiveLive(true)
+        if (FaceManager.isUvcCamera()) {
+            mFaceDetectRoundView?.setRoundRatio(0.4f)
+        }
 
         val cameraFL = FrameLayout.LayoutParams(
             (mDisplayWidth * FaceDetectRoundView.SURFACE_RATIO).toInt(),

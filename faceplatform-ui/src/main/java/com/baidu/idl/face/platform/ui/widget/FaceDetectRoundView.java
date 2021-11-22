@@ -27,7 +27,7 @@ public class FaceDetectRoundView extends View {
 
     public static final float SURFACE_HEIGHT = 1000f;
     public static final float SURFACE_RATIO = 0.75f;
-    public static final float WIDTH_SPACE_RATIO = 0.4f;
+    public static final float WIDTH_SPACE_RATIO = 0.33f;
     public static final float HEIGHT_RATIO = 0.1f;
     public static final float HEIGHT_EXT_RATIO = 0.2f;
     // public static final int CIRCLE_SPACE = 5;
@@ -62,6 +62,7 @@ public class FaceDetectRoundView extends View {
     private static float mRatioX;
     private static float mRatioY;
     private FaceExtInfo mFaceExtInfo;
+    private float roundRatio = WIDTH_SPACE_RATIO;
 
     public FaceDetectRoundView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -126,6 +127,11 @@ public class FaceDetectRoundView extends View {
         postInvalidate();
     }
 
+    public void setRoundRatio(float roundRatio) {
+        this.roundRatio = roundRatio;
+        invalidate();
+    }
+
     public void setIsActiveLive(boolean isActiveLive) {
         mIsActiveLive = isActiveLive;
     }
@@ -166,7 +172,7 @@ public class FaceDetectRoundView extends View {
 
         float x = canvasWidth / 2;
         float y = (canvasHeight / 2) - ((canvasHeight / 2) * HEIGHT_RATIO);
-        float r = x - x * WIDTH_SPACE_RATIO;
+        float r = x - x * roundRatio;
 
         if (mFaceRect == null) {
             mFaceRect = new Rect((int) (x - r),
