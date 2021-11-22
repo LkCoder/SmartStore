@@ -168,13 +168,10 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
                 .apply {
                     setPreviewDegree(degree)
                     setLivenessStrategySoundEnable(mIsEnableSound)
-                    val detectRect = FaceDetectRoundView.getPreviewDetectRect(
-                        mDisplayWidth, previewHeight, previewWidth
-                    )
                     setLivenessStrategyConfig(
                         mFaceConfig.livenessTypeList,
                         Rect(0, 0, previewHeight, previewWidth),
-                        detectRect,
+                        mFaceDetectRoundView?.faceDetectRect,
                         this@FaceLivenessBaseActivity
                     )
                 }

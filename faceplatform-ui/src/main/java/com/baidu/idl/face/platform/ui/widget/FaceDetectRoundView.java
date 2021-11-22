@@ -27,7 +27,7 @@ public class FaceDetectRoundView extends View {
 
     public static final float SURFACE_HEIGHT = 1000f;
     public static final float SURFACE_RATIO = 0.75f;
-    public static final float WIDTH_SPACE_RATIO = 0.33f;
+    public static final float WIDTH_SPACE_RATIO = 0.4f;
     public static final float HEIGHT_RATIO = 0.1f;
     public static final float HEIGHT_EXT_RATIO = 0.2f;
     // public static final int CIRCLE_SPACE = 5;
@@ -155,6 +155,10 @@ public class FaceDetectRoundView extends View {
         return mFaceRect;
     }
 
+    public Rect getFaceDetectRect() {
+        return mFaceDetectRect;
+    }
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         float canvasWidth = right - left;
@@ -162,7 +166,7 @@ public class FaceDetectRoundView extends View {
 
         float x = canvasWidth / 2;
         float y = (canvasHeight / 2) - ((canvasHeight / 2) * HEIGHT_RATIO);
-        float r = (canvasWidth / 2) - ((canvasWidth / 2) * WIDTH_SPACE_RATIO);
+        float r = x - x * WIDTH_SPACE_RATIO;
 
         if (mFaceRect == null) {
             mFaceRect = new Rect((int) (x - r),
@@ -190,7 +194,7 @@ public class FaceDetectRoundView extends View {
         canvas.drawCircle(mX, mY, mR, mFaceRoundPaint);
         // TODO：画检测区域（用于调试，这4个参数分别表示屏幕宽高和手机摄像头分辨率宽高，需要手动修改）
         // TODO：（使用时，将注释放开）
-        // canvas.drawRect(getPreviewDetectRect(1080, 1920, 432, 768), mCircleLinePaint);
+//         canvas.drawRect(mFaceDetectRect, mCircleLinePaint);
         // TODO：画人脸检测框（用于调试，使用时，将注释放开）
         // if (getFaceInfoRect(mFaceExtInfo) != null) {
         //     canvas.drawRect(getFaceInfoRect(mFaceExtInfo), mCircleLinePaint);
@@ -253,30 +257,4 @@ public class FaceDetectRoundView extends View {
         // Log.e(TAG, "FaceRoundView getPreviewDetectRect " + pw + "-" + ph + "-" + rect.toString());
         return rect;
     }
-
-    // 获取人脸检测区域（调试使用）
-    public static Rect getPreviewDetectRect(int w, int h, int pw, int ph) {
-        float round = (w / 2) - ((w / 2) * WIDTH_SPACE_RATIO);
-        mRatioX = (w * 1.0f) / (pw * 1.0f);
-        mRatioY = (h * 1.0f) / (ph * 1.0f);  // 获取屏幕宽高和手机摄像头宽高的比值，用于映射
-        float x = pw / 2.0f * mRatioX;
-        float y = (ph / 2.0f * mRatioY) - ((ph / 2.0f * mRatioY) * HEIGHT_RATIO);
-        float r = (pw / 2.0f * mRatioX) > round ? round : (pw / 2.0f * mRatioX);
-        float hr = r + (r * HEIGHT_EXT_RATIO);
-        Rect rect = new Rect((int) (x - r),
-                (int) (y - hr),
-                (int) (x + r),
-                (int) (y + hr));
-        // Log.e(TAG, "FaceRoundView getPreviewDetectRect " + pw + "-" + ph + "-" + rect.toString());
-        return rect;
-    }
-
-    // 获取人脸检测框（调试使用）
-    public static Rect getFaceInfoRect(FaceExtInfo faceInfo) {
-        if (faceInfo == null) {
-            return null;
-        }
-        return faceInfo.getFaceRect(mRatioX, mRatioY, SURFACE_RATIO);
-    }
-
 }

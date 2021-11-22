@@ -6,16 +6,14 @@ package com.baidu.idl.face.platform.ui;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Surface;
@@ -36,19 +34,13 @@ import com.baidu.idl.face.platform.IDetectStrategyCallback;
 import com.baidu.idl.face.platform.model.ImageInfo;
 import com.baidu.idl.face.platform.stat.Ast;
 import com.baidu.idl.face.platform.ui.utils.BrightnessUtils;
+import com.baidu.idl.face.platform.ui.utils.CameraPreviewUtils;
 import com.baidu.idl.face.platform.ui.utils.CameraUtils;
 import com.baidu.idl.face.platform.ui.utils.VolumeUtils;
 import com.baidu.idl.face.platform.ui.widget.FaceDetectRoundView;
 import com.baidu.idl.face.platform.utils.APIUtils;
-import com.baidu.idl.face.platform.utils.Base64Utils;
-import com.baidu.idl.face.platform.ui.utils.CameraPreviewUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 人脸采集接口
@@ -82,9 +74,6 @@ public class FaceDetectActivity extends Activity implements
     private Rect mPreviewRect = new Rect();
     protected int mDisplayWidth = 0;
     protected int mDisplayHeight = 0;
-    protected int mSurfaceWidth = 0;
-    protected int mSurfaceHeight = 0;
-    protected Drawable mTipsIcon;
     // 状态标识
     protected volatile boolean mIsEnableSound = true;
     protected HashMap<String, String> mBase64ImageMap = new HashMap<String, String>();
@@ -188,8 +177,13 @@ public class FaceDetectActivity extends Activity implements
         mVolumeReceiver = VolumeUtils.registerVolumeReceiver(this, this);
         if (mFaceDetectRoundView != null) {
             mFaceDetectRoundView.setTipTopText("请将脸移入取景框");
+            mFaceDetectRoundView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startPreview();
+                }
+            }, 100);
         }
-        startPreview();
     }
 
     @Override
@@ -260,6 +254,9 @@ public class FaceDetectActivity extends Activity implements
     }
 
     protected void startPreview() {
+        if (!mIsCreateSurface) {
+            return;
+        }
         if (mSurfaceView != null && mSurfaceView.getHolder() != null) {
             mSurfaceHolder = mSurfaceView.getHolder();
             mSurfaceHolder.addCallback(this);
@@ -389,8 +386,6 @@ public class FaceDetectActivity extends Activity implements
                                int format,
                                int width,
                                int height) {
-        mSurfaceWidth = width;
-        mSurfaceHeight = height;
         if (holder.getSurface() == null) {
             return;
         }
@@ -413,8 +408,9 @@ public class FaceDetectActivity extends Activity implements
             mIDetectStrategy = FaceSDKManager.getInstance().getDetectStrategyModule();
             mIDetectStrategy.setPreviewDegree(mPreviewDegree);
             mIDetectStrategy.setDetectStrategySoundEnable(mIsEnableSound);
-
-            Rect detectRect = FaceDetectRoundView.getPreviewDetectRect(mDisplayWidth, mPreviewHight, mPreviewWidth);
+            Rect detectRect = mFaceDetectRoundView.getFaceDetectRect();
+//            detectRect = FaceDetectRoundView.getPreviewDetectRect(mDisplayWidth, mPreviewHight, mPreviewWidth);
+            Log.i(TAG, "onPreviewFrame: " + detectRect);
             mIDetectStrategy.setDetectStrategyConfig(mPreviewRect, detectRect, this);
         }
         if (mIDetectStrategy != null) {
@@ -424,6 +420,7 @@ public class FaceDetectActivity extends Activity implements
 
     @Override
     public void onError(int error, Camera camera) {
+        Log.e(TAG, "onError: " + error);
     }
 
     @Override
@@ -463,72 +460,6 @@ public class FaceDetectActivity extends Activity implements
                 mFaceDetectRoundView.setTipTopText(message);
                 // onRefreshTipsView(false, message);
                 // onRefreshSuccessView(false);
-        }
-    }
-
-    private static Bitmap base64ToBitmap(String base64Data) {
-        byte[] bytes = Base64Utils.decode(base64Data, Base64Utils.NO_WRAP);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
-
-    // ----------------------------------------供调试用----------------------------------------------
-    private void saveAllImage(HashMap<String, ImageInfo> imageCropMap, HashMap<String, ImageInfo> imageSrcMap) {
-        if (imageCropMap != null && imageCropMap.size() > 0) {
-            List<Map.Entry<String, ImageInfo>> list1 = new ArrayList<>(imageCropMap.entrySet());
-            Collections.sort(list1, new Comparator<Map.Entry<String, ImageInfo>>() {
-
-                @Override
-                public int compare(Map.Entry<String, ImageInfo> o1,
-                                   Map.Entry<String, ImageInfo> o2) {
-                    String[] key1 = o1.getKey().split("_");
-                    String score1 = key1[2];
-                    String[] key2 = o2.getKey().split("_");
-                    String score2 = key2[2];
-                    // 降序排序
-                    return Float.valueOf(score2).compareTo(Float.valueOf(score1));
-                }
-            });
-            setImageView1(list1);
-        }
-
-        if (imageSrcMap != null && imageSrcMap.size() > 0) {
-            List<Map.Entry<String, ImageInfo>> list2 = new ArrayList<>(imageSrcMap.entrySet());
-            Collections.sort(list2, new Comparator<Map.Entry<String, ImageInfo>>() {
-
-                @Override
-                public int compare(Map.Entry<String, ImageInfo> o1,
-                                   Map.Entry<String, ImageInfo> o2) {
-                    String[] key1 = o1.getKey().split("_");
-                    String score1 = key1[2];
-                    String[] key2 = o2.getKey().split("_");
-                    String score2 = key2[2];
-                    // 降序排序
-                    return Float.valueOf(score2).compareTo(Float.valueOf(score1));
-                }
-            });
-            setImageView2(list2);
-        }
-    }
-
-    private void setImageView1(List<Map.Entry<String, ImageInfo>> list) {
-        Bitmap bmp = null;
-        mImageLayout.removeAllViews();
-        for (Map.Entry<String, ImageInfo> entry : list) {
-            bmp = base64ToBitmap(entry.getValue().getBase64());
-            ImageView iv = new ImageView(this);
-            iv.setImageBitmap(bmp);
-            mImageLayout.addView(iv, new LinearLayout.LayoutParams(300, 300));
-        }
-    }
-
-    private void setImageView2(List<Map.Entry<String, ImageInfo>> list) {
-        Bitmap bmp = null;
-        mImageLayout2.removeAllViews();
-        for (Map.Entry<String, ImageInfo> entry : list) {
-            bmp = base64ToBitmap(entry.getValue().getBase64());
-            ImageView iv = new ImageView(this);
-            iv.setImageBitmap(bmp);
-            mImageLayout2.addView(iv, new LinearLayout.LayoutParams(300, 300));
         }
     }
 }

@@ -13,7 +13,7 @@
     <com.baidu.idl.face.platform.ui.widget.FaceDetectRoundView
         android:id="@+id/detect_face_round"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <ImageView
         android:id="@+id/detect_close"
