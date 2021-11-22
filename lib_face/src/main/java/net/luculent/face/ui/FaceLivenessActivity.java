@@ -168,7 +168,7 @@ public class FaceLivenessActivity extends FaceLivenessBaseActivity implements
         }
     }
 
-    private int displayOrientation(Context context) {
+    protected int displayOrientation(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int rotation = windowManager.getDefaultDisplay().getRotation();
         int degrees = 0;
@@ -187,11 +187,11 @@ public class FaceLivenessActivity extends FaceLivenessBaseActivity implements
         if (APIUtils.hasGingerbread()) {
             Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(mCameraId, info);
-            if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                result = (info.orientation - degrees + 360) % 360;
-            } else {
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                 result = (info.orientation + degrees) % 360;
                 result = (360 - result) % 360;
+            } else {
+                result = (info.orientation - degrees + 360) % 360;
             }
         }
         return result;

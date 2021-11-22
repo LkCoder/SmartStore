@@ -34,7 +34,7 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
     }
 
     override fun onAttach(device: UsbDevice?) {
-        LogUtils.iTag(TAG, "onAttach: $device")
+        LogUtils.iTag(getTag(), "onAttach: $device")
         activity.runOnUiThread {
             device?.let {
                 requestPermission(it)
@@ -43,7 +43,7 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
     }
 
     override fun onDettach(device: UsbDevice?) {
-        LogUtils.wTag(TAG, "onDettach: $device")
+        LogUtils.wTag(getTag(), "onDettach: $device")
     }
 
     override fun onConnect(
@@ -51,18 +51,18 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
         ctrlBlock: USBMonitor.UsbControlBlock?,
         createNew: Boolean
     ) {
-        LogUtils.iTag(TAG, "onConnect: $device")
+        LogUtils.iTag(getTag(), "onConnect: $device")
         activity.runOnUiThread {
             getUsbInterface().onUSBCameraConnected(USBCamera(activity, device, ctrlBlock))
         }
     }
 
     override fun onDisconnect(device: UsbDevice?, ctrlBlock: USBMonitor.UsbControlBlock?) {
-        LogUtils.wTag(TAG, "onDisconnect: $device")
+        LogUtils.wTag(getTag(), "onDisconnect: $device")
     }
 
     override fun onCancel(device: UsbDevice?) {
-        LogUtils.wTag(TAG, "onCancel: $device")
+        LogUtils.wTag(getTag(), "onCancel: $device")
     }
 
     private fun requestPermission(device: UsbDevice) {
@@ -73,5 +73,9 @@ class USBMonitorProxy(activity: Activity) : AbsUsbWindowProxy(activity),
 
     private fun getUsbInterface(): IUsbMonitor {
         return activity as IUsbMonitor
+    }
+
+    private fun getTag(): String {
+        return TAG + activity.localClassName
     }
 }

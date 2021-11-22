@@ -66,6 +66,7 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
             }
             mFaceView?.let {
                 usbCamera.init(it)
+                usbCamera.startPreview()
             }
         }
     }
@@ -81,7 +82,7 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
         width: Int,
         height: Int
     ) {
-        surface?.let { startPreview() }
+        startPreview()
     }
 
     override fun onSurfaceDestroy(view: CameraViewInterface?, surface: Surface?) {
