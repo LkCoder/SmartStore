@@ -11,7 +11,7 @@ import net.luculent.face.api.response.FaceUser
 import net.luculent.face.config.FaceConfig
 import net.luculent.face.config.QualityConfig
 import net.luculent.face.logger.ILogger
-import net.luculent.face.ui.FaceLivenessExpActivity
+import net.luculent.face.ui.FaceDetectExpActivity
 
 /**
  *
@@ -111,7 +111,7 @@ object FaceManager {
     }
 
     fun startFaceVerify(context: Context) {
-        val intent = Intent(context, FaceLivenessExpActivity::class.java)
+        val intent = Intent(context, FaceDetectExpActivity::class.java)
         context.startActivity(intent)
     }
 

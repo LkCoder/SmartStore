@@ -14,13 +14,16 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application>
-        <!--安全设备指纹接入 start-->
         <activity
             android:name=".ui.FaceLivenessExpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.FaceLivenessUvcActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.FaceDetectExpActivity"
+            android:screenOrientation="portrait" />
+        <!--安全设备指纹接入 start-->
         <activity
             android:name="com.baidu.liantian.LiantianActivity"
             android:excludeFromRecents="true"

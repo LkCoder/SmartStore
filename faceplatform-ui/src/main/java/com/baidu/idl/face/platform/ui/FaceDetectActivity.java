@@ -344,7 +344,7 @@ public class FaceDetectActivity extends Activity implements
         }
     }
 
-    private int displayOrientation(Context context) {
+    protected int displayOrientation(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int rotation = windowManager.getDefaultDisplay().getRotation();
         int degrees = 0;

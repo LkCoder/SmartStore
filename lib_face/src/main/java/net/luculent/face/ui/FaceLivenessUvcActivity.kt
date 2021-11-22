@@ -104,7 +104,7 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
             for (i in 0 until len) {
                 data[i] = it.get()
             }
-            detectFace(640, 480, 270, data)
+            detectFace(640, 480, 90, data)
         }
     }
 
