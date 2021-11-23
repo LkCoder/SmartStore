@@ -99,12 +99,15 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
     override fun initObserver() {
         super.initObserver()
         goodsViewModel.pickDetailResp.observe(this, Observer {
+            hideLoading()
             updateView(it)
         })
         goodsViewModel.scanResultData.observe(this, Observer {
+            hideLoading()
             onGoodsScanned(it)
         })
         goodsViewModel.outStoreData.observe(this, Observer {
+            hideLoading()
             if (it.isSuccess()) {
                 out_store_success_lt.visibility = View.VISIBLE
                 out_store_content_lt.visibility = View.GONE
@@ -158,6 +161,11 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
     }
 
     private fun doOutStore() {
+        val goodsList = goodsListAdapter?.data
+        if (goodsList.isNullOrEmpty()) {
+            showToast(R.string.store_goods_empty_hint)
+            return
+        }
         val configuration = DialogConfiguration().apply {
             content = getString(R.string.store_out_title_tip)
             contentSize = 24f
@@ -165,7 +173,7 @@ class GoodsListActivity : BaseActivity(), ICodeScan {
         showConfirmDialog(configuration, object : DialogCallBack {
             override fun onConfirm() {
                 showLoading()
-                goodsViewModel.outStore(goodsListAdapter?.data ?: arrayListOf())
+                goodsViewModel.outStore(goodsList)
             }
         })
     }

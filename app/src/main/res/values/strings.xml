@@ -29,4 +29,5 @@
     <string name="store_verify_by_account">账户登录</string>
     <string name="face_verify_failed">识别失败，请选择账户登录或者重新识别</string>
     <string name="store_server_exception">服务器异常</string>
+    <string name="store_goods_empty_hint">请选择出库物资</string>
 </resources>
