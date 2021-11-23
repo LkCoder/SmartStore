@@ -23,7 +23,7 @@ public class FaceDetectRoundView extends View {
 
     private static final String TAG = FaceDetectRoundView.class.getSimpleName();
 
-    public static final float WIDTH_SPACE_RATIO = 0.33f;
+    public static final float WIDTH_SPACE_RATIO = 0.23f;
     public static final float HEIGHT_RATIO = 0.1f;
     public static final float HEIGHT_EXT_RATIO = 0.2f;
     public static final int CIRCLE_LINE_WIDTH = 3;
@@ -50,8 +50,6 @@ public class FaceDetectRoundView extends View {
     private boolean mIsActiveLive;
     private String mTipSecondText;
     private String mTipTopText;
-
-    private float roundRatio = WIDTH_SPACE_RATIO;
 
     public FaceDetectRoundView(Context context, AttributeSet attrs) {
         super(context, attrs);

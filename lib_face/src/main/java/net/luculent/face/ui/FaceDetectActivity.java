@@ -450,7 +450,7 @@ public class FaceDetectActivity extends Activity implements
 
         if (status == FaceStatusNewEnum.OK) {
             mIsCompletion = true;
-            saveAllImage(base64ImageCropMap, base64ImageSrcMap);
+//            saveAllImage(base64ImageCropMap, base64ImageSrcMap);
         }
         // 打点
         Ast.getInstance().faceHit("detect");

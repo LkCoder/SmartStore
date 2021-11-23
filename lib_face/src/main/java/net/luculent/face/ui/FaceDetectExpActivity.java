@@ -63,7 +63,7 @@ public class FaceDetectExpActivity extends FaceDetectActivity implements Timeout
      * @param imageSrcMap 原图集合
      */
     private void getBestImage(HashMap<String, ImageInfo> imageSrcMap) {
-        String faceBase64 = null;
+        String faceBase64 = "";
         // 将原图集合中的图片按照质量降序排序，最终选取质量最优的一张原图图片
         if (imageSrcMap != null && imageSrcMap.size() > 0) {
             List<Map.Entry<String, ImageInfo>> list2 = new ArrayList<>(imageSrcMap.entrySet());
@@ -82,7 +82,7 @@ public class FaceDetectExpActivity extends FaceDetectActivity implements Timeout
             });
             faceBase64 = list2.get(0).getValue().getBase64();
         }
-//        FaceManager.verify(faceBase64);
+        FaceManager.verify(faceBase64);
     }
 
     private void showMessageDialog() {
