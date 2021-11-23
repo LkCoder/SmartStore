@@ -28,5 +28,5 @@ class QualityConfig {
 
     /**-------页面识别相关的配置---------*/
     var videoDirection: Int = -1//相机预览角度，如果是-1，预览角度是根据camera配置来的，否则根据设定的值
-    var detectSpaceWidthRatio: Float = 0.33f //人脸识别框的空白占比
+    var surfaceRatio: Float = 0.75f //相机预览站屏幕的宽度比
 }

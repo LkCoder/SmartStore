@@ -35,6 +35,7 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
     ILivenessViewCallback, VolumeUtils.VolumeCallback {
 
     var mFrameLayout: FrameLayout? = null
+    @JvmField
     var mFaceDetectRoundView: FaceDetectRoundView? = null
     var mRelativeAddImageView: RelativeLayout? = null
     var mSoundView: ImageView? = null
@@ -113,11 +114,11 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
         mViewBg = findViewById(R.id.view_live_bg)
         mSoundView?.setImageResource(if (mIsEnableSound) R.mipmap.icon_titlebar_voice2 else R.drawable.collect_image_voice_selector)
         mFaceDetectRoundView?.setIsActiveLive(true)
-        mFaceDetectRoundView?.setRoundRatio(FaceManager.getFaceConfig().qualityConfig.detectSpaceWidthRatio)
 
+        val surfaceRatio = FaceManager.getFaceConfig().qualityConfig.surfaceRatio
         val cameraFL = FrameLayout.LayoutParams(
-            (mDisplayWidth * FaceDetectRoundView.SURFACE_RATIO).toInt(),
-            (mDisplayHeight * FaceDetectRoundView.SURFACE_RATIO).toInt(),
+            (mDisplayWidth * surfaceRatio).toInt(),
+            (mDisplayHeight * surfaceRatio).toInt(),
             Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
         )
         val faceSurface = getFaceSurface()
@@ -161,7 +162,7 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
         }
     }
 
-    open fun detectFace(previewWidth: Int, previewHeight: Int, degree: Int, data: ByteArray) {
+    open fun detectFace(previewRect: Rect, detectRect: Rect, degree: Int, data: ByteArray) {
         if (mIsCompletion) {
             return
         }
@@ -172,8 +173,8 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
                     setLivenessStrategySoundEnable(mIsEnableSound)
                     setLivenessStrategyConfig(
                         mFaceConfig.livenessTypeList,
-                        Rect(0, 0, previewHeight, previewWidth),
-                        mFaceDetectRoundView?.faceDetectRect,
+                        previewRect,
+                        detectRect,
                         this@FaceLivenessBaseActivity
                     )
                 }

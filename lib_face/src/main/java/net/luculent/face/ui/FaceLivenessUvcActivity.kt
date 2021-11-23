@@ -1,9 +1,11 @@
 package net.luculent.face.ui
 
+import android.graphics.Rect
 import android.view.Surface
 import android.view.View
 import com.baidu.idl.face.platform.FaceStatusNewEnum
 import com.baidu.idl.face.platform.model.ImageInfo
+import com.baidu.idl.face.platform.ui.widget.FaceDetectRoundView
 import com.serenegiant.usb.IFrameCallback
 import com.serenegiant.widget.CameraViewInterface
 import com.serenegiant.widget.UVCCameraTextureView
@@ -15,6 +17,7 @@ import net.luculent.face.FaceManager.unregisterFaceVerifyCallBack
 import net.luculent.face.api.FaceException
 import net.luculent.face.api.response.FaceUser
 import net.luculent.face.ui.TimeoutDialog.OnTimeoutDialogClickListener
+import net.luculent.libusb.face.CameraConfiguration
 import net.luculent.libusb.face.IUsbMonitor
 import net.luculent.libusb.face.USBCamera
 import java.nio.ByteBuffer
@@ -36,6 +39,9 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
     private var usbCamera: USBCamera? = null
     private var mFaceView: UVCCameraTextureView? = null
     private var mTimeoutDialog: TimeoutDialog? = null
+    private val cameraConfiguration = CameraConfiguration()
+    private var mSurfaceWidth = 0
+    private var mSurfaceHeight = 0
 
     override fun initListener() {
         super.initListener()
@@ -65,7 +71,7 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
                 setFrameCallback(this@FaceLivenessUvcActivity)
             }
             mFaceView?.let {
-                usbCamera.init(it)
+                usbCamera.init(it, cameraConfiguration)
                 usbCamera.startPreview()
             }
         }
@@ -104,7 +110,14 @@ class FaceLivenessUvcActivity : FaceLivenessBaseActivity(), IUsbMonitor,
             for (i in 0 until len) {
                 data[i] = it.get()
             }
-            detectFace(640, 480, 90, data)
+            val previewRect =
+                Rect(0, 0, cameraConfiguration.previewHeight, cameraConfiguration.previewWidth)
+            val detectRect = FaceDetectRoundView.getPreviewDetectRect(
+                mSurfaceWidth,
+                cameraConfiguration.previewHeight,
+                cameraConfiguration.previewWidth
+            )
+            detectFace(previewRect, detectRect, 90, data)
         }
     }
 

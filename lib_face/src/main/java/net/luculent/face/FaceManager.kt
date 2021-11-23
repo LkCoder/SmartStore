@@ -123,12 +123,12 @@ object FaceManager {
         if (uvcCamera) {
             faceConfig.qualityConfig.apply {
                 videoDirection = 90
-                detectSpaceWidthRatio = 0.45f
+                surfaceRatio = 0.45f
             }
         } else {
             faceConfig.qualityConfig.apply {
                 videoDirection = -1
-                detectSpaceWidthRatio = 0.33f
+                surfaceRatio = 0.75f
             }
         }
     }

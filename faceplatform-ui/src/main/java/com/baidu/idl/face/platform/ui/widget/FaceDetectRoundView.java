@@ -12,10 +12,8 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import com.baidu.idl.face.platform.model.FaceExtInfo;
 import com.baidu.idl.face.platform.utils.DensityUtils;
 
 /**
@@ -25,18 +23,12 @@ public class FaceDetectRoundView extends View {
 
     private static final String TAG = FaceDetectRoundView.class.getSimpleName();
 
-    public static final float SURFACE_HEIGHT = 1000f;
-    public static final float SURFACE_RATIO = 0.75f;
     public static final float WIDTH_SPACE_RATIO = 0.33f;
     public static final float HEIGHT_RATIO = 0.1f;
     public static final float HEIGHT_EXT_RATIO = 0.2f;
-    // public static final int CIRCLE_SPACE = 5;
-    public static final int PATH_SPACE = 16;
-    public static final int PATH_SMALL_SPACE = 12;
     public static final int CIRCLE_LINE_WIDTH = 3;
 
     public static final int COLOR_BG = Color.parseColor("#FFFFFF");
-    // public static final int COLOR_RECT = Color.parseColor("#FFFFFF");
     public static final int COLOR_ROUND = Color.parseColor("#FFA800");
     public static final int COLOR_CIRCLE_LINE = Color.parseColor("#CCCCCC");
     public static final int COLOR_CIRCLE_SELECT_LINE = Color.parseColor("#00BAF2");
@@ -59,19 +51,12 @@ public class FaceDetectRoundView extends View {
     private String mTipSecondText;
     private String mTipTopText;
 
-    private static float mRatioX;
-    private static float mRatioY;
-    private FaceExtInfo mFaceExtInfo;
     private float roundRatio = WIDTH_SPACE_RATIO;
 
     public FaceDetectRoundView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-        // DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        // float pathSpace = DensityUtils.dip2px(context, PATH_SPACE);
-        // float pathSmallSpace = DensityUtils.dip2px(context, PATH_SMALL_SPACE);
         float circleLineWidth = DensityUtils.dip2px(context, CIRCLE_LINE_WIDTH);
 
         mBGPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -122,16 +107,6 @@ public class FaceDetectRoundView extends View {
         postInvalidate();
     }
 
-    public void setFaceInfo(FaceExtInfo faceExtInfo) {
-        mFaceExtInfo = faceExtInfo;
-        postInvalidate();
-    }
-
-    public void setRoundRatio(float roundRatio) {
-        this.roundRatio = roundRatio;
-        invalidate();
-    }
-
     public void setIsActiveLive(boolean isActiveLive) {
         mIsActiveLive = isActiveLive;
     }
@@ -154,17 +129,6 @@ public class FaceDetectRoundView extends View {
         return mR;
     }
 
-    public Rect getFaceRoundRect() {
-        if (mFaceRect != null) {
-            Log.e(TAG, mFaceRect.toString());
-        }
-        return mFaceRect;
-    }
-
-    public Rect getFaceDetectRect() {
-        return mFaceDetectRect;
-    }
-
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         float canvasWidth = right - left;
@@ -172,7 +136,7 @@ public class FaceDetectRoundView extends View {
 
         float x = canvasWidth / 2;
         float y = (canvasHeight / 2) - ((canvasHeight / 2) * HEIGHT_RATIO);
-        float r = x - x * roundRatio;
+        float r = x - x * WIDTH_SPACE_RATIO;
 
         if (mFaceRect == null) {
             mFaceRect = new Rect((int) (x - r),
@@ -200,7 +164,7 @@ public class FaceDetectRoundView extends View {
         canvas.drawCircle(mX, mY, mR, mFaceRoundPaint);
         // TODO：画检测区域（用于调试，这4个参数分别表示屏幕宽高和手机摄像头分辨率宽高，需要手动修改）
         // TODO：（使用时，将注释放开）
-//         canvas.drawRect(mFaceDetectRect, mCircleLinePaint);
+//        canvas.drawRect(mFaceDetectRect, mCircleLinePaint);
         // TODO：画人脸检测框（用于调试，使用时，将注释放开）
         // if (getFaceInfoRect(mFaceExtInfo) != null) {
         //     canvas.drawRect(getFaceInfoRect(mFaceExtInfo), mCircleLinePaint);

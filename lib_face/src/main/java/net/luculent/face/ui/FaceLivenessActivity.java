@@ -6,6 +6,7 @@ package net.luculent.face.ui;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 
 import com.baidu.idl.face.platform.ui.utils.CameraPreviewUtils;
 import com.baidu.idl.face.platform.ui.utils.CameraUtils;
+import com.baidu.idl.face.platform.ui.widget.FaceDetectRoundView;
 import com.baidu.idl.face.platform.utils.APIUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +38,10 @@ public class FaceLivenessActivity extends FaceLivenessBaseActivity implements
     protected Camera mCamera;
     protected Camera.Parameters mCameraParam;
     protected int mCameraId;
+    // 显示Size
+    private Rect mPreviewRect = new Rect();
+    protected int mSurfaceWidth;
+    protected int mSurfaceHeight;
     protected int mPreviewWidth;
     protected int mPreviewHight;
     protected int mPreviewDegree;
@@ -114,13 +120,13 @@ public class FaceLivenessActivity extends FaceLivenessBaseActivity implements
         mPreviewDegree = degree;
 
         Point point = CameraPreviewUtils.getBestPreview(mCameraParam,
-                new Point(mDisplayWidth, mDisplayHeight));
+                new Point(mSurfaceWidth, mSurfaceHeight));
 
         mPreviewWidth = point.x;
         mPreviewHight = point.y;
         // Log.e(TAG, "x = " + mPreviewWidth + " y = " + mPreviewHight);
         // Preview 768,432
-
+        mPreviewRect.set(0, 0, mPreviewHight, mPreviewWidth);
         if (mILivenessStrategy != null) {
             mILivenessStrategy.setPreviewDegree(degree);
         }
@@ -207,6 +213,8 @@ public class FaceLivenessActivity extends FaceLivenessBaseActivity implements
                                int format,
                                int width,
                                int height) {
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
         if (holder.getSurface() == null) {
             return;
         }
@@ -220,7 +228,8 @@ public class FaceLivenessActivity extends FaceLivenessBaseActivity implements
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        detectFace(mPreviewWidth, mPreviewHight, mPreviewDegree, data);
+        Rect detectRect = FaceDetectRoundView.getPreviewDetectRect(mSurfaceWidth, mPreviewHight, mPreviewWidth);
+        detectFace(mPreviewRect, detectRect, mPreviewDegree, data);
     }
 
     @Override

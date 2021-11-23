@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.baidu.idl.face.platform.FaceStatusNewEnum;
 import com.baidu.idl.face.platform.model.ImageInfo;
-import com.baidu.idl.face.platform.ui.FaceDetectActivity;
 
 import net.luculent.face.FaceCallBack;
 import net.luculent.face.FaceLogger;
@@ -30,7 +29,6 @@ public class FaceDetectExpActivity extends FaceDetectActivity implements Timeout
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFaceDetectRoundView.setRoundRatio(FaceManager.getFaceConfig().getQualityConfig().getDetectSpaceWidthRatio());
         FaceManager.registerFaceVerifyCallBack(this);
     }
 
@@ -84,7 +82,7 @@ public class FaceDetectExpActivity extends FaceDetectActivity implements Timeout
             });
             faceBase64 = list2.get(0).getValue().getBase64();
         }
-        FaceManager.verify(faceBase64);
+//        FaceManager.verify(faceBase64);
     }
 
     private void showMessageDialog() {

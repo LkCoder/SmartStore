@@ -1,11 +1,13 @@
 /**
  * Copyright (C) 2017 Baidu Inc. All rights reserved.
  */
-package com.baidu.idl.face.platform.ui;
+package net.luculent.face.ui;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -33,14 +35,25 @@ import com.baidu.idl.face.platform.IDetectStrategy;
 import com.baidu.idl.face.platform.IDetectStrategyCallback;
 import com.baidu.idl.face.platform.model.ImageInfo;
 import com.baidu.idl.face.platform.stat.Ast;
+import com.baidu.idl.face.platform.ui.FaceSDKResSettings;
 import com.baidu.idl.face.platform.ui.utils.BrightnessUtils;
 import com.baidu.idl.face.platform.ui.utils.CameraPreviewUtils;
 import com.baidu.idl.face.platform.ui.utils.CameraUtils;
 import com.baidu.idl.face.platform.ui.utils.VolumeUtils;
 import com.baidu.idl.face.platform.ui.widget.FaceDetectRoundView;
 import com.baidu.idl.face.platform.utils.APIUtils;
+import com.baidu.idl.face.platform.utils.Base64Utils;
 
+import net.luculent.face.FaceManager;
+import net.luculent.face.R;
+import net.luculent.face.config.QualityConfig;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 人脸采集接口
@@ -72,8 +85,6 @@ public class FaceDetectActivity extends Activity implements
     protected IDetectStrategy mIDetectStrategy;
     // 显示Size
     private Rect mPreviewRect = new Rect();
-    protected int mDisplayWidth = 0;
-    protected int mDisplayHeight = 0;
     // 状态标识
     protected volatile boolean mIsEnableSound = true;
     protected HashMap<String, String> mBase64ImageMap = new HashMap<String, String>();
@@ -83,6 +94,8 @@ public class FaceDetectActivity extends Activity implements
     protected Camera mCamera;
     protected Camera.Parameters mCameraParam;
     protected int mCameraId;
+    protected int mSurfaceWidth;
+    protected int mSurfaceHeight;
     protected int mPreviewWidth;
     protected int mPreviewHight;
     protected int mPreviewDegree;
@@ -98,8 +111,6 @@ public class FaceDetectActivity extends Activity implements
         DisplayMetrics dm = new DisplayMetrics();
         Display display = this.getWindowManager().getDefaultDisplay();
         display.getMetrics(dm);
-        mDisplayWidth = dm.widthPixels;
-        mDisplayHeight = dm.heightPixels;
 
         FaceSDKResSettings.initializeResId();
         mFaceConfig = FaceSDKManager.getInstance().getFaceConfig();
@@ -117,11 +128,13 @@ public class FaceDetectActivity extends Activity implements
         mSurfaceHolder.addCallback(this);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        int w = mDisplayWidth;
-        int h = mDisplayHeight;
+        int w = dm.widthPixels;
+        int h = dm.heightPixels;
 
+        QualityConfig qualityConfig = FaceManager.getFaceConfig().getQualityConfig();
+        float ratio = qualityConfig.getSurfaceRatio();
         FrameLayout.LayoutParams cameraFL = new FrameLayout.LayoutParams(
-                (int) (w * FaceDetectRoundView.SURFACE_RATIO), (int) (h * FaceDetectRoundView.SURFACE_RATIO),
+                (int) (w * ratio), (int) (h * ratio),
                 Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
         mSurfaceView.setLayoutParams(cameraFL);
@@ -135,6 +148,8 @@ public class FaceDetectActivity extends Activity implements
         });
 
         mFaceDetectRoundView = (FaceDetectRoundView) mRootView.findViewById(R.id.detect_face_round);
+        mFaceDetectRoundView.getLayoutParams().width = cameraFL.width;
+        mFaceDetectRoundView.getLayoutParams().height = cameraFL.height;
         mFaceDetectRoundView.setIsActiveLive(false);
         mCloseView = (ImageView) mRootView.findViewById(R.id.detect_close);
         mSoundView = (ImageView) mRootView.findViewById(R.id.detect_sound);
@@ -290,7 +305,7 @@ public class FaceDetectActivity extends Activity implements
         }
 
         Point point = CameraPreviewUtils.getBestPreview(mCameraParam,
-                new Point(mDisplayWidth, mDisplayHeight));
+                new Point(mSurfaceWidth, mSurfaceHeight));
         mPreviewWidth = point.x;
         mPreviewHight = point.y;
         // Preview 768,432
@@ -386,6 +401,8 @@ public class FaceDetectActivity extends Activity implements
                                int format,
                                int width,
                                int height) {
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
         if (holder.getSurface() == null) {
             return;
         }
@@ -408,9 +425,7 @@ public class FaceDetectActivity extends Activity implements
             mIDetectStrategy = FaceSDKManager.getInstance().getDetectStrategyModule();
             mIDetectStrategy.setPreviewDegree(mPreviewDegree);
             mIDetectStrategy.setDetectStrategySoundEnable(mIsEnableSound);
-            Rect detectRect = mFaceDetectRoundView.getFaceDetectRect();
-//            detectRect = FaceDetectRoundView.getPreviewDetectRect(mDisplayWidth, mPreviewHight, mPreviewWidth);
-            Log.i(TAG, "onPreviewFrame: " + detectRect);
+            Rect detectRect = FaceDetectRoundView.getPreviewDetectRect(mSurfaceWidth, mPreviewHight, mPreviewWidth);
             mIDetectStrategy.setDetectStrategyConfig(mPreviewRect, detectRect, this);
         }
         if (mIDetectStrategy != null) {
@@ -435,7 +450,7 @@ public class FaceDetectActivity extends Activity implements
 
         if (status == FaceStatusNewEnum.OK) {
             mIsCompletion = true;
-            // saveAllImage(base64ImageCropMap, base64ImageSrcMap);
+            saveAllImage(base64ImageCropMap, base64ImageSrcMap);
         }
         // 打点
         Ast.getInstance().faceHit("detect");
@@ -460,6 +475,72 @@ public class FaceDetectActivity extends Activity implements
                 mFaceDetectRoundView.setTipTopText(message);
                 // onRefreshTipsView(false, message);
                 // onRefreshSuccessView(false);
+        }
+    }
+
+    private static Bitmap base64ToBitmap(String base64Data) {
+        byte[] bytes = Base64Utils.decode(base64Data, Base64Utils.NO_WRAP);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    // ----------------------------------------供调试用----------------------------------------------
+    private void saveAllImage(HashMap<String, ImageInfo> imageCropMap, HashMap<String, ImageInfo> imageSrcMap) {
+        if (imageCropMap != null && imageCropMap.size() > 0) {
+            List<Map.Entry<String, ImageInfo>> list1 = new ArrayList<>(imageCropMap.entrySet());
+            Collections.sort(list1, new Comparator<Map.Entry<String, ImageInfo>>() {
+
+                @Override
+                public int compare(Map.Entry<String, ImageInfo> o1,
+                                   Map.Entry<String, ImageInfo> o2) {
+                    String[] key1 = o1.getKey().split("_");
+                    String score1 = key1[2];
+                    String[] key2 = o2.getKey().split("_");
+                    String score2 = key2[2];
+                    // 降序排序
+                    return Float.valueOf(score2).compareTo(Float.valueOf(score1));
+                }
+            });
+            setImageView1(list1);
+        }
+
+        if (imageSrcMap != null && imageSrcMap.size() > 0) {
+            List<Map.Entry<String, ImageInfo>> list2 = new ArrayList<>(imageSrcMap.entrySet());
+            Collections.sort(list2, new Comparator<Map.Entry<String, ImageInfo>>() {
+
+                @Override
+                public int compare(Map.Entry<String, ImageInfo> o1,
+                                   Map.Entry<String, ImageInfo> o2) {
+                    String[] key1 = o1.getKey().split("_");
+                    String score1 = key1[2];
+                    String[] key2 = o2.getKey().split("_");
+                    String score2 = key2[2];
+                    // 降序排序
+                    return Float.valueOf(score2).compareTo(Float.valueOf(score1));
+                }
+            });
+            setImageView2(list2);
+        }
+    }
+
+    private void setImageView1(List<Map.Entry<String, ImageInfo>> list) {
+        Bitmap bmp = null;
+        mImageLayout.removeAllViews();
+        for (Map.Entry<String, ImageInfo> entry : list) {
+            bmp = base64ToBitmap(entry.getValue().getBase64());
+            ImageView iv = new ImageView(this);
+            iv.setImageBitmap(bmp);
+            mImageLayout.addView(iv, new LinearLayout.LayoutParams(300, 300));
+        }
+    }
+
+    private void setImageView2(List<Map.Entry<String, ImageInfo>> list) {
+        Bitmap bmp = null;
+        mImageLayout2.removeAllViews();
+        for (Map.Entry<String, ImageInfo> entry : list) {
+            bmp = base64ToBitmap(entry.getValue().getBase64());
+            ImageView iv = new ImageView(this);
+            iv.setImageBitmap(bmp);
+            mImageLayout2.addView(iv, new LinearLayout.LayoutParams(300, 300));
         }
     }
 }
