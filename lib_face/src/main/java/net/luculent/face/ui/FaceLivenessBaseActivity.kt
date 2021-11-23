@@ -113,9 +113,7 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
         mViewBg = findViewById(R.id.view_live_bg)
         mSoundView?.setImageResource(if (mIsEnableSound) R.mipmap.icon_titlebar_voice2 else R.drawable.collect_image_voice_selector)
         mFaceDetectRoundView?.setIsActiveLive(true)
-        if (FaceManager.isUvcCamera()) {
-            mFaceDetectRoundView?.setRoundRatio(0.4f)
-        }
+        mFaceDetectRoundView?.setRoundRatio(FaceManager.getFaceConfig().qualityConfig.detectSpaceWidthRatio)
 
         val cameraFL = FrameLayout.LayoutParams(
             (mDisplayWidth * FaceDetectRoundView.SURFACE_RATIO).toInt(),

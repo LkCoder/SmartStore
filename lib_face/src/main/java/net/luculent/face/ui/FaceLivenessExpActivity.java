@@ -34,10 +34,11 @@ public class FaceLivenessExpActivity extends FaceLivenessActivity implements
 
     @Override
     protected int displayOrientation(Context context) {
-        if (FaceManager.isUvcCamera()) {
-            return 90;
+        int videoDirection = FaceManager.getFaceConfig().getQualityConfig().getVideoDirection();
+        if (videoDirection == -1) {
+            return super.displayOrientation(context);
         }
-        return super.displayOrientation(context);
+        return videoDirection;
     }
 
     @Override

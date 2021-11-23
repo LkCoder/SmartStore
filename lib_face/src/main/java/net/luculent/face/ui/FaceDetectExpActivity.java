@@ -30,18 +30,17 @@ public class FaceDetectExpActivity extends FaceDetectActivity implements Timeout
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (FaceManager.isUvcCamera()) {
-            mFaceDetectRoundView.setRoundRatio(0.4f);
-        }
+        mFaceDetectRoundView.setRoundRatio(FaceManager.getFaceConfig().getQualityConfig().getDetectSpaceWidthRatio());
         FaceManager.registerFaceVerifyCallBack(this);
     }
 
     @Override
     protected int displayOrientation(Context context) {
-        if (FaceManager.isUvcCamera()) {
-            return 90;
+        int videoDirection = FaceManager.getFaceConfig().getQualityConfig().getVideoDirection();
+        if (videoDirection == -1) {
+            return super.displayOrientation(context);
         }
-        return super.displayOrientation(context);
+        return videoDirection;
     }
 
     @Override
