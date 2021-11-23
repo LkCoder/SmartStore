@@ -124,6 +124,10 @@ abstract class FaceLivenessBaseActivity : Activity(), ILivenessStrategyCallback,
         val faceSurface = getFaceSurface()
         faceSurface.layoutParams = cameraFL
         mFrameLayout?.addView(faceSurface)
+        mFaceDetectRoundView?.apply {
+            layoutParams.width = cameraFL.width
+            layoutParams.height = cameraFL.height
+        }
         addImageView()
     }
 

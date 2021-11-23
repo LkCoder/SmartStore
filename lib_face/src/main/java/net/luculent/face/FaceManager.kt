@@ -12,6 +12,7 @@ import net.luculent.face.config.FaceConfig
 import net.luculent.face.config.QualityConfig
 import net.luculent.face.logger.ILogger
 import net.luculent.face.ui.FaceDetectExpActivity
+import net.luculent.face.ui.FaceLivenessExpActivity
 
 /**
  *
@@ -109,8 +110,9 @@ object FaceManager {
         FaceSDKManager.getInstance().faceConfig = config
     }
 
-    fun startFaceVerify(context: Context) {
-        val intent = Intent(context, FaceDetectExpActivity::class.java)
+    fun startFaceVerify(context: Context, live: Boolean = true) {
+        val intent = if (live) Intent(context, FaceLivenessExpActivity::class.java)
+        else Intent(context, FaceDetectExpActivity::class.java)
         context.startActivity(intent)
     }
 
