@@ -30,6 +30,6 @@ interface FaceApi {
         @Query("grant_type") grant_type: String = "client_credentials"
     ): AccessToken
 
-    @POST("/rest/2.0/face/v3/search")
+    @POST("rest/2.0/face/v3/search")
     suspend fun search(@Body faceSearch: FaceSearchReq): FaceVerifyRes
 }

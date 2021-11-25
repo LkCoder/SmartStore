@@ -168,7 +168,6 @@ public class FaceRGBPaymentActivity extends BaseActivity implements View.OnClick
                     long endSearchTime = System.currentTimeMillis() - searshTime;
                     if (endSearchTime < 5000) {
                         preToastText.setTextColor(Color.parseColor("#FFFFFF"));
-                        preToastText.setText("保持面部在取景框内");
                         progressBarView.setImageResource(R.mipmap.ic_loading_grey);
                     } else {
                         payHint(null);
@@ -192,7 +191,6 @@ public class FaceRGBPaymentActivity extends BaseActivity implements View.OnClick
                         || pointXY[1] - pointXY[3] / 2 < topLimitY
                         || pointXY[1] + pointXY[3] / 2 > bottomLimitY) {
                     preToastText.setTextColor(Color.parseColor("#FFFFFF"));
-                    preToastText.setText("保持面部在取景框内");
                     progressBarView.setImageResource(R.mipmap.ic_loading_grey);
                     return;
                 }
