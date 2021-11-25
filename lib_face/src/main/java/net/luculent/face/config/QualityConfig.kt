@@ -1,8 +1,5 @@
 package net.luculent.face.config
 
-import com.baidu.idl.face.platform.FaceEnvironment
-import com.baidu.idl.face.platform.LivenessTypeEnum
-
 /**
  *
  * @Description:     质量配置
@@ -23,7 +20,6 @@ class QualityConfig {
     var rightEyeOcclusion: Float = 0.8f // 0.8
     var roll: Int = 20 // 20
     var yaw: Int = 18 // 18
-    var livenessList: List<LivenessTypeEnum> = FaceEnvironment.livenessTypeDefaultList
     var livenessRandom: Boolean = false
 
     /**-------页面识别相关的配置---------*/

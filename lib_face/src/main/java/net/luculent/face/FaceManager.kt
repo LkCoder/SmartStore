@@ -2,17 +2,17 @@ package net.luculent.face
 
 import android.content.Context
 import android.content.Intent
-import com.baidu.idl.face.platform.FaceEnvironment
-import com.baidu.idl.face.platform.FaceSDKManager
-import com.baidu.idl.face.platform.listener.IInitCallback
+import com.baidu.idl.main.facesdk.FaceAuth
+import com.baidu.idl.main.facesdk.paymentlibrary.activity.FaceRGBPaymentActivity
+import com.baidu.idl.main.facesdk.paymentlibrary.activity.UserManagerActivity
+import com.baidu.idl.main.facesdk.paymentlibrary.listener.SdkInitListener
+import com.baidu.idl.main.facesdk.paymentlibrary.manager.FaceSDKManager
+import com.baidu.idl.main.facesdk.paymentlibrary.utils.ToastUtils
 import net.luculent.face.api.FaceException
 import net.luculent.face.api.response.AccessToken
 import net.luculent.face.api.response.FaceUser
 import net.luculent.face.config.FaceConfig
-import net.luculent.face.config.QualityConfig
 import net.luculent.face.logger.ILogger
-import net.luculent.face.ui.FaceDetectExpActivity
-import net.luculent.face.ui.FaceLivenessExpActivity
 
 /**
  *
@@ -46,93 +46,64 @@ object FaceManager {
         faceVerifyCallBacks.clear()
         FaceLogger.init(logger)
         this.faceConfig = faceConfig
-        initQuality(faceConfig.qualityConfig)
         val license = faceConfig.license
-        FaceSDKManager.getInstance().initialize(
-            context,
-            license.licenseID,
-            license.licenseFileName,
-            object : IInitCallback {
-                override fun initSuccess() {
-                    FaceLogger.i("initSuccess")
-                    mIsInitSuccess = true
-                }
-
-                override fun initFailure(errCode: Int, errMsg: String?) {
-                    FaceLogger.e("initFailure: errorCode= $errCode, errMsg= $errMsg")
-                    mIsInitSuccess = false
-                }
-            })
+        val auth = FaceAuth()
+        auth.initLicenseBatchLine(
+            context, license.licenseID
+        ) { code, response ->
+            FaceLogger.i("face init result= [code= $code, response= $response]")
+            mIsInitSuccess = code == 0
+            initFaceModel(context)
+        }
     }
 
-    fun initQuality(qualityConfig: QualityConfig) {
-        val config = FaceSDKManager.getInstance().faceConfig
-        // 设置模糊度阈值
-        config.blurnessValue = qualityConfig.blur
-        // 设置最小光照阈值（范围0-255）
-        config.brightnessValue = qualityConfig.minIllum
-        // 设置最大光照阈值（范围0-255）
-        config.brightnessMaxValue = qualityConfig.maxIllum
-        // 设置左眼遮挡阈值
-        config.occlusionLeftEyeValue = qualityConfig.leftEyeOcclusion
-        // 设置右眼遮挡阈值
-        config.occlusionRightEyeValue = qualityConfig.rightEyeOcclusion
-        // 设置鼻子遮挡阈值
-        config.occlusionNoseValue = qualityConfig.noseOcclusion
-        // 设置嘴巴遮挡阈值
-        config.occlusionMouthValue = qualityConfig.mouseOcclusion
-        // 设置左脸颊遮挡阈值
-        config.occlusionLeftContourValue = qualityConfig.leftContourOcclusion
-        // 设置右脸颊遮挡阈值
-        config.occlusionRightContourValue = qualityConfig.rightContourOcclusion
-        // 设置下巴遮挡阈值
-        config.occlusionChinValue = qualityConfig.chinOcclusion
-        // 设置人脸姿态角阈值
-        config.headPitchValue = qualityConfig.pitch
-        config.headYawValue = qualityConfig.yaw
-        config.headRollValue = qualityConfig.roll
-        // 设置可检测的最小人脸阈值
-        config.minFaceSize = FaceEnvironment.VALUE_MIN_FACE_SIZE
-        // 设置可检测到人脸的阈值
-        config.notFaceValue = FaceEnvironment.VALUE_NOT_FACE_THRESHOLD
-        // 设置闭眼阈值
-        config.eyeClosedValue = FaceEnvironment.VALUE_CLOSE_EYES
-        // 设置图片缓存数量
-        config.cacheImageNum = FaceEnvironment.VALUE_CACHE_IMAGE_NUM
-        // 设置活体动作，通过设置list，LivenessTypeEunm.Eye, LivenessTypeEunm.Mouth,
-        // LivenessTypeEunm.HeadUp, LivenessTypeEunm.HeadDown, LivenessTypeEunm.HeadLeft,
-        // LivenessTypeEunm.HeadRight
-        config.livenessTypeList = qualityConfig.livenessList
-        // 设置动作活体是否随机
-        config.isLivenessRandom = qualityConfig.livenessRandom
-        // 设置开启提示音
-        config.isSound = true
-        FaceSDKManager.getInstance().faceConfig = config
+    private fun initFaceModel(context: Context) {
+        if (FaceSDKManager.initStatus != FaceSDKManager.SDK_MODEL_LOAD_SUCCESS) {
+            FaceSDKManager.getInstance().initModel(context, object : SdkInitListener {
+                override fun initStart() {}
+                override fun initLicenseSuccess() {}
+                override fun initLicenseFail(errorCode: Int, msg: String) {}
+                override fun initModelSuccess() {
+                    FaceSDKManager.initModelSuccess = true
+                    onInitSuccess(context)
+                }
+
+                override fun initModelFail(errorCode: Int, msg: String) {
+                    FaceLogger.e("initModelFail: $errorCode, $msg")
+                    FaceSDKManager.initModelSuccess = false
+                    if (errorCode != -12) {
+                        ToastUtils.toast(context, "人脸识别模型加载失败，请尝试重启应用")
+                    }
+                }
+            })
+        } else {
+            onInitSuccess(context)
+        }
+    }
+
+    private fun onInitSuccess(context: Context) {
+        FaceSDKManager.getInstance().initDataBases(context)
+        FaceSDKManager.getInstance().setFaceResultReceiver {
+            faceVerifyCallBack.onSuccess(FaceUser(it.groupId, 99f, it.userName, it.userInfo))
+        }
     }
 
     fun startFaceVerify(context: Context, live: Boolean = true) {
-        val intent = if (live) Intent(context, FaceLivenessExpActivity::class.java)
-        else Intent(context, FaceDetectExpActivity::class.java)
+        val intent = Intent(context, FaceRGBPaymentActivity::class.java)
+        context.startActivity(intent)
+    }
+
+    /**
+     * 用户导入
+     */
+    fun goUserCenter(context: Context) {
+        val intent = Intent(context, UserManagerActivity::class.java)
         context.startActivity(intent)
     }
 
     @JvmStatic
     fun getFaceConfig(): FaceConfig {
         return faceConfig
-    }
-
-    fun setUvcCamera(uvcCamera: Boolean) {
-        if (uvcCamera) {
-            faceConfig.qualityConfig.apply {
-                videoDirection = 90
-                surfaceRatio = 0.45f
-            }
-        } else {
-            faceConfig.qualityConfig.apply {
-                videoDirection = -1
-                surfaceRatio = 0.75f
-            }
-        }
     }
 
     @JvmStatic

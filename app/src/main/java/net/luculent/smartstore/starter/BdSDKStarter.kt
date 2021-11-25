@@ -1,7 +1,6 @@
 package net.luculent.smartstore.starter
 
 import android.content.Context
-import com.baidu.idl.face.platform.LivenessTypeEnum
 import com.blankj.utilcode.util.LogUtils
 import net.luculent.face.FaceLogger
 import net.luculent.face.FaceManager
@@ -22,7 +21,7 @@ object BdSDKStarter {
     private const val FACE_APPID = "25187743"
     private const val FACE_API_KEY = "zcl7jHO164NDYGBHi6EV9eKx"
     private const val FACE_SECRET_KEY = "tAGMrblKGiyTTPCb6Wc0yzDKHph0e5zD"
-    private const val FACE_LICENSE_ID = "luculent-jst-face-android"
+    private const val FACE_LICENSE_ID = "luculent-face-face-offline-app"
     private const val FACE_LICENSE_NAME = "idl-license.face-android"
 
     fun initialize(context: Context) {
@@ -39,9 +38,7 @@ object BdSDKStarter {
             FACE_APPID, FACE_API_KEY, FACE_SECRET_KEY, arrayListOf("gdhb", "test")
         )
         val license = FaceLicense(FACE_LICENSE_ID, FACE_LICENSE_NAME)
-        FaceManager.init(context, FaceConfig(apiConfig, license, QualityConfig().apply {
-            livenessList = arrayListOf(LivenessTypeEnum.Eye)
-        }), object : ILogger {
+        FaceManager.init(context, FaceConfig(apiConfig, license, QualityConfig()), object : ILogger {
             override fun d(tag: String, msg: String?) {
                 LogUtils.dTag(tag, msg)
             }

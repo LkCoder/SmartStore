@@ -4,8 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.blankj.utilcode.util.LogUtils
-import net.luculent.libusb.face.IUsbMonitor
-import net.luculent.libusb.face.USBMonitorProxy
 import net.luculent.libusb.scan.ICodeScan
 import net.luculent.libusb.scan.ScannerProxy
 
@@ -26,25 +24,22 @@ class UsbLifeCycleCallBacksImpl : Application.ActivityLifecycleCallbacks {
         if (activity is ICodeScan) {
             ScannerProxy(activity).install()
         }
-        if (activity is IUsbMonitor) {
-            USBMonitorProxy(activity).install()
-        }
     }
 
     override fun onActivityStarted(activity: Activity) {
-
+        LogUtils.iTag(TAG, "onActivityStarted= ${activity.localClassName}")
     }
 
     override fun onActivityResumed(activity: Activity) {
-
+        LogUtils.iTag(TAG, "onActivityResumed= ${activity.localClassName}")
     }
 
     override fun onActivityPaused(activity: Activity) {
-
+        LogUtils.iTag(TAG, "onActivityPaused= ${activity.localClassName}")
     }
 
     override fun onActivityStopped(activity: Activity) {
-
+        LogUtils.iTag(TAG, "onActivityStopped= ${activity.localClassName}")
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {

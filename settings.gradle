@@ -1,10 +1,8 @@
-include ':lib_face'
 include ':app'
 include ':lib_core'
 include ':lib_api'
 include ':lib_usb'
-include ':libuvccamera'
-include ':usbCameraCommon'
-include ':faceplatform-release'
-include ':faceplatform-ui'
+include ':lib_face'
+include ':facelibrary'
+include ':paymentlibrary'
 rootProject.name = "SmartStore"

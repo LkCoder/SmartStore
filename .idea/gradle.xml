@@ -12,11 +12,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/facelibrary" />
             <option value="$PROJECT_DIR$/lib_api" />
             <option value="$PROJECT_DIR$/lib_core" />
+            <option value="$PROJECT_DIR$/lib_face" />
             <option value="$PROJECT_DIR$/lib_usb" />
-            <option value="$PROJECT_DIR$/libuvccamera" />
-            <option value="$PROJECT_DIR$/usbCameraCommon" />
+            <option value="$PROJECT_DIR$/paymentlibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

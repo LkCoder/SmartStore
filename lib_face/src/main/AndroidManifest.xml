@@ -14,16 +14,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application>
-        <activity
-            android:name=".ui.FaceLivenessExpActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.FaceLivenessUvcActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.FaceDetectExpActivity"
-            android:screenOrientation="portrait" />
-        <!--安全设备指纹接入 start-->
+        <!-- 安全设备指纹接入 start -->
         <activity
             android:name="com.baidu.liantian.LiantianActivity"
             android:excludeFromRecents="true"
@@ -52,11 +43,10 @@
             </intent-filter>
         </receiver>
 
-        <!--将com.baidu.idl.face.demo替换成您工程的包名-->
         <provider
             android:name="com.baidu.liantian.LiantianProvider"
             android:authorities="${applicationId}.liantian.ac.provider"
-            android:exported="true" />
+            android:exported="false" />
 
         <service
             android:name="com.baidu.liantian.LiantianService"
@@ -74,7 +64,6 @@
             android:value="660346260f8a841a04ec2a56815b421b" />
         <meta-data
             android:name="appkey_avscan"
-            android:value="100034" />
-        <!--安全设备指纹接入 end-->
+            android:value="100034" /> <!-- 安全设备指纹接入 end -->
     </application>
 </manifest>
