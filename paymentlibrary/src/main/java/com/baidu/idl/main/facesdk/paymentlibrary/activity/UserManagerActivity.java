@@ -563,9 +563,7 @@ public class UserManagerActivity extends BaseActivity implements View.OnClickLis
             Bitmap bitmap = BitmapFactory.decodeFile(FileUtils.getBatchImportSuccessDirectory()
                     + "/" + mList.get(position).getImageName());
             Bitmap descBmp = BitmapUtils.calculateInSampleSize(bitmap, 100, 100);
-            if (descBmp != null) {
-                holder.circleUserHead.setImageBitmap(descBmp);
-            }
+            holder.circleUserHead.setImageBitmap(descBmp);
         }
 
         @Override

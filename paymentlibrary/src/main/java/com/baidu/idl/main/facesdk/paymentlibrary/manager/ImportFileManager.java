@@ -157,7 +157,7 @@ public class ImportFileManager {
                         if (listUsers != null && listUsers.size() > 0) {
                             Log.i(TAG, "与之前图片名称相同");
                             mFinishCount++;
-                            mFailCount++;
+                            mSuccessCount++;
                             // 更新进度
                             updateProgress(mTotalCount, mSuccessCount, mFailCount,
                                     ((float) mFinishCount / (float) mTotalCount));
@@ -214,18 +214,22 @@ public class ImportFileManager {
                                 File facePicDir = FileUtils.getBatchImportSuccessDirectory();
                                 if (facePicDir != null) {
                                     File savePicPath = new File(facePicDir, picName);
-                                    if (FileUtils.saveBitmap(savePicPath, result.getBitmap())) {
-                                        Log.i(TAG, "图片保存成功");
-                                        success = true;
-                                    } else {
-                                        Log.i(TAG, "图片保存失败");
-                                    }
+                                    FileUtils.saveBitmap(savePicPath, result.getBitmap());
                                 }
+                                success = true;
                             } else {
                                 Log.e(TAG, picName + "：保存到数据库失败");
                             }
                         } else {
                             Log.e(TAG, picName + "：未检测到人脸");
+                        }
+                        if (!success) {
+                            // 保存图片到新目录中
+                            File facePicDir = FileUtils.getBatchImportFailDirectory();
+                            if (facePicDir != null) {
+                                File savePicPath = new File(facePicDir, picName);
+                                FileUtils.saveBitmap(savePicPath, result.getBitmap());
+                            }
                         }
 
                         // 图片回收

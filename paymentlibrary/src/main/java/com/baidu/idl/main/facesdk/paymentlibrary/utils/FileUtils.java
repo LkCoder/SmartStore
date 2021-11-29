@@ -120,6 +120,21 @@ public class FileUtils {
     }
 
     /**
+     * 获取导入图片成功的目录信息
+     */
+    public static File getBatchImportFailDirectory() {
+        File sdRootFile = getSDRootFile();
+        File file = null;
+        if (sdRootFile != null && sdRootFile.exists()) {
+            file = new File(sdRootFile, "Fail-Import");
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+        }
+        return file;
+    }
+
+    /**
      * 判断文件是否存在
      */
     public static File isFileExist(String fileDirectory, String fileName) {
